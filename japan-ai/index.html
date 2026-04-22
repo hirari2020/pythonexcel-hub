@@ -1,0 +1,531 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>日本ブランド生成AI ダッシュボード</title>
+<style>
+  :root {
+    --bg: #fffdf7;
+    --text: #222;
+    --muted: #666;
+    --marker: #fff27a;
+    --band: #ffdbe0;
+    --band-strong: #d94f5c;
+    --line: #e4e4dd;
+    --card: #ffffff;
+    --shadow: rgba(60, 50, 30, 0.08);
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    margin: 0;
+    padding: 40px 24px 80px;
+    font-family: "Hiragino Maru Gothic ProN", "Hiragino Sans", "Yu Gothic UI", "Meiryo", system-ui, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.6;
+  }
+
+  .container {
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+
+  header {
+    text-align: center;
+    margin-bottom: 40px;
+  }
+
+  h1 {
+    font-size: 32px;
+    margin: 0 0 12px;
+    display: inline-block;
+    position: relative;
+    padding: 4px 12px;
+  }
+
+  h1::after {
+    content: "";
+    position: absolute;
+    left: 0; right: 0; bottom: 4px;
+    height: 14px;
+    background: var(--marker);
+    z-index: -1;
+    border-radius: 2px;
+  }
+
+  .lead {
+    color: var(--muted);
+    font-size: 15px;
+    margin-top: 8px;
+  }
+
+  .category {
+    margin-bottom: 36px;
+  }
+
+  .category-head {
+    background: var(--band);
+    border-left: 8px solid var(--band-strong);
+    padding: 10px 16px;
+    border-radius: 4px;
+    margin-bottom: 18px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .category-head h2 {
+    margin: 0;
+    font-size: 20px;
+    font-weight: 800;
+    color: #222;
+  }
+
+  .category-head .emoji {
+    font-size: 22px;
+  }
+
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 14px;
+  }
+
+  .card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 10px;
+    padding: 18px 10px 14px;
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    text-decoration: none;
+    color: inherit;
+    transition: transform 0.12s ease, box-shadow 0.12s ease, border-color 0.12s ease;
+    box-shadow: 0 2px 6px var(--shadow);
+    text-align: center;
+  }
+
+  .card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 16px var(--shadow);
+    border-color: var(--band-strong);
+  }
+
+  .icon {
+    width: 56px;
+    height: 56px;
+    border-radius: 12px;
+    background: #f7f4ec;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    flex-shrink: 0;
+  }
+
+  .icon.dark {
+    background: #1f1f1f;
+  }
+
+  .icon img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    padding: 6px;
+  }
+
+  .name {
+    font-size: 14px;
+    font-weight: 700;
+    line-height: 1.3;
+  }
+
+  .desc {
+    font-size: 11px;
+    color: var(--muted);
+    line-height: 1.35;
+  }
+
+  footer {
+    text-align: center;
+    margin-top: 48px;
+    font-size: 12px;
+    color: var(--muted);
+  }
+
+  footer .note {
+    display: inline-block;
+    background: #fff;
+    border: 1px dashed var(--line);
+    padding: 10px 16px;
+    border-radius: 8px;
+  }
+</style>
+</head>
+<body>
+  <div class="container">
+
+    <header>
+      <h1>日本ブランド生成AI ダッシュボード</h1>
+      <div class="lead">日本企業が開発・提供している生成AIサービスの一覧です。アイコンをクリックすると公式ページが開きます。（2026年4月時点）</div>
+    </header>
+
+    <!-- 1. チャット型AI・LLM -->
+    <section class="category">
+      <div class="category-head">
+        <span class="emoji">💬</span>
+        <h2>チャット型AI・大規模言語モデル</h2>
+      </div>
+      <div class="grid">
+        <a class="card" href="https://www.lycorp.co.jp/ja/news/release/020366/" target="_blank" rel="noopener">
+          <div class="icon"><img src="../icons/lycorp-co-jp.png" alt="Agent i"></div>
+          <div class="name">Agent i</div>
+          <div class="desc">LINEヤフー / AI執事</div>
+        </a>
+        <a class="card" href="https://elyza.ai/" target="_blank" rel="noopener">
+          <div class="icon"><img src="../icons/elyza-ai.png" alt="ELYZA LLM"></div>
+          <div class="name">ELYZA LLM</div>
+          <div class="desc">KDDI傘下 / 日本語特化</div>
+        </a>
+        <a class="card" href="https://plamo.preferredai.jp/" target="_blank" rel="noopener">
+          <div class="icon"><img src="../icons/preferredai-jp.png" alt="PLaMo"></div>
+          <div class="name">PLaMo</div>
+          <div class="desc">Preferred Networks</div>
+        </a>
+        <a class="card" href="https://global.rakuten.com/corp/news/press/2026/0317_01.html" target="_blank" rel="noopener">
+          <div class="icon"><img src="../icons/rakuten-co-jp.png" alt="Rakuten AI 3.0"></div>
+          <div class="name">Rakuten AI 3.0</div>
+          <div class="desc">楽天 / 700B日本語LLM</div>
+        </a>
+        <a class="card" href="https://www.rd.ntt/research/JN202404_19058.html" target="_blank" rel="noopener">
+          <div class="icon"><img src="../icons/rd-ntt.png" alt="tsuzumi"></div>
+          <div class="name">tsuzumi 2</div>
+          <div class="desc">NTT / 超軽量LLM</div>
+        </a>
+        <a class="card" href="https://jpn.nec.com/LLM/" target="_blank" rel="noopener">
+          <div class="icon"><img src="../icons/jpn-nec-com.png" alt="cotomi"></div>
+          <div class="name">cotomi v3</div>
+          <div class="desc">NEC / 業務特化LLM</div>
+        </a>
+        <a class="card" href="https://www.fujitsu.com/global/about/resources/news/press-releases/2024/0510-01.html" target="_blank" rel="noopener">
+          <div class="icon"><img src="../icons/fujitsu-com.png" alt="Fugaku-LLM"></div>
+          <div class="name">Fugaku-LLM</div>
+          <div class="desc">共同研究 / 富岳で学習</div>
+        </a>
+        <a class="card" href="https://documents.research.global.fujitsu.com/takane-enterprise-llm-with-generative-ai-reconstruction/" target="_blank" rel="noopener">
+          <div class="icon"><img src="../icons/fujitsu-com.png" alt="Fujitsu Takane LLM"></div>
+          <div class="name">Fujitsu Takane LLM</div>
+          <div class="desc">富士通+Cohere / 企業向け</div>
+        </a>
+        <a class="card" href="https://sakana.ai/" target="_blank" rel="noopener">
+          <div class="icon"><img src="../icons/sakana-ai.png" alt="Sakana AI"></div>
+          <div class="name">Sakana AI</div>
+          <div class="desc">進化的モデル融合</div>
+        </a>
+        <a class="card" href="https://www.sbintuitions.co.jp/" target="_blank" rel="noopener">
+          <div class="icon"><img src="../icons/sbintuitions-co-jp.png" alt="Sarashina"></div>
+          <div class="name">Sarashina</div>
+          <div class="desc">SB Intuitions / 2026年6月〜</div>
+        </a>
+        <a class="card" href="https://rinna.co.jp/" target="_blank" rel="noopener">
+          <div class="icon"><img src="../icons/rinna-co-jp.png" alt="rinna"></div>
+          <div class="name">rinna</div>
+          <div class="desc">日本語会話AIの老舗</div>
+        </a>
+        <a class="card" href="https://stockmark.co.jp/" target="_blank" rel="noopener">
+          <div class="icon"><img src="../icons/stockmark-co-jp.png" alt="Stockmark-2-100B"></div>
+          <div class="name">Stockmark-2-100B</div>
+          <div class="desc">業務Q&A特化 / 100Bモデル</div>
+        </a>
+      </div>
+    </section>
+
+    <!-- 2. 検索・リサーチ -->
+    <section class="category">
+      <div class="category-head">
+        <span class="emoji">🔎</span>
+        <h2>検索・リサーチ・ニュース</h2>
+      </div>
+      <div class="grid">
+        <a class="card" href="https://felo.ai/" target="_blank" rel="noopener">
+          <div class="icon"><img src="../icons/felo-ai.png" alt="Felo"></div>
+          <div class="name">Felo</div>
+          <div class="desc">日本発 / QA型AI検索</div>
+        </a>
+        <a class="card" href="https://stockmark.co.jp/product/anews" target="_blank" rel="noopener">
+          <div class="icon"><img src="../icons/stockmark-co-jp.png" alt="Anews"></div>
+          <div class="name">Anews</div>
+          <div class="desc">Stockmark / ニュース要約</div>
+        </a>
+      </div>
+    </section>
+
+    <!-- 3. 画像・デザイン生成 -->
+    <section class="category">
+      <div class="category-head">
+        <span class="emoji">🎨</span>
+        <h2>画像・デザイン生成</h2>
+      </div>
+      <div class="grid">
+        <a class="card" href="https://aipicasso.app/" target="_blank" rel="noopener">
+          <div class="icon"><img src="../icons/aipicasso-app.png" alt="AIピカソ"></div>
+          <div class="name">AIピカソ</div>
+          <div class="desc">日本発 / スマホ画像生成</div>
+        </a>
+        <a class="card" href="https://cre8tiveai.com/" target="_blank" rel="noopener">
+          <div class="icon"><img src="../icons/cre8tiveai-com.png" alt="cre8tiveAI"></div>
+          <div class="name">cre8tiveAI</div>
+          <div class="desc">Radius5 / 画像編集AI</div>
+        </a>
+        <a class="card" href="https://akuma.ai/ja" target="_blank" rel="noopener">
+          <div class="icon"><img src="../icons/akuma-ai.png" alt="Akuma.ai"></div>
+          <div class="name">Akuma.ai</div>
+          <div class="desc">日本発 / リアルタイム生成</div>
+        </a>
+      </div>
+    </section>
+
+    <!-- 4. 動画生成（新設） -->
+    <section class="category">
+      <div class="category-head">
+        <span class="emoji">🎬</span>
+        <h2>動画生成</h2>
+      </div>
+      <div class="grid">
+        <a class="card" href="https://no-lang.com/" target="_blank" rel="noopener">
+          <div class="icon"><img src="../icons/no-lang-com.png" alt="NoLang"></div>
+          <div class="name">NoLang</div>
+          <div class="desc">Mavericks / 15万ユーザー超</div>
+        </a>
+        <a class="card" href="https://video-b.com/" target="_blank" rel="noopener">
+          <div class="icon"><img src="../icons/video-b-com.png" alt="Video BRAIN"></div>
+          <div class="name">Video BRAIN</div>
+          <div class="desc">OPEN8 / 日経225の半数導入</div>
+        </a>
+      </div>
+    </section>
+
+    <!-- 5. エンタメ・クリエイター支援（新設） -->
+    <section class="category">
+      <div class="category-head">
+        <span class="emoji">🎭</span>
+        <h2>エンタメ・クリエイター支援</h2>
+      </div>
+      <div class="grid">
+        <a class="card" href="https://ai-novel.com/" target="_blank" rel="noopener">
+          <div class="icon"><img src="../icons/ai-novel-com.png" alt="AIのべりすと"></div>
+          <div class="name">AIのべりすと</div>
+          <div class="desc">Bit192 Labs / 日本語小説生成</div>
+        </a>
+        <a class="card" href="https://picon-inc.com/ai-chat" target="_blank" rel="noopener">
+          <div class="icon"><img src="../icons/picon-inc-com.png" alt="AIチャットくん"></div>
+          <div class="name">AIチャットくん</div>
+          <div class="desc">picon / LINEで使えるAI</div>
+        </a>
+        <a class="card" href="https://page.line.me/877ieiqs" target="_blank" rel="noopener">
+          <div class="icon"><img src="../icons/line-me.png" alt="お絵描きばりぐっどくん"></div>
+          <div class="name">お絵描きばりぐっどくん</div>
+          <div class="desc">picon / LINEで画像生成</div>
+        </a>
+      </div>
+    </section>
+
+    <!-- 6. 音声合成・読み上げ -->
+    <section class="category">
+      <div class="category-head">
+        <span class="emoji">🔊</span>
+        <h2>音声合成・読み上げ</h2>
+      </div>
+      <div class="grid">
+        <a class="card" href="https://ondoku3.com/" target="_blank" rel="noopener">
+          <div class="icon"><img src="../icons/ondoku3-com.png" alt="音読さん"></div>
+          <div class="name">音読さん</div>
+          <div class="desc">無料読み上げの定番</div>
+        </a>
+        <a class="card" href="https://voicevox.hiroshiba.jp/" target="_blank" rel="noopener">
+          <div class="icon"><img src="../icons/voicevox-hiroshiba-jp.png" alt="VOICEVOX"></div>
+          <div class="name">VOICEVOX</div>
+          <div class="desc">OSS / ずんだもん等</div>
+        </a>
+        <a class="card" href="https://coefont.cloud/" target="_blank" rel="noopener">
+          <div class="icon"><img src="../icons/coefont-cloud.png" alt="CoeFont"></div>
+          <div class="name">CoeFont</div>
+          <div class="desc">Yellston / 著名人音声も</div>
+        </a>
+        <a class="card" href="https://coeiroink.com/" target="_blank" rel="noopener">
+          <div class="icon"><img src="../icons/coeiroink-com.png" alt="COEIROINK"></div>
+          <div class="name">COEIROINK</div>
+          <div class="desc">無料OSSの読み上げ</div>
+        </a>
+      </div>
+    </section>
+
+    <!-- 7. 翻訳・通訳（新設） -->
+    <section class="category">
+      <div class="category-head">
+        <span class="emoji">🌐</span>
+        <h2>翻訳・通訳</h2>
+      </div>
+      <div class="grid">
+        <a class="card" href="https://coefont.cloud/cir" target="_blank" rel="noopener">
+          <div class="icon"><img src="../icons/coefont-cloud.png" alt="CoeFont通訳"></div>
+          <div class="name">CoeFont通訳</div>
+          <div class="desc">日経トレンディ2026ヒット予測1位</div>
+        </a>
+        <a class="card" href="https://translate.preferredai.jp/" target="_blank" rel="noopener">
+          <div class="icon"><img src="../icons/preferredai-jp.png" alt="PLaMo翻訳"></div>
+          <div class="name">PLaMo翻訳</div>
+          <div class="desc">Preferred Networks / 日本語特化</div>
+        </a>
+      </div>
+    </section>
+
+    <!-- 8. 音声認識・文字起こし -->
+    <section class="category">
+      <div class="category-head">
+        <span class="emoji">📝</span>
+        <h2>音声認識・文字起こし</h2>
+      </div>
+      <div class="grid">
+        <a class="card" href="https://clova.line.me/clovanote/" target="_blank" rel="noopener">
+          <div class="icon"><img src="../icons/clova-line-me.png" alt="CLOVA Note"></div>
+          <div class="name">CLOVA Note</div>
+          <div class="desc">LINEヤフー / 議事録AI</div>
+        </a>
+        <a class="card" href="https://www.advanced-media.co.jp/products/service/amivoice-api" target="_blank" rel="noopener">
+          <div class="icon"><img src="../icons/advanced-media-co-jp.png" alt="AmiVoice"></div>
+          <div class="name">AmiVoice</div>
+          <div class="desc">老舗の国産音声認識</div>
+        </a>
+        <a class="card" href="https://rimo.app/about/voice" target="_blank" rel="noopener">
+          <div class="icon"><img src="../icons/rimo-app.png" alt="Rimo Voice"></div>
+          <div class="name">Rimo Voice</div>
+          <div class="desc">日本語特化の議事録AI</div>
+        </a>
+        <a class="card" href="https://notta.ai/ja" target="_blank" rel="noopener">
+          <div class="icon"><img src="../icons/notta-ai.png" alt="Notta"></div>
+          <div class="name">Notta</div>
+          <div class="desc">日本で人気の文字起こし</div>
+        </a>
+        <a class="card" href="https://toruno.biz/" target="_blank" rel="noopener">
+          <div class="icon"><img src="../icons/toruno-biz.png" alt="toruno"></div>
+          <div class="name">toruno</div>
+          <div class="desc">リコー / 会議録作成</div>
+        </a>
+        <a class="card" href="https://yomel.ai/" target="_blank" rel="noopener">
+          <div class="icon"><img src="../icons/yomel-ai.png" alt="YOMEL"></div>
+          <div class="name">YOMEL</div>
+          <div class="desc">会議特化の議事録AI</div>
+        </a>
+      </div>
+    </section>
+
+    <!-- 9. 買い物・生活 -->
+    <section class="category">
+      <div class="category-head">
+        <span class="emoji">🛒</span>
+        <h2>買い物・生活アシスト</h2>
+      </div>
+      <div class="grid">
+        <a class="card" href="https://promo-search.yahoo.co.jp/tips/2025/okaimonoai.html" target="_blank" rel="noopener">
+          <div class="icon"><img src="../icons/shopping-yahoo-co-jp.png" alt="Yahoo!ショッピングAI"></div>
+          <div class="name">Yahoo!ショッピングAI</div>
+          <div class="desc">お買い物AIアシスタント</div>
+        </a>
+        <a class="card" href="https://www.softbank.jp/mobile/products/natural-ai-phone/" target="_blank" rel="noopener">
+          <div class="icon"><img src="../icons/softbank-jp.png" alt="Natural AI Phone"></div>
+          <div class="name">Natural AI Phone</div>
+          <div class="desc">ソフトバンク / AIスマホ</div>
+        </a>
+      </div>
+    </section>
+
+    <!-- 10. 業務効率化 -->
+    <section class="category">
+      <div class="category-head">
+        <span class="emoji">🧰</span>
+        <h2>業務効率化・ビジネス向け</h2>
+      </div>
+      <div class="grid">
+        <a class="card" href="https://topics.cybozu.co.jp/news/2026/04/22-19405.html" target="_blank" rel="noopener">
+          <div class="icon"><img src="../icons/kintone-cybozu-co-jp.png" alt="kintone AI"></div>
+          <div class="name">kintone AI</div>
+          <div class="desc">サイボウズ / 2026年6月正式提供</div>
+        </a>
+        <a class="card" href="https://go.chatwork.com/ja/" target="_blank" rel="noopener">
+          <div class="icon"><img src="../icons/chatwork-com.png" alt="Chatwork AI"></div>
+          <div class="name">Chatwork AI</div>
+          <div class="desc">ビジネスチャット支援</div>
+        </a>
+        <a class="card" href="https://www.lycbiz.com/jp/service/line-official-account/" target="_blank" rel="noopener">
+          <div class="icon"><img src="../icons/lycbiz-com.png" alt="LINE AIチャットボット"></div>
+          <div class="name">LINE AIチャットボット</div>
+          <div class="desc">公式アカウント向け</div>
+        </a>
+        <a class="card" href="https://exawizards.com/exabase/gpt/" target="_blank" rel="noopener">
+          <div class="icon"><img src="../icons/exawizards-com.png" alt="exaBase 生成AI"></div>
+          <div class="name">exaBase 生成AI</div>
+          <div class="desc">エクサウィザーズ</div>
+        </a>
+        <a class="card" href="https://miibo.ai/" target="_blank" rel="noopener">
+          <div class="icon"><img src="../icons/miibo-ai.png" alt="miibo"></div>
+          <div class="name">miibo</div>
+          <div class="desc">ノーコード会話AI構築</div>
+        </a>
+        <a class="card" href="https://aconnect.stockmark.co.jp/" target="_blank" rel="noopener">
+          <div class="icon"><img src="../icons/stockmark-co-jp.png" alt="Aconnect"></div>
+          <div class="name">Aconnect</div>
+          <div class="desc">Stockmark / 製造業向け</div>
+        </a>
+        <a class="card" href="https://www.pkshatech.com/" target="_blank" rel="noopener">
+          <div class="icon"><img src="../icons/pkshatech-com.png" alt="PKSHA Technology"></div>
+          <div class="name">PKSHA Technology</div>
+          <div class="desc">国内No.1 AIチャットボット</div>
+        </a>
+        <a class="card" href="https://karakuri.ai/service/cs/" target="_blank" rel="noopener">
+          <div class="icon"><img src="../icons/karakuri-ai.png" alt="KARAKURI"></div>
+          <div class="name">KARAKURI</div>
+          <div class="desc">カスタマーサポート特化</div>
+        </a>
+      </div>
+    </section>
+
+    <!-- 11. 公的機関・国家プロジェクト -->
+    <section class="category">
+      <div class="category-head">
+        <span class="emoji">🏛️</span>
+        <h2>公的機関・国家プロジェクト</h2>
+      </div>
+      <div class="grid">
+        <a class="card" href="https://www.digital.go.jp/policies/genai" target="_blank" rel="noopener">
+          <div class="icon"><img src="../icons/digital-go-jp.png" alt="源内"></div>
+          <div class="name">源内</div>
+          <div class="desc">デジタル庁 / ガバメントAI</div>
+        </a>
+        <a class="card" href="https://www.softbank.jp/corp/news/press/sbkk/2026/20260412_01/" target="_blank" rel="noopener">
+          <div class="icon"><img src="../icons/softbank-jp.png" alt="日本AI基盤モデル開発"></div>
+          <div class="name">日本AI基盤モデル開発</div>
+          <div class="desc">ソフトバンク/NEC/ホンダ/ソニー</div>
+        </a>
+        <a class="card" href="https://info.qommons.ai/" target="_blank" rel="noopener">
+          <div class="icon"><img src="../icons/qommons-ai.png" alt="QommonsAI"></div>
+          <div class="name">QommonsAI</div>
+          <div class="desc">Polimill / 600自治体導入</div>
+        </a>
+      </div>
+    </section>
+
+    <footer>
+      <div class="note">
+        情報は2026年4月時点のものです。アイコンは各サービス公式ロゴを参照しています。
+      </div>
+    </footer>
+  </div>
+</body>
+</html>
