@@ -16,9 +16,11 @@
     --orange: #ff9f6b;
     --blue: #6aa9e9;
     --pink: #d94f5c;
+    --teal: #2a9d8f;
     --orange-soft: #ffd9b8;
     --blue-soft: #d9ecff;
     --pink-soft: #ffdbe0;
+    --teal-soft: #c8eef0;
   }
 
   * { box-sizing: border-box; }
@@ -102,6 +104,7 @@
   .dash-card.orange { border-left-color: var(--orange); }
   .dash-card.blue { border-left-color: var(--blue); }
   .dash-card.pink { border-left-color: var(--pink); }
+  .dash-card.teal { border-left-color: var(--teal); }
 
   .badge {
     display: inline-block;
@@ -114,6 +117,7 @@
   .dash-card.orange .badge { background: var(--orange-soft); color: #7a3b0f; }
   .dash-card.blue .badge { background: var(--blue-soft); color: #14457a; }
   .dash-card.pink .badge { background: var(--pink-soft); color: #7a1b28; }
+  .dash-card.teal .badge { background: var(--teal-soft); color: #145d54; }
 
   .dash-title {
     font-size: 20px;
@@ -200,6 +204,15 @@
           日本企業が開発・提供する生成AIの一覧。LINEヤフー・楽天・NTT・NEC・富士通・Preferred Networksなどに加え、音声・翻訳・公共領域まで網羅。
         </div>
         <div class="dash-meta">45+サービス / 11カテゴリー</div>
+      </a>
+
+      <a class="dash-card teal" href="./coding-agents/">
+        <span class="badge">Part 4 / 自律型コーディング</span>
+        <div class="dash-title">自律型コーディングエージェント ダッシュボード</div>
+        <div class="dash-desc">
+          「ゴール→計画→ファイル編集→コマンド実行→テスト→自己修正ループ」を回すエージェント型ツールの全景。Claude Code・Codex・Antigravity・Kiroの4強からOSS・オーケストレーター層まで。
+        </div>
+        <div class="dash-meta">35+ツール / 6カテゴリー</div>
       </a>
 
     </div>
