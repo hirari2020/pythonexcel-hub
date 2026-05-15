@@ -96,6 +96,18 @@
     border-bottom: 1px dashed var(--line);
   }
 
+  h3 .agent-icon {
+    display: inline-block;
+    width: 28px;
+    height: 28px;
+    vertical-align: middle;
+    margin-right: 10px;
+    border-radius: 5px;
+    background: #f7f4ec;
+    padding: 2px;
+    object-fit: contain;
+  }
+
   p {
     margin: 12px 0;
   }
@@ -295,7 +307,7 @@
 
 <p>大づかみに言えば、Claude Code と Codex は「ターミナルから使う CLI 型」、Antigravity と Kiro は「エージェント管理を軸に設計されたスタンドアロン IDE 型」である。そして <strong>4製品とも Windows 11 でネイティブに動作し、WSL は不要</strong> だ（各ツールの Windows 対応の詳細は第8章の分類表も参照）。</p>
 
-<h3>Claude Code（Anthropic）── CLI 型</h3>
+<h3><img class="agent-icon" src="../icons/claude-ai.png" alt="">Claude Code（Anthropic）── CLI 型</h3>
 <ul>
   <li><strong>種別</strong>: CLI / IDE拡張 / Web / Desktop / Mobile の5環境</li>
   <li><strong>Windows</strong>: <span class="badge-yes">✅</span> WSL 不要（2025年7月 v1.0.51 〜）。<code>irm https://claude.ai/install.ps1 | iex</code> または <code>winget install Anthropic.ClaudeCode</code>。Git for Windows 推奨、無ければ PowerShell フォールバック</li>
@@ -310,7 +322,7 @@
   <li><strong>備考</strong>: 2026年2月時点で GitHub 公開コミットの約4%を占めるとの推計（SemiAnalysis）。GitHub スター約83K</li>
 </ul>
 
-<h3>Codex / Codex CLI（OpenAI）── CLI 型</h3>
+<h3><img class="agent-icon" src="../icons/codex.png" alt="">Codex / Codex CLI（OpenAI）── CLI 型</h3>
 <ul>
   <li><strong>種別</strong>: CLI（ローカル）+ クラウド（ChatGPT 統合）+ IDE 拡張 + Codex アプリ（GUI）</li>
   <li><strong>Windows</strong>: <span class="badge-yes">✅</span> WSL 不要。CLI は PowerShell + ネイティブ Windows サンドボックス（<code>config.toml</code> で <code>elevated</code>/<code>unelevated</code>）。winget 利用。Codex アプリ（GUI）も Windows ネイティブ。※注意: VS Code 拡張のエージェントモードは一時期 WSL 必須だったが、ネイティブ Windows サンドボックスが実験的→広く利用可になった</li>
@@ -323,7 +335,7 @@
   <li><strong>バージョン目安</strong>: 0.104.0（2026年2月時点）。WSL1 は Codex 0.114 までサポート、0.115 以降は bubblewrap 移行で WSL1 非対応</li>
 </ul>
 
-<h3>Google Antigravity ── IDE 型</h3>
+<h3><img class="agent-icon" src="../icons/antigravity-google.png" alt="">Google Antigravity ── IDE 型</h3>
 <ul>
   <li><strong>開発元</strong>: Google</li>
   <li><strong>種別</strong>: ゼロから「エージェント管理」を軸に再設計された AI-IDE（スタンドアロン）。2025年11月ローンチ</li>
@@ -344,7 +356,7 @@
   <li><strong>総評</strong>: 無料で試す価値は高いが「free to start」であって「free forever」ではない</li>
 </ul>
 
-<h3>Amazon Kiro ── IDE 型</h3>
+<h3><img class="agent-icon" src="../icons/kiro-dev.png" alt="">Amazon Kiro ── IDE 型</h3>
 <ul>
   <li><strong>開発元</strong>: Amazon</li>
   <li><strong>種別</strong>: AI-IDE（スタンドアロン）</li>
@@ -360,7 +372,7 @@
 
 <p>4強以外で、各 LLM プロバイダーが自社モデル向けに出している公式 CLI。モデルとの統合が深いのが共通点。</p>
 
-<h3>Gemini CLI（Google）</h3>
+<h3><img class="agent-icon" src="../icons/google-gemini.png" alt="">Gemini CLI（Google）</h3>
 <ul>
   <li><strong>種別</strong>: CLI（OSS）</li>
   <li><strong>Windows</strong>: <span class="badge-yes">✅</span> WSL 不要。Node.js ベースでネイティブ動作</li>
@@ -374,7 +386,7 @@
   <li><strong>補足</strong>: CLIProxyAPI を使うと Gemini CLI の無料枠を OpenAI 互換 API としてラップでき、Aider や Cline からも無料で叩ける</li>
 </ul>
 
-<h3>Qwen Code（Alibaba Cloud）</h3>
+<h3><img class="agent-icon" src="../icons/qwen.png" alt="">Qwen Code（Alibaba Cloud）</h3>
 <ul>
   <li><strong>種別</strong>: CLI（OSS、Apache-2.0）。Google Gemini CLI をベースにしている</li>
   <li><strong>Windows</strong>: <span class="badge-yes">✅</span> WSL 不要。Windows 用 <code>.bat</code> インストーラあり。Node.js 22+ 必須</li>
@@ -401,7 +413,7 @@
   <li><strong>背景</strong>: Alibaba の Qwen チームが主要人材離脱後にプロプライエタリ開発へ舵を切りつつあるとの報道（FT）。中国系 AI 企業 MiniMax もほぼ同時期にライセンスを変更しており、「中国系 OSS モデルの無料戦略の転換」という文脈で語られている</li>
 </ul>
 
-<h3>Kimi CLI（Moonshot AI）</h3>
+<h3><img class="agent-icon" src="../icons/kimi-ai.png" alt="">Kimi CLI（Moonshot AI）</h3>
 <ul>
   <li><strong>種別</strong>: CLI</li>
   <li><strong>Windows</strong>: 要確認（公式の Windows ネイティブ対応状況は未検証）</li>
@@ -415,7 +427,7 @@
 
 <p>特定ベンダーに縛られず、モデルを自由に選べる（BYOM = Bring Your Own Model）のが共通の強み。Ollama 経由でローカルモデルを使えばモデルコストゼロも可能。</p>
 
-<h3>OpenCode（sst/opencode）</h3>
+<h3><img class="agent-icon" src="../icons/opencode-ai.png" alt="">OpenCode（sst/opencode）</h3>
 <ul>
   <li><strong>開発元</strong>: SST 社</li>
   <li><strong>Windows</strong>: <span class="badge-yes">✅</span> WSL 不要。Windows ネイティブバイナリ提供（Go 製）</li>
@@ -429,7 +441,7 @@
   <li><strong>位置づけ</strong>: 「汎用の標準的選択肢」。リポジトリ編集が主タスクならまずこれ</li>
 </ul>
 
-<h3>Aider</h3>
+<h3><img class="agent-icon" src="../icons/aider-chat.png" alt="">Aider</h3>
 <ul>
   <li><strong>種別</strong>: OSS の CLI、老舗（2023年7月以前から存在）</li>
   <li><strong>Windows</strong>: <span class="badge-yes">✅</span> WSL 不要。<code>pip install aider-chat</code>（Python）</li>
@@ -443,7 +455,7 @@
   <li><strong>バージョン目安</strong>: v0.86.0（2026年2月時点）</li>
 </ul>
 
-<h3>Goose</h3>
+<h3><img class="agent-icon" src="../icons/block-github-io.png" alt="">Goose</h3>
 <ul>
   <li><strong>開発元</strong>: Block 社（旧 Square）→ その後 Linux Foundation（Agentic AI Foundation）に寄贈</li>
   <li><strong>Windows</strong>: <span class="badge-yes">✅</span> WSL 不要。<strong>Rust 製で Desktop アプリは macOS/Linux/Windows ネイティブ</strong>。CLI も公式が「ネイティブ Windows 実行を推奨」と明記（Git Bash 推奨、または PowerShell）。歴史的には WSL 推奨だったが2026年時点でネイティブ成熟。※ Windows では keyring が不安定なため、API キーは環境変数で設定するのが定石</li>
@@ -457,7 +469,7 @@
   <li><strong>バージョン目安</strong>: v1.25.0（2026年2月時点）</li>
 </ul>
 
-<h3>Cline CLI</h3>
+<h3><img class="agent-icon" src="../icons/cline-bot.png" alt="">Cline CLI</h3>
 <ul>
   <li><strong>種別</strong>: Cline（VS Code 拡張）の CLI 版</li>
   <li><strong>Windows</strong>: <span class="badge-yes">✅</span> WSL 不要（Node ベース）</li>
@@ -466,7 +478,7 @@
   <li><strong>GitHub スター</strong>: 約61.6K（CLI 含むプロジェクト全体）</li>
 </ul>
 
-<h3>Crush（Charmbracelet）</h3>
+<h3><img class="agent-icon" src="../icons/charmbracelet-com.png" alt="">Crush（Charmbracelet）</h3>
 <ul>
   <li><strong>種別</strong>: Go 製の agentic コーディング TUI</li>
   <li><strong>Windows</strong>: <span class="badge-yes">✅</span> WSL 不要（Go バイナリ）</li>
@@ -474,7 +486,7 @@
   <li><strong>GitHub スター</strong>: 約24.1K</li>
 </ul>
 
-<h3>Continue CLI</h3>
+<h3><img class="agent-icon" src="../icons/continue-dev.png" alt="">Continue CLI</h3>
 <ul>
   <li><strong>種別</strong>: OSS のターミナル拡張</li>
   <li><strong>Windows</strong>: <span class="badge-yes">✅</span> WSL 不要（Node ベース）</li>
@@ -482,7 +494,7 @@
   <li><strong>GitHub スター</strong>: 約33.1K</li>
 </ul>
 
-<h3>Pi（pi-mono toolkit）</h3>
+<h3><img class="agent-icon" src="../icons/github-com.png" alt="">Pi（pi-mono toolkit）</h3>
 <ul>
   <li><strong>種別</strong>: ミニマルで適応性の高いターミナルコーディング・ハーネス</li>
   <li><strong>Windows</strong>: 要確認（クロスプラットフォーム想定だが未検証）</li>
@@ -491,14 +503,14 @@
   <li><strong>GitHub スター</strong>: 約47.9K</li>
 </ul>
 
-<h3>Nanocoder</h3>
+<h3><img class="agent-icon" src="../icons/github-com.png" alt="">Nanocoder</h3>
 <ul>
   <li><strong>種別</strong>: 「ローカルファースト」を謳う OSS</li>
   <li><strong>Windows</strong>: 要確認（Node ベースと思われるが未検証）</li>
   <li><strong>特徴</strong>: ローカルモデルや OpenRouter などコントロール可能な API で使用。MCP サーバーの Dynamic tool loading 機能</li>
 </ul>
 
-<h3>Warp 2.0</h3>
+<h3><img class="agent-icon" src="../icons/warp-dev.png" alt="">Warp 2.0</h3>
 <ul>
   <li><strong>種別</strong>: AI 統合ターミナル。CLI エージェント機能を内蔵</li>
   <li><strong>Windows</strong>: <span class="badge-yes">✅</span> WSL 不要。Windows ネイティブ版あり（2025年に対応）</li>
@@ -510,7 +522,7 @@
 
 <p>エディタ内で動く。視覚的な差分、インライン補完、承認ワークフローを GUI で扱える。<strong>VS Code 拡張・スタンドアロン IDE はいずれも Windows ネイティブで動くため、このカテゴリは原則 WSL 不要</strong>。なお4強のうち IDE 型である Antigravity・Kiro は第2章を参照。</p>
 
-<h3>Cline（VS Code 拡張）</h3>
+<h3><img class="agent-icon" src="../icons/cline-bot.png" alt="">Cline（VS Code 拡張）</h3>
 <ul>
   <li><strong>Windows</strong>: <span class="badge-yes">✅</span> WSL 不要（VS Code にインストール）</li>
   <li><strong>自律実行</strong>: VS Code 内で動く自律コーディングエージェント。マルチステップタスクを段階的な監督つきで実行</li>
@@ -523,7 +535,7 @@
   <li><strong>位置づけ</strong>: OSS の VS Code 向けエージェントで最注目</li>
 </ul>
 
-<h3>Roo Code</h3>
+<h3><img class="agent-icon" src="../icons/roocode-com.png" alt="">Roo Code</h3>
 <ul>
   <li><strong>種別</strong>: Cline からの fork（VS Code 拡張）</li>
   <li><strong>Windows</strong>: <span class="badge-yes">✅</span> WSL 不要</li>
@@ -531,20 +543,20 @@
   <li><strong>スキル対応</strong>: <span class="badge-yes">✅</span> Agent Skills（SKILL.md）対応</li>
 </ul>
 
-<h3>Kilo Code</h3>
+<h3><img class="agent-icon" src="../icons/kilocode-ai.png" alt="">Kilo Code</h3>
 <ul>
   <li><strong>種別</strong>: エディタネイティブのエージェント（VS Code 拡張）。Cline 系の選択肢</li>
   <li><strong>Windows</strong>: <span class="badge-yes">✅</span> WSL 不要</li>
   <li><strong>スキル対応</strong>: <span class="badge-yes">✅</span> Agent Skills（SKILL.md）対応</li>
 </ul>
 
-<h3>Continue（VS Code / JetBrains 拡張）</h3>
+<h3><img class="agent-icon" src="../icons/continue-dev.png" alt="">Continue（VS Code / JetBrains 拡張）</h3>
 <ul>
   <li><strong>Windows</strong>: <span class="badge-yes">✅</span> WSL 不要</li>
   <li><strong>特徴</strong>: Ollama などのローカルモデルとクラウド API を柔軟に切替。JetBrains IDE 利用者、タスクごとに異なるモデルを使い分けたい場合、VS Code + IntelliJ 混在チームの標準化に向く</li>
 </ul>
 
-<h3>Cursor（Anysphere）</h3>
+<h3><img class="agent-icon" src="../icons/cursor-com.png" alt="">Cursor（Anysphere）</h3>
 <ul>
   <li><strong>種別</strong>: VS Code fork の AI-IDE（Electron）。CLI 版も提供</li>
   <li><strong>Windows</strong>: <span class="badge-yes">✅</span> WSL 不要。Windows ネイティブアプリ</li>
@@ -553,7 +565,7 @@
   <li><strong>価格</strong>: 月額 $20 で最新モデル利用可</li>
 </ul>
 
-<h3>Windsurf（旧 Codeium）</h3>
+<h3><img class="agent-icon" src="../icons/windsurf-com.png" alt="">Windsurf（旧 Codeium）</h3>
 <ul>
   <li><strong>種別</strong>: VS Code 互換 IDE（Electron）</li>
   <li><strong>Windows</strong>: <span class="badge-yes">✅</span> WSL 不要。Windows ネイティブアプリ</li>
@@ -562,7 +574,7 @@
   <li><strong>位置づけ</strong>: Cursor に次ぐシェア</li>
 </ul>
 
-<h3>Zed AI</h3>
+<h3><img class="agent-icon" src="../icons/zed-dev.png" alt="">Zed AI</h3>
 <ul>
   <li><strong>種別</strong>: 高速ネイティブ IDE（GPU アクセラレーション）</li>
   <li><strong>Windows</strong>: <span class="badge-yes">✅</span> WSL 不要。Windows ネイティブアプリ</li>
@@ -575,7 +587,7 @@
 
 <p>対話型ではなく、タスク投入後に独立して走り、成果物（多くは PR）を返す。</p>
 
-<h3>Devin（Cognition）</h3>
+<h3><img class="agent-icon" src="../icons/devin-ai.png" alt="">Devin（Cognition）</h3>
 <ul>
   <li><strong>種別</strong>: クラウド自律エージェント</li>
   <li><strong>Windows</strong>: ローカルインストール不要（ブラウザから利用）＝ WSL 論点は無関係</li>
@@ -583,7 +595,7 @@
   <li><strong>備考</strong>: Windsurf を買収（2025年7月）し IDE も傘下に</li>
 </ul>
 
-<h3>OpenHands</h3>
+<h3><img class="agent-icon" src="../icons/all-hands-dev.png" alt="">OpenHands</h3>
 <ul>
   <li><strong>種別</strong>: SDK / CLI / ローカル GUI / クラウドホスト版の複数形態</li>
   <li><strong>Windows</strong>: <span class="badge-warn">⚠️</span> <strong>ローカル実行は WSL が事実上必要</strong>。公式サポートは WSL2 + Docker。「Windows without WSL」のドキュメントは存在するが公式サポート外・制約多数（ブラウザツール非対応、.NET Core Runtime / PowerShell 7+ / Python 3.12-3.13 必須）。クラウドホスト版ならブラウザから利用可で WSL 不要</li>
@@ -594,7 +606,7 @@
   <li><strong>関連</strong>: SWE-agent 由来。SWE-agent 自体は現在 mini-swe-agent に開発の主軸が移っている</li>
 </ul>
 
-<h3>Factory（Droids）</h3>
+<h3><img class="agent-icon" src="../icons/factory-ai.png" alt="">Factory（Droids）</h3>
 <ul>
   <li><strong>種別</strong>: 「Droid」と呼ばれるエージェントを IDE / CLI / Web / Slack / Linear など多様なインターフェースから利用</li>
   <li><strong>Windows</strong>: Web / Slack 面はブラウザから（WSL 不要）。CLI は Node ベースと思われ Windows ネイティブ動作の見込み</li>
@@ -602,7 +614,7 @@
   <li><strong>資金</strong>: 2026年4月に Khosla リードで $150M シリーズ C（評価額 $1.5B）、Sequoia・Blackstone も参加</li>
 </ul>
 
-<h3>Jules（Google）／ Genie ／ Manus</h3>
+<h3><img class="agent-icon" src="../icons/jules-google.png" alt="">Jules（Google）／ Genie ／ Manus</h3>
 <ul>
   <li><strong>種別</strong>: クラウドプラットフォーム型エージェント</li>
   <li><strong>Windows</strong>: ローカルインストール不要（ブラウザから利用）＝ WSL 論点は無関係</li>
@@ -614,14 +626,14 @@
 
 <p>2026年に伸びているカテゴリ。エージェントそのものではなく、トリガー・サンドボックス・エージェント起動・PR 作成までの「ループ全体」を所有する層。</p>
 
-<h3>Tembo</h3>
+<h3><img class="agent-icon" src="../icons/tembo-io.png" alt="">Tembo</h3>
 <ul>
   <li><strong>特徴</strong>: バックグラウンド実行・マルチリポ・シグナル駆動。Linear / Jira / Slack / Sentry / Datadog / GitHub / GitLab / Bitbucket のシグナルに反応してエージェントを起動。Claude Code / Codex CLI / Cursor / Gemini / OpenCode をタスクごとに切替（エージェント非依存オーケストレーション）。VPC デプロイ・BYOK 対応（エンタープライズ）</li>
   <li><strong>Windows</strong>: クラウド/SaaS 型のため WSL 論点は基本的に無関係</li>
   <li><strong>ユースケース例</strong>: 会議中に Sentry の例外を triage → 修正をドラフト → テスト実行 → ドラフト PR 作成</li>
 </ul>
 
-<h3>その他の OSS オーケストレーター（GitHub で観測される例）</h3>
+<h3><img class="agent-icon" src="../icons/github-com.png" alt="">その他の OSS オーケストレーター（GitHub で観測される例）</h3>
 <ul>
   <li><strong>pi-builder</strong>: 任意の CLI エージェント（Claude Code / Aider / OpenCode / Codex / Gemini CLI / Goose 等）を単一インターフェースで束ねる。能力ベースルーティング、フォールバックチェーン</li>
   <li><strong>Bernstein</strong>: 決定論的 Python オーケストレーター。並列 AI エージェントを起動しテストで検証、自動コミット</li>
