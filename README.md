@@ -1,6 +1,8 @@
 # pythonexcel-hub
 
-板橋区立企業活性化センターの技術勉強会向けに作成した、生成AI・AIエージェントの俯瞰ダッシュボード集です。
+生成AI・AIエージェントの俯瞰ダッシュボード集です。
+
+(c) WhiteCloud Consulting Inc.
 
 公開URL: **https://hub.pythonexcel.net/**
 
