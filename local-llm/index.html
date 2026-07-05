@@ -152,6 +152,11 @@
     line-height: 1.35;
   }
 
+  .cn-star {
+    color: #c62828;
+    font-size: 13px;
+  }
+
   .spec-table {
     border-collapse: collapse;
     width: 100%;
@@ -260,7 +265,7 @@
         </a>
         <a class="card" href="https://chat.qwen.ai/" target="_blank" rel="noopener">
           <div class="icon"><img src="../icons/qwen.png" alt="Qwen3"></div>
-          <div class="name">Qwen3系</div>
+          <div class="name">Qwen3系 <span class="cn-star">★</span></div>
           <div class="desc">Alibaba / 日本語◎・MoEで省VRAM</div>
         </a>
         <a class="card" href="https://deepmind.google/models/gemma/" target="_blank" rel="noopener">
@@ -280,7 +285,7 @@
         </a>
         <a class="card" href="https://huggingface.co/deepseek-ai" target="_blank" rel="noopener">
           <div class="icon"><img src="../icons/deepseek.png" alt="DeepSeek-R1"></div>
-          <div class="name">DeepSeek-R1 蒸留版</div>
+          <div class="name">DeepSeek-R1 蒸留版 <span class="cn-star">★</span></div>
           <div class="desc">推論特化 / 軽量版あり</div>
         </a>
         <a class="card" href="https://huggingface.co/openai" target="_blank" rel="noopener">
@@ -369,7 +374,8 @@
         情報は2026年7月時点のものです。アイコンは各サービス公式ロゴを参照しています。<br>
         ※モデルは量子化（GGUF形式など）を前提とすれば、より少ないメモリでも動作します。OllamaやLM Studioからは量子化済みモデルをそのままダウンロードできます。<br>
         ※tsuzumi はオープンウェイトではなく、商用ライセンス契約によるオンプレミス導入形式です。<br>
-        ※月間100万トークン以上使う場合は、クラウドAPIよりローカル運用の方がコストを抑えられるケースがあります。
+        ※月間100万トークン以上使う場合は、クラウドAPIよりローカル運用の方がコストを抑えられるケースがあります。<br>
+        <span class="cn-star">★</span> は中国企業（Alibaba・DeepSeek）が開発したモデルです。ローカル実行なのでデータが外部送信されることはありませんが、組織のポリシーによっては採用可否をご確認ください。なお日本語特化モデルの一部（qwq-bakeneko など）も中国系モデルをベースにしています。
       </div>
       <div style="margin-top: 14px;">(c) WhiteCloud Consulting Inc.</div>
     </footer>
