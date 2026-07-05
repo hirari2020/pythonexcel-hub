@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>自律型コーディングエージェント徹底整理（2026年5月版）</title>
+<title>自律型コーディングエージェント徹底整理（2026年7月版）</title>
 <style>
   :root {
     --bg: #fffdf7;
@@ -252,7 +252,7 @@
 
 <header>
   <h1>自律型コーディングエージェント徹底整理</h1>
-  <div class="subtitle">── Windows 11・WSL有無で分類する（2026年5月版）</div>
+  <div class="subtitle">── Windows 11・WSL有無で分類する（2026年7月版）</div>
 </header>
 
 <p>「Claude Code のように、自律的にローカルのファイル操作・コマンド実行・プログラム実行ができるツール」は、2026年現在、数十種類が乱立している。本稿ではそれらを <strong>Windows 11 で WSL 無しに使えるかどうか</strong> を主軸に分類・整理する。</p>
@@ -285,7 +285,7 @@
   <li><strong>ベンダー4強の確立</strong> ── Claude Code（Anthropic）/ Codex（OpenAI）/ Antigravity（Google）/ Kiro（Amazon）。</li>
   <li><strong>IDE型から CLI型・自律型へ重心シフト</strong> ── GitHub Copilot 的な補完型から、ターミナル常駐エージェント／クラウド自律エージェントへ。</li>
   <li><strong>マルチエージェント・オーケストレーション化</strong> ── 単一エージェントとの「ペアプロ」から、git worktree で分離した複数エージェントの並列管理へ。</li>
-  <li><strong>GitHub Copilot の新規個人サブスク停止（2026年4月）</strong> ── 推論コンピュート需給逼迫が背景。</li>
+  <li><strong>GitHub Copilot の新規個人サブスク停止（2026年4月）</strong> ── 推論コンピュート需給逼迫が背景。さらに2026年6月には全プランがクレジット式の従量課金制へ移行し、$100/月の Max プランが新設された。</li>
   <li><strong>Agent Skills（SKILL.md）のオープン標準化</strong> ── Anthropic が Claude Code 向けに作った SKILL.md 形式が、ツール横断のオープン標準「Agent Skills」として広がった。スキルとは手順・スクリプト・参照資料をまとめた再利用可能な能力パッケージで、一度書けば対応する複数ツールで使い回せる。本稿では各ツールに <strong>スキル対応</strong> の有無を注記する（<span class="badge-yes">✅</span>＝SKILL.md/Agent Skills 対応を確認）。</li>
 </ol>
 
@@ -318,8 +318,9 @@
   <li><strong>Computer Use</strong>: 2026年3月24日に macOS 版、4月3日に Windows 版がリサーチプレビュー公開（Pro/Max 向け）</li>
   <li><strong>デスクトップアプリ</strong>: 2026年4月14日に刷新、複数セッションの並列管理に対応（Pro/Max/Team/Enterprise 向け）。Windows 版あり</li>
   <li><strong>価格</strong>: Claude Pro（$20/月）または Max（$100・$200/月）に含まれる。API 従量課金も可</li>
-  <li><strong>バージョン目安</strong>: v2.1.84（2026年4月時点）</li>
+  <li><strong>バージョン目安</strong>: v2.1.84（2026年4月時点）。6月には階層エージェント生成（親エージェントが最大3階層の子エージェントを起動）、コミュニティ・マーケットプレイス、fallbackModel 設定、<code>claude mcp login</code> などが追加された</li>
   <li><strong>備考</strong>: 2026年2月時点で GitHub 公開コミットの約4%を占めるとの推計（SemiAnalysis）。GitHub スター約83K</li>
+  <li><strong>★2026年6月の供給停止事件</strong>: 6月12日、米政府の輸出管理指令により最上位モデル（Fable 5 / Mythos 5）が全ユーザー向けに一時停止。6月30日に管理解除、7月1日に復旧した。国家の判断でモデルが突然使えなくなりうるという前例として業界に衝撃を与えた</li>
 </ul>
 
 <h3><img class="agent-icon" src="../icons/codex.png" alt="">Codex / Codex CLI（OpenAI）── CLI 型</h3>
@@ -353,6 +354,7 @@
   <li><strong>クレジット制（2026年3月導入）</strong>: クォータ超過分はクレジットで購入。$25 で 2,500クレジット（1クレジット $0.01）、$199 で 20,000クレジット。<strong>1クレジットがトークン/操作量でいくらに相当するかは非公開</strong></li>
   <li><strong>有料プラン</strong>: AI Pro $20/月、AI Ultra $249.99/月。Pro→Ultra の価格差は12.5倍と極端</li>
   <li><strong>★注意点</strong>: 段階的な制限削減とクレジット制導入により、日常利用者が数日間（最長168時間＝7日間）ロックアウトされる事例が多発。2026年3月12〜13日に The Register・DevClass 等が価格改定を報道し、大きな開発者の反発を招いた</li>
+  <li><strong>★Antigravity 2.0（2026年5月19日 I/O発表）</strong>: プレビュー版のIDEから、デスクトップアプリ + CLI + SDK を備えたスタンドアロンの「エージェントプラットフォーム」に拡張。Gemini 3.5 Flash 駆動となり、コード脆弱性を自律検出・修正する CodeMender も統合された</li>
   <li><strong>総評</strong>: 無料で試す価値は高いが「free to start」であって「free forever」ではない</li>
 </ul>
 
@@ -421,6 +423,17 @@
   <li><strong>備考</strong>: SWE-Bench Pro で上位との報道</li>
 </ul>
 
+<h3><img class="agent-icon" src="../icons/grok.png" alt="">Grok Build（xAI）</h3>
+<ul>
+  <li><strong>種別</strong>: CLI（ターミナル型コーディングエージェント）。2026年5月25日に早期ベータ公開</li>
+  <li><strong>Windows</strong>: 要確認（ローカルファースト設計だが公式の Windows ネイティブ対応状況は未検証）</li>
+  <li><strong>自律実行</strong>: 最大8体のエージェントを並列実行し、それぞれが「計画→検索→構築」の3段階ワークフローを回す。複雑なタスクは Plan モードで計画を承認・修正してから実行可能</li>
+  <li><strong>特徴</strong>: <strong>Arena Mode</strong> ── 複数エージェントの競合する出力を自動採点・ランク付けしてから開発者に提示する評価レイヤー。ローカルファースト設計でソースコードを xAI サーバーに送信しない</li>
+  <li><strong>モデル</strong>: grok-code-fast-1（プログラミング特化コーパスでゼロから学習、SWE-Bench Verified 70.8%）</li>
+  <li><strong>価格</strong>: 早期ベータは SuperGrok Heavy（$300/月）限定</li>
+  <li><strong>位置づけ</strong>: 4強に続く5番手としてベンダー製エージェント競争に参戦。価格と対象ユーザーの面でまだ限定的だが、マルチエージェント並列と自動評価という設計は最新トレンドを体現している</li>
+</ul>
+
 <hr>
 
 <h2 id="sec4">4. OSS の CLI / ターミナル常駐エージェント</h2>
@@ -433,7 +446,7 @@
   <li><strong>Windows</strong>: <span class="badge-yes">✅</span> WSL 不要。Windows ネイティブバイナリ提供（Go 製）</li>
   <li><strong>ライセンス</strong>: MIT</li>
   <li><strong>自律実行</strong>: 完全自律エージェント。計画・シェルコマンド実行・出力読み取り・失敗修正のループ</li>
-  <li><strong>特徴</strong>: <strong>OSS の AI コーディングツールで最多スター（約153K）</strong>。Claude Code の直接的な OSS 代替と位置づけられる。75以上のモデルプロバイダー対応（Models.dev 経由）。LSP 統合。マルチセッション対応（同一プロジェクトで複数の並列エージェント）。リンク経由のセッション共有。プライバシー優先設計でコード・コンテキストを保存しない。GitHub Copilot や ChatGPT Plus アカウントでの認証にも対応</li>
+  <li><strong>特徴</strong>: <strong>OSS の AI コーディングツールで最多スター（約172K）・月間アクティブ開発者約650万</strong>。Claude Code の直接的な OSS 代替と位置づけられる。75以上のモデルプロバイダー対応（Models.dev 経由）。LSP 統合。マルチセッション対応（同一プロジェクトで複数の並列エージェント）。リンク経由のセッション共有。プライバシー優先設計でコード・コンテキストを保存しない。GitHub Copilot や ChatGPT Plus アカウントでの認証にも対応（※Claude サブスクリプションログインは2026年1月の Anthropic 規約強化で廃止、Claude は API キーで利用可。現在は OpenAI が公式パートナー）</li>
   <li><strong>アーキテクチャ</strong>: クライアント/サーバー型。PC で実行しながらモバイルから操作可能</li>
   <li><strong>スキル対応</strong>: <span class="badge-yes">✅</span> Agent Skills（SKILL.md）対応。<code>.opencode/skills/</code> のほか <code>.claude/skills/</code>・<code>.agents/skills/</code> も読み込み、必要時にオンデマンドでロードする</li>
   <li><strong>価格</strong>: 完全無料・OSS。デスクトップ版ベータあり（Windows 対応）</li>
@@ -560,18 +573,19 @@
 <ul>
   <li><strong>種別</strong>: VS Code fork の AI-IDE（Electron）。CLI 版も提供</li>
   <li><strong>Windows</strong>: <span class="badge-yes">✅</span> WSL 不要。Windows ネイティブアプリ</li>
-  <li><strong>特徴</strong>: バージョン 3.1 でタイル式マルチエージェントレイアウト採用。Composer 2.5 で xAI（Grok 系）のコンピュートを統合との報道</li>
+  <li><strong>特徴</strong>: バージョン 3.1 でタイル式マルチエージェントレイアウトを採用し、3.4 では並列エージェントのオーケストレーション UI を強化。Composer 2.5 で xAI（Grok 系）のコンピュートを統合との報道。2026年6月には Teams 料金を「Composer/Auto（自社モデル）」と「Third-Party API（Claude / GPT / Gemini）」の2プール制に改定し、Premium シートを新設</li>
   <li><strong>スキル対応</strong>: <span class="badge-yes">✅</span> Agent Skills（SKILL.md）対応（ネイティブな自動検出は無く、手動配置で利用）</li>
   <li><strong>価格</strong>: 月額 $20 で最新モデル利用可</li>
 </ul>
 
-<h3><img class="agent-icon" src="../icons/windsurf-com.png" alt="">Windsurf（旧 Codeium）</h3>
+<h3><img class="agent-icon" src="../icons/windsurf-com.png" alt="">Devin Desktop（旧 Windsurf ← 旧 Codeium）</h3>
 <ul>
   <li><strong>種別</strong>: VS Code 互換 IDE（Electron）</li>
   <li><strong>Windows</strong>: <span class="badge-yes">✅</span> WSL 不要。Windows ネイティブアプリ</li>
-  <li><strong>特徴</strong>: 「Cascade」というエージェント機能。2025年7月に Cognition（Devin 開発元）に買収され、Devin 機能の統合が進行</li>
+  <li><strong>★改名（2026年6月2日）</strong>: Cognition が Windsurf を <strong>Devin Desktop</strong> にリブランド。OTA アップデートで移行され、既存のプラン・設定・拡張はそのまま維持された</li>
+  <li><strong>特徴</strong>: 「Cascade」というエージェント機能。2025年7月に Cognition（Devin 開発元）に買収され、クラウド自律エージェント Devin との統合が進行</li>
   <li><strong>スキル対応</strong>: <span class="badge-yes">✅</span> Agent Skills（SKILL.md)対応</li>
-  <li><strong>位置づけ</strong>: Cursor に次ぐシェア</li>
+  <li><strong>位置づけ</strong>: Cursor に次ぐシェアの座から、Devin ブランドの「ローカル面」への転換が進む</li>
 </ul>
 
 <h3><img class="agent-icon" src="../icons/zed-dev.png" alt="">Zed AI</h3>
@@ -773,7 +787,7 @@
   <li><strong>「WSL 必須」と書かれた古い情報に注意</strong> ── Claude Code・Codex・Goose については「Windows では WSL が必要」と書かれた記事が今も大量に残っているが、これらは2025年前半までの情報。現在はいずれもネイティブ Windows 対応済み。一次情報（各ツールの公式ドキュメント）で確認するのが安全。</li>
   <li><strong>ネイティブ動作でも Git for Windows は入れておく</strong> ── Claude Code・Codex・Goose の CLI は Git Bash があると Bash ツールが使えて摩擦が減る。無いと PowerShell フォールバックになり、一部の Unix 前提コマンドが失敗しうる。</li>
   <li><strong>「ネイティブで動く」と「ネイティブが快適」は別</strong> ── パス区切り・改行コード・ファイルパーミッションの差異で、込み入った作業では WSL2 の方が安定するという評価も根強い。WSL を完全に避けるか、Docker 用に WSL2 機能だけ有効化するかは運用方針次第。</li>
-  <li><strong>ベンチマーク数値は変動が激しい</strong> ── SWE-bench Verified などのスコアはモデルのアップデートで頻繁に変わる。本稿の数値は2026年2〜5月時点の各種比較に基づく目安。</li>
+  <li><strong>ベンチマーク数値は変動が激しい</strong> ── SWE-bench Verified などのスコアはモデルのアップデートで頻繁に変わる。本稿の数値は2026年2〜7月時点の各種比較に基づく目安。</li>
   <li><strong>GitHub スター数はソースにより差が大きい</strong> ── プロジェクトの数え方（CLI 単体かリポジトリ全体か）で変わる。傾向把握用と考えるのが安全。</li>
   <li><strong>自律ループの典型的な失敗</strong> ── 「無限リファクタリングループ」（失敗テストを直そうとして新たなバグを生む）。Claude Code・OpenCode の build agent も陥りやすい。反復深度に上限を設け、<code>Ctrl+C</code> → <code>git stash</code> / <code>git reset --hard</code> で巻き戻し、より具体的なプロンプトで再開する運用が定石。</li>
   <li><strong>コンテキスト肥大</strong> ── monorepo のルートで「ビルドを直して」と指示すると node_modules・ビルド成果物・vendor を読み込んでトークンを浪費する。</li>
@@ -786,7 +800,7 @@
 
 <footer>
   <div class="note">
-    情報は2026年5月時点のものです。本稿の数値・評価は時期により変動しうるため、各ツールの一次情報での確認を推奨します。
+    情報は2026年7月時点のものです。本稿の数値・評価は時期により変動しうるため、各ツールの一次情報での確認を推奨します。
   </div>
   <div style="margin-top: 14px;">(c) WhiteCloud Consulting Inc.</div>
 </footer>
