@@ -17,10 +17,14 @@
     --blue: #6aa9e9;
     --pink: #d94f5c;
     --teal: #2a9d8f;
+    --red: #c62828;
+    --purple: #7b1fa2;
     --orange-soft: #ffd9b8;
     --blue-soft: #d9ecff;
     --pink-soft: #ffdbe0;
     --teal-soft: #c8eef0;
+    --red-soft: #ffd6d6;
+    --purple-soft: #ead6f5;
   }
 
   * { box-sizing: border-box; }
@@ -105,6 +109,8 @@
   .dash-card.blue { border-left-color: var(--blue); }
   .dash-card.pink { border-left-color: var(--pink); }
   .dash-card.teal { border-left-color: var(--teal); }
+  .dash-card.red { border-left-color: var(--red); }
+  .dash-card.purple { border-left-color: var(--purple); }
 
   .badge {
     display: inline-block;
@@ -118,6 +124,8 @@
   .dash-card.blue .badge { background: var(--blue-soft); color: #14457a; }
   .dash-card.pink .badge { background: var(--pink-soft); color: #7a1b28; }
   .dash-card.teal .badge { background: var(--teal-soft); color: #145d54; }
+  .dash-card.red .badge { background: var(--red-soft); color: #7a1515; }
+  .dash-card.purple .badge { background: var(--purple-soft); color: #4a1163; }
 
   .dash-title {
     font-size: 20px;
@@ -222,6 +230,24 @@
           Windows 11・WSL有無で分類する詳細解説（2026年7月版）。各ツールの特徴・ライセンス・自律実行能力・スキル対応・ネイティブ動作要件を網羅した深掘り記事。
         </div>
         <div class="dash-meta">10章構成 / 詳細レポート</div>
+      </a>
+
+      <a class="dash-card red" href="./china-ai/">
+        <span class="badge">Part 5 / 中華系生成AI</span>
+        <div class="dash-title">中華系生成AI ダッシュボード</div>
+        <div class="dash-desc">
+          中国企業が開発・提供する生成AIの全景。DeepSeek・Qwen・豆包などのLLMから、Kling・Vidu・PixVerseの動画生成、Trae・Qwen Codeの開発ツールまで。
+        </div>
+        <div class="dash-meta">25サービス / 6カテゴリー</div>
+      </a>
+
+      <a class="dash-card purple" href="./local-llm/">
+        <span class="badge">Part 6 / ローカルLLM</span>
+        <div class="dash-title">ローカルLLM ダッシュボード</div>
+        <div class="dash-desc">
+          手元のパソコンやオンプレ環境で動かせるLLMの全景。Ollama・LM Studioなどの実行環境から、Llama・Qwen・Gemmaと日本語特化モデル、PCスペック目安まで。
+        </div>
+        <div class="dash-meta">21カード / 4カテゴリー＋スペック表</div>
       </a>
 
     </div>
