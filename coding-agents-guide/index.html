@@ -262,7 +262,7 @@
   <ol>
     <li><a href="#sec1">この分野の全体像</a></li>
     <li><a href="#sec2">ベンダー4強</a></li>
-    <li><a href="#sec3">その他のベンダー製 CLI エージェント</a></li>
+    <li><a href="#sec3">その他のベンダー製エージェント</a></li>
     <li><a href="#sec4">OSS の CLI / ターミナル常駐エージェント</a></li>
     <li><a href="#sec5">IDE 統合型エージェント</a></li>
     <li><a href="#sec6">自律 / クラウド型エージェント</a></li>
@@ -370,9 +370,9 @@
 
 <hr>
 
-<h2 id="sec3">3. その他のベンダー製 CLI エージェント</h2>
+<h2 id="sec3">3. その他のベンダー製エージェント</h2>
 
-<p>4強以外で、各 LLM プロバイダーが自社モデル向けに出している公式 CLI。モデルとの統合が深いのが共通点。</p>
+<p>4強以外で、各 LLM プロバイダーが自社モデル向けに出している公式エージェント（CLI・デスクトップ環境）。モデルとの統合が深いのが共通点。</p>
 
 <h3><img class="agent-icon" src="../icons/google-gemini.png" alt="">Gemini CLI（Google）</h3>
 <ul>
@@ -432,6 +432,17 @@
   <li><strong>モデル</strong>: grok-code-fast-1（プログラミング特化コーパスでゼロから学習、SWE-Bench Verified 70.8%）</li>
   <li><strong>価格</strong>: 早期ベータは SuperGrok Heavy（$300/月）限定</li>
   <li><strong>位置づけ</strong>: 4強に続く5番手としてベンダー製エージェント競争に参戦。価格と対象ユーザーの面でまだ限定的だが、マルチエージェント並列と自動評価という設計は最新トレンドを体現している</li>
+</ul>
+
+<h3><img class="agent-icon" src="../icons/z-ai.png" alt="">ZCode（Z.ai / 旧・智譜AI）</h3>
+<ul>
+  <li><strong>種別</strong>: デスクトップ ADE（Agentic Development Environment）。2026年7月2日リリース</li>
+  <li><strong>Windows</strong>: <span class="badge-yes">✅</span> WSL 不要。macOS / Windows / Linux ネイティブアプリ</li>
+  <li><strong>自律実行</strong>: エージェントファースト設計。結果を伝えると計画→編集→検証→反復を回す長時間タスク前提の構造。SSH リモート同期（v3.2.5〜）でユーザーレベルのスキルを共有可能</li>
+  <li><strong>モデル</strong>: GLM-5.2 の「公式ハーネス」（Claude に対する Claude Code の関係に相当）</li>
+  <li><strong>価格</strong>: アプリ本体は無料。GLM Coding Plan（Lite $16.20 / Pro $64.80 / Max $144 月額）と組み合わせる</li>
+  <li><strong>★注意</strong>: GLM-5.2 への API 呼び出しはすべて中国のデータ法の適用対象となる点が報じられている。業務利用時はデータの取り扱いを要確認</li>
+  <li><strong>位置づけ</strong>: Fable 5 供給停止（6月）の3週間後にリリースされ、ベンダー分散を検討する開発チームの受け皿を狙う。Cursor / Claude Code / GitHub Copilot への直接対抗</li>
 </ul>
 
 <hr>
