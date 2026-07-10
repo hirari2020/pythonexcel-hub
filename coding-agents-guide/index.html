@@ -325,13 +325,14 @@
 
 <h3><img class="agent-icon" src="../icons/codex.png" alt="">Codex / Codex CLI（OpenAI）── CLI 型</h3>
 <ul>
-  <li><strong>種別</strong>: CLI（ローカル）+ クラウド（ChatGPT 統合）+ IDE 拡張 + Codex アプリ（GUI）</li>
+  <li><strong>種別</strong>: CLI（ローカル）+ クラウド（ChatGPT 統合）+ IDE 拡張 + GUI（旧 Codex アプリ → 新 ChatGPT アプリの Codex モード）</li>
+  <li><strong>★アプリ統合（2026年7月9日）</strong>: Codex アプリ（GUI）は Chat / Work / Codex の3モードを持つ新しい ChatGPT デスクトップアプリに統合され、旧 ChatGPT アプリは ChatGPT Classic に改名された。<strong>CLI は従来どおり独立した <code>codex</code> コマンドとして継続</strong>。既存の Codex タスク・プロジェクトは新アプリに引き継がれる</li>
   <li><strong>Windows</strong>: <span class="badge-yes">✅</span> WSL 不要。CLI は PowerShell + ネイティブ Windows サンドボックス（<code>config.toml</code> で <code>elevated</code>/<code>unelevated</code>）。winget 利用。Codex アプリ（GUI）も Windows ネイティブ。※注意: VS Code 拡張のエージェントモードは一時期 WSL 必須だったが、ネイティブ Windows サンドボックスが実験的→広く利用可になった</li>
   <li><strong>ライセンス</strong>: OSS（CLI 部分）</li>
   <li><strong>自律実行</strong>: 2026年2月にリニューアル。クラウドサンドボックスでコード実行、GitHub への直接プッシュ可能。Full Auto モードで自律実行。ネイティブ Windows ではエージェントモードが Windows サンドボックスで作業フォルダ外への書き込み・ネットワークアクセスをブロック</li>
   <li><strong>特徴</strong>: GitHub 統合（PR/Issue に @codex タグでレビュー・自動修正）。Automations で Issue triage・CI/CD 監視を自律実行。音声入力対応</li>
   <li><strong>スキル対応</strong>: <span class="badge-yes">✅</span> Agent Skills（SKILL.md）対応。2025年12月に対応開始し、<code>~/.agents/skills/</code> に配置。<code>openai.yaml</code> メタデータの独自拡張あり</li>
-  <li><strong>モデル</strong>: GPT-5 系 / Codex 系（GPT-5.1-Codex-Max は Windows コード生成・ツール利用が改善）</li>
+  <li><strong>モデル</strong>: GPT-5 系 / Codex 系（GPT-5.1-Codex-Max は Windows コード生成・ツール利用が改善）。2026年7月9日に GPT-5.6 ファミリー（Sol / Terra / Luna）が GA となり Codex でも利用可能に</li>
   <li><strong>価格</strong>: ChatGPT Plus または Pro プランで利用。CLI 自体は無料、API キーでも可</li>
   <li><strong>バージョン目安</strong>: 0.104.0（2026年2月時点）。WSL1 は Codex 0.114 までサポート、0.115 以降は bubblewrap 移行で WSL1 非対応</li>
 </ul>
