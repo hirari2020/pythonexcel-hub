@@ -659,6 +659,17 @@
   <li><strong>ユースケース例</strong>: 会議中に Sentry の例外を triage → 修正をドラフト → テスト実行 → ドラフト PR 作成</li>
 </ul>
 
+<h3><img class="agent-icon" src="../icons/agi-labo-com.png" alt="">AGI Cockpit（AGIラボ）</h3>
+<ul>
+  <li><strong>種別</strong>: ローカルで動くマルチエージェント管制ツール（デスクトップアプリ）。日本発</li>
+  <li><strong>Windows</strong>: <span class="badge-yes">✅</span> WSL 不要。Windows / macOS（Apple Silicon対応）/ Linux（x64・arm64）</li>
+  <li><strong>特徴</strong>: Claude Code / Codex / Antigravity / Cursor / Grok Build / 独自の Cockpit Agent / ターミナルを横断し、複数タスクをカンバンで統制。Master Agent が複数タスクを自動分担し、進捗をワンスクリーンで監視。決定が必要な時だけ通知する Cockpit Ask、実行内容を読みやすく表示するネイティブチャット、ダッシュボード形式の HTML Mode を備える</li>
+  <li><strong>スキル対応</strong>: Cockpit Skill により Claude Code や Codex 側から子タスクを作成可能</li>
+  <li><strong>価格</strong>: 基本無料。ラボ会員向けに Autorun（スケジュール自動実行）・PWA モバイルアクセスなどの追加機能</li>
+  <li><strong>バージョン目安</strong>: v4.27.0（2026年7月時点）</li>
+  <li><strong>位置づけ</strong>: Tembo がクラウド/SaaS 型のシグナル駆動オーケストレーションなのに対し、AGI Cockpit は手元で複数 CLI エージェントを並走させる「運用管制 UI」に重点を置く</li>
+</ul>
+
 <h3><img class="agent-icon" src="../icons/github-com.png" alt="">その他の OSS オーケストレーター（GitHub で観測される例）</h3>
 <ul>
   <li><strong>pi-builder</strong>: 任意の CLI エージェント（Claude Code / Aider / OpenCode / Codex / Gemini CLI / Goose 等）を単一インターフェースで束ねる。能力ベースルーティング、フォールバックチェーン</li>
