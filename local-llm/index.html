@@ -180,6 +180,16 @@
     font-weight: 700;
   }
 
+  .jp-mark {
+    color: #bc002d;
+    font-size: 13px;
+  }
+
+  .eu-mark {
+    color: #003399;
+    font-size: 13px;
+  }
+
   footer {
     text-align: center;
     margin-top: 48px;
@@ -275,7 +285,7 @@
         </a>
         <a class="card" href="https://mistral.ai/" target="_blank" rel="noopener">
           <div class="icon"><img src="../icons/mistral-ai.png" alt="Mistral Small"></div>
-          <div class="name">Mistral Small 4</div>
+          <div class="name">Mistral Small 4 <span class="eu-mark">€</span></div>
           <div class="desc">256K・推論/コード統合</div>
         </a>
         <a class="card" href="https://huggingface.co/microsoft" target="_blank" rel="noopener">
@@ -310,7 +320,7 @@
         </a>
         <a class="card" href="https://swallow-llm.github.io/" target="_blank" rel="noopener">
           <div class="icon"><img src="../icons/swallow-llm.png" alt="Swallow"></div>
-          <div class="name">Llama 3.1 Swallow</div>
+          <div class="name">Llama 3.1 Swallow <span class="jp-mark">●</span></div>
           <div class="desc">東工大・産総研 / 日本語強化</div>
         </a>
         <a class="card" href="https://huggingface.co/rinna" target="_blank" rel="noopener">
@@ -320,7 +330,7 @@
         </a>
         <a class="card" href="https://www.rd.ntt/research/JN202404_19058.html" target="_blank" rel="noopener">
           <div class="icon"><img src="../icons/rd-ntt.png" alt="tsuzumi"></div>
-          <div class="name">tsuzumi</div>
+          <div class="name">tsuzumi <span class="jp-mark">●</span></div>
           <div class="desc">NTT / 軽量・商用ライセンス</div>
         </a>
       </div>
@@ -380,7 +390,8 @@
         ※モデルは量子化（GGUF形式など）を前提とすれば、より少ないメモリでも動作します。OllamaやLM Studioからは量子化済みモデルをそのままダウンロードできます。<br>
         ※tsuzumi はオープンウェイトではなく、商用ライセンス契約によるオンプレミス導入形式です。<br>
         ※月間100万トークン以上使う場合は、クラウドAPIよりローカル運用の方がコストを抑えられるケースがあります。<br>
-        <span class="cn-star">★</span> は中国企業（Alibaba・DeepSeek）が開発したモデル、または中国系モデルをベースに追加学習した国産モデルです（ELYZAの主力はQwenベース、qwq-bakeneko は QwQ ベース。Swallow は Llamaベース、tsuzumi は完全国産）。ローカル実行なのでデータが外部送信されることはありませんが、組織のポリシーによっては採用可否をご確認ください。
+        <span class="cn-star">★</span> は中国企業（Alibaba・DeepSeek）が開発したモデル、または中国系モデルをベースに追加学習した国産モデルです（ELYZAの主力はQwenベース、qwq-bakeneko は QwQ ベース。Swallow は Llamaベース、tsuzumi は完全国産）。ローカル実行なのでデータが外部送信されることはありませんが、組織のポリシーによっては採用可否をご確認ください。<br>
+        <span class="jp-mark">●</span> は日本企業開発のモデル、<span class="eu-mark">€</span> は欧州企業開発のモデルです。中国系モデルをベースにした国産モデル（ELYZA・qwq-bakeneko）には ● ではなく ★ を付けています。
       </div>
       <div style="margin-top: 14px;">(c) WhiteCloud Consulting Inc.</div>
     </footer>
