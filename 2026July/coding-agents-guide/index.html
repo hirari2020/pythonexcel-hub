@@ -1,0 +1,833 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>自律型コーディングエージェント徹底整理（2026年7月版）</title>
+<style>
+  :root {
+    --bg: #fffdf7;
+    --text: #222;
+    --muted: #666;
+    --marker: #fff27a;
+    --band: #c8eef0;
+    --band-strong: #2a9d8f;
+    --band-strong-dark: #145d54;
+    --line: #e4e4dd;
+    --card: #ffffff;
+    --code-bg: #f5f5f0;
+    --shadow: rgba(60, 50, 30, 0.08);
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    margin: 0;
+    padding: 40px 20px 80px;
+    font-family: "Hiragino Maru Gothic ProN", "Hiragino Sans", "Yu Gothic UI", "Meiryo", system-ui, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.85;
+    font-size: 15px;
+  }
+
+  .container {
+    max-width: 860px;
+    margin: 0 auto;
+  }
+
+  .breadcrumb {
+    font-size: 13px;
+    color: var(--muted);
+    margin-bottom: 20px;
+  }
+  .breadcrumb a {
+    color: var(--band-strong-dark);
+    text-decoration: none;
+  }
+  .breadcrumb a:hover { text-decoration: underline; }
+
+  header {
+    margin-bottom: 36px;
+    padding-bottom: 24px;
+    border-bottom: 2px solid var(--band);
+  }
+
+  h1 {
+    font-size: 28px;
+    margin: 0 0 12px;
+    line-height: 1.4;
+    display: inline-block;
+    position: relative;
+    padding: 4px 8px;
+  }
+
+  h1::after {
+    content: "";
+    position: absolute;
+    left: 0; right: 0; bottom: 4px;
+    height: 12px;
+    background: var(--marker);
+    z-index: -1;
+    border-radius: 2px;
+  }
+
+  .subtitle {
+    color: var(--muted);
+    font-size: 14px;
+    margin-top: 8px;
+  }
+
+  h2 {
+    font-size: 22px;
+    margin: 48px 0 20px;
+    padding: 10px 16px;
+    background: var(--band);
+    border-left: 8px solid var(--band-strong);
+    border-radius: 4px;
+    color: #111;
+  }
+
+  h3 {
+    font-size: 18px;
+    margin: 32px 0 12px;
+    color: var(--band-strong-dark);
+    padding-bottom: 6px;
+    border-bottom: 1px dashed var(--line);
+  }
+
+  h3 .agent-icon {
+    display: inline-block;
+    width: 28px;
+    height: 28px;
+    vertical-align: middle;
+    margin-right: 10px;
+    border-radius: 5px;
+    background: #f7f4ec;
+    padding: 2px;
+    object-fit: contain;
+  }
+
+  p {
+    margin: 12px 0;
+  }
+
+  ul, ol {
+    padding-left: 1.6em;
+    margin: 12px 0;
+  }
+
+  li {
+    margin: 6px 0;
+  }
+
+  ul ul, ol ul, ul ol {
+    margin: 4px 0;
+  }
+
+  strong {
+    color: #111;
+    font-weight: 700;
+  }
+
+  code {
+    background: var(--code-bg);
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-size: 13px;
+    font-family: "Consolas", "Menlo", "Courier New", monospace;
+    color: #b14b1a;
+  }
+
+  hr {
+    border: none;
+    border-top: 1px solid var(--line);
+    margin: 36px 0;
+  }
+
+  table {
+    border-collapse: collapse;
+    width: 100%;
+    margin: 16px 0;
+    font-size: 13px;
+    background: var(--card);
+    box-shadow: 0 2px 6px var(--shadow);
+    border-radius: 6px;
+    overflow: hidden;
+  }
+
+  th, td {
+    border: 1px solid var(--line);
+    padding: 10px 12px;
+    text-align: left;
+    vertical-align: top;
+    line-height: 1.6;
+  }
+
+  th {
+    background: var(--band);
+    color: #111;
+    font-weight: 700;
+  }
+
+  tr:nth-child(even) td {
+    background: #fdfcf6;
+  }
+
+  .toc {
+    background: #fff;
+    border: 1px dashed var(--band-strong);
+    border-radius: 8px;
+    padding: 18px 24px;
+    margin: 24px 0 36px;
+  }
+
+  .toc h3 {
+    margin: 0 0 8px;
+    font-size: 15px;
+    border: none;
+    color: var(--band-strong-dark);
+  }
+
+  .toc ol {
+    margin: 0;
+    padding-left: 1.4em;
+    font-size: 14px;
+  }
+
+  .toc a {
+    color: var(--text);
+    text-decoration: none;
+  }
+  .toc a:hover { color: var(--band-strong-dark); text-decoration: underline; }
+
+  .callout {
+    background: #fff8ed;
+    border-left: 4px solid #e9a23b;
+    padding: 12px 16px;
+    border-radius: 4px;
+    margin: 16px 0;
+    font-size: 14px;
+  }
+
+  .badge-yes { color: #2a9d8f; font-weight: 700; }
+  .badge-no { color: #c1442e; font-weight: 700; }
+  .badge-warn { color: #e9a23b; font-weight: 700; }
+
+  footer {
+    text-align: center;
+    margin-top: 56px;
+    font-size: 12px;
+    color: var(--muted);
+  }
+
+  footer .note {
+    display: inline-block;
+    background: #fff;
+    border: 1px dashed var(--line);
+    padding: 10px 16px;
+    border-radius: 8px;
+  }
+
+  .back-to-dashboard {
+    display: inline-block;
+    margin-top: 24px;
+    padding: 8px 16px;
+    background: var(--band);
+    color: var(--band-strong-dark);
+    text-decoration: none;
+    border-radius: 6px;
+    font-size: 13px;
+    font-weight: 700;
+  }
+  .back-to-dashboard:hover { background: var(--band-strong); color: #fff; }
+</style>
+</head>
+<body>
+<div class="container">
+
+<div class="breadcrumb">
+  <a href="../">← AIダッシュボード集</a> / <a href="../coding-agents/">自律型コーディングエージェント ダッシュボード</a> / 解説記事
+</div>
+
+<header>
+  <h1>自律型コーディングエージェント徹底整理</h1>
+  <div class="subtitle">── Windows 11・WSL有無で分類する（2026年7月版）</div>
+</header>
+
+<p>「Claude Code のように、自律的にローカルのファイル操作・コマンド実行・プログラム実行ができるツール」は、2026年現在、数十種類が乱立している。本稿ではそれらを <strong>Windows 11 で WSL 無しに使えるかどうか</strong> を主軸に分類・整理する。</p>
+
+<div class="toc">
+  <h3>目次</h3>
+  <ol>
+    <li><a href="#sec1">この分野の全体像</a></li>
+    <li><a href="#sec2">ベンダー4強</a></li>
+    <li><a href="#sec3">その他のベンダー製エージェント</a></li>
+    <li><a href="#sec4">OSS の CLI / ターミナル常駐エージェント</a></li>
+    <li><a href="#sec5">IDE 統合型エージェント</a></li>
+    <li><a href="#sec6">自律 / クラウド型エージェント</a></li>
+    <li><a href="#sec7">オーケストレーション層</a></li>
+    <li><a href="#sec8">Windows 11 ネイティブ実行可否による分類</a></li>
+    <li><a href="#sec9">用途別の選び方</a></li>
+    <li><a href="#sec10">注意点・補足</a></li>
+  </ol>
+</div>
+
+<hr>
+
+<h2 id="sec1">1. この分野の全体像</h2>
+
+<p>「Claude Code 的なツール」とは、チャット補完型ではなく <strong>エージェント型</strong> ── 「ゴールを伝えると、計画を立て、ファイルを編集し、シェルコマンドを実行し、テストを走らせ、失敗を読んで自己修正するループを回す」ツールを指す。</p>
+
+<p>2026年に入って起きた構造変化は次の5点：</p>
+
+<ol>
+  <li><strong>ベンダー4強の確立</strong> ── Claude Code（Anthropic）/ Codex（OpenAI）/ Antigravity（Google）/ Kiro（Amazon）。</li>
+  <li><strong>IDE型から CLI型・自律型へ重心シフト</strong> ── GitHub Copilot 的な補完型から、ターミナル常駐エージェント／クラウド自律エージェントへ。</li>
+  <li><strong>マルチエージェント・オーケストレーション化</strong> ── 単一エージェントとの「ペアプロ」から、git worktree で分離した複数エージェントの並列管理へ。</li>
+  <li><strong>GitHub Copilot の新規個人サブスク停止（2026年4月）</strong> ── 推論コンピュート需給逼迫が背景。さらに2026年6月には全プランがクレジット式の従量課金制へ移行し、$100/月の Max プランが新設された。</li>
+  <li><strong>Agent Skills（SKILL.md）のオープン標準化</strong> ── Anthropic が Claude Code 向けに作った SKILL.md 形式が、ツール横断のオープン標準「Agent Skills」として広がった。スキルとは手順・スクリプト・参照資料をまとめた再利用可能な能力パッケージで、一度書けば対応する複数ツールで使い回せる。本稿では各ツールに <strong>スキル対応</strong> の有無を注記する（<span class="badge-yes">✅</span>＝SKILL.md/Agent Skills 対応を確認）。</li>
+</ol>
+
+<p>エージェントの実行能力は3レベルで捉えられる：</p>
+
+<ul>
+  <li><strong>ファイル操作</strong>: 複数ファイルの読み書き・差分編集・リファクタリング</li>
+  <li><strong>コマンド実行</strong>: シェルコマンド、ビルド、git 操作、テスト実行</li>
+  <li><strong>自律ループ</strong>: 上記を「テストが通るまで」自動で反復、人間は承認・監督役</li>
+</ul>
+
+<p>そして本稿の主題に関わる <strong>重要な前提変化</strong> がある。2025年前半まで、CLI 系エージェント（特に Claude Code）は Windows では WSL 必須というのが常識だった。しかし2025年後半〜2026年にかけて主要ツールが続々と <strong>ネイティブ Windows 対応</strong> を果たし、状況は大きく変わった。古い記事や SEO 記事には「WSL 必須」と書かれたままのものが多いので注意が必要だ。各ツールの Windows・WSL 観点での分類は第8章にまとめた。</p>
+
+<hr>
+
+<h2 id="sec2">2. ベンダー4強</h2>
+
+<p>2026年のこの分野は、4つのテック大手が出す純正エージェントが中心軸になっている。Anthropic の <strong>Claude Code</strong>、OpenAI の <strong>Codex</strong>、Google の <strong>Antigravity</strong>、Amazon の <strong>Kiro</strong> ── いずれも自社の最新モデルと深く統合され、設計思想と得意領域がはっきり分かれる。まずこの4強を押さえると、全体像がつかみやすい。</p>
+
+<p>大づかみに言えば、Claude Code と Codex は「ターミナルから使う CLI 型」、Antigravity と Kiro は「エージェント管理を軸に設計されたスタンドアロン IDE 型」である。そして <strong>4製品とも Windows 11 でネイティブに動作し、WSL は不要</strong> だ（各ツールの Windows 対応の詳細は第8章の分類表も参照）。</p>
+
+<h3><img class="agent-icon" src="../icons/claude-ai.png" alt="">Claude Code（Anthropic）── CLI 型</h3>
+<ul>
+  <li><strong>種別</strong>: CLI / IDE拡張 / Web / Desktop / Mobile の5環境</li>
+  <li><strong>Windows</strong>: <span class="badge-yes">✅</span> WSL 不要（2025年7月 v1.0.51 〜）。<code>irm https://claude.ai/install.ps1 | iex</code> または <code>winget install Anthropic.ClaudeCode</code>。Git for Windows 推奨、無ければ PowerShell フォールバック</li>
+  <li><strong>ライセンス</strong>: プロプライエタリ</li>
+  <li><strong>自律実行</strong>: ファイル操作・コマンド実行・git・テスト・自律ループすべて対応。「文脈収集→実行→検証」の agentic ループ。重大な変更には人間承認を要求する安全設計</li>
+  <li><strong>特徴</strong>: CLAUDE.md + Hooks でプロジェクト固有ルールを徹底。1Mトークンのコンテキスト。subagents で専門特化した並列エージェントを起動可能</li>
+  <li><strong>スキル対応</strong>: <span class="badge-yes">✅</span> Agent Skills（SKILL.md）の発祥元。標準そのものの実装元で、context フォーク等の独自拡張も持つ</li>
+  <li><strong>Computer Use</strong>: 2026年3月24日に macOS 版、4月3日に Windows 版がリサーチプレビュー公開（Pro/Max 向け）</li>
+  <li><strong>デスクトップアプリ</strong>: 2026年4月14日に刷新、複数セッションの並列管理に対応（Pro/Max/Team/Enterprise 向け）。Windows 版あり</li>
+  <li><strong>価格</strong>: Claude Pro（$20/月）または Max（$100・$200/月）に含まれる。API 従量課金も可</li>
+  <li><strong>バージョン目安</strong>: v2.1.84（2026年4月時点）。6月には階層エージェント生成（親エージェントが最大3階層の子エージェントを起動）、コミュニティ・マーケットプレイス、fallbackModel 設定、<code>claude mcp login</code> などが追加された</li>
+  <li><strong>備考</strong>: 2026年2月時点で GitHub 公開コミットの約4%を占めるとの推計（SemiAnalysis）。GitHub スター約83K</li>
+  <li><strong>★2026年6月の供給停止事件</strong>: 6月12日、米政府の輸出管理指令により最上位モデル（Fable 5 / Mythos 5）が全ユーザー向けに一時停止。6月30日に管理解除、7月1日に復旧した。国家の判断でモデルが突然使えなくなりうるという前例として業界に衝撃を与えた</li>
+</ul>
+
+<h3><img class="agent-icon" src="../icons/codex.png" alt="">Codex / Codex CLI（OpenAI）── CLI 型</h3>
+<ul>
+  <li><strong>種別</strong>: CLI（ローカル）+ クラウド（ChatGPT 統合）+ IDE 拡張 + GUI（旧 Codex アプリ → 新 ChatGPT アプリの Codex モード）</li>
+  <li><strong>★アプリ統合（2026年7月9日）</strong>: Codex アプリ（GUI）は Chat / Work / Codex の3モードを持つ新しい ChatGPT デスクトップアプリに統合され、旧 ChatGPT アプリは ChatGPT Classic に改名された。<strong>CLI は従来どおり独立した <code>codex</code> コマンドとして継続</strong>。既存の Codex タスク・プロジェクトは新アプリに引き継がれる</li>
+  <li><strong>Windows</strong>: <span class="badge-yes">✅</span> WSL 不要。CLI は PowerShell + ネイティブ Windows サンドボックス（<code>config.toml</code> で <code>elevated</code>/<code>unelevated</code>）。winget 利用。Codex アプリ（GUI）も Windows ネイティブ。※注意: VS Code 拡張のエージェントモードは一時期 WSL 必須だったが、ネイティブ Windows サンドボックスが実験的→広く利用可になった</li>
+  <li><strong>ライセンス</strong>: OSS（CLI 部分）</li>
+  <li><strong>自律実行</strong>: 2026年2月にリニューアル。クラウドサンドボックスでコード実行、GitHub への直接プッシュ可能。Full Auto モードで自律実行。ネイティブ Windows ではエージェントモードが Windows サンドボックスで作業フォルダ外への書き込み・ネットワークアクセスをブロック</li>
+  <li><strong>特徴</strong>: GitHub 統合（PR/Issue に @codex タグでレビュー・自動修正）。Automations で Issue triage・CI/CD 監視を自律実行。音声入力対応</li>
+  <li><strong>スキル対応</strong>: <span class="badge-yes">✅</span> Agent Skills（SKILL.md）対応。2025年12月に対応開始し、<code>~/.agents/skills/</code> に配置。<code>openai.yaml</code> メタデータの独自拡張あり</li>
+  <li><strong>モデル</strong>: GPT-5 系 / Codex 系（GPT-5.1-Codex-Max は Windows コード生成・ツール利用が改善）。2026年7月9日に GPT-5.6 ファミリー（Sol / Terra / Luna）が GA となり Codex でも利用可能に</li>
+  <li><strong>価格</strong>: ChatGPT Plus または Pro プランで利用。CLI 自体は無料、API キーでも可</li>
+  <li><strong>バージョン目安</strong>: 0.104.0（2026年2月時点）。WSL1 は Codex 0.114 までサポート、0.115 以降は bubblewrap 移行で WSL1 非対応</li>
+</ul>
+
+<h3><img class="agent-icon" src="../icons/antigravity-google.png" alt="">Google Antigravity ── IDE 型</h3>
+<ul>
+  <li><strong>開発元</strong>: Google</li>
+  <li><strong>種別</strong>: ゼロから「エージェント管理」を軸に再設計された AI-IDE（スタンドアロン）。2025年11月ローンチ</li>
+  <li><strong>Windows</strong>: <span class="badge-yes">✅</span> WSL 不要。Windows ネイティブアプリ</li>
+  <li><strong>自律実行</strong>: Agent Manager（Manager View）で複数エージェントを並列管理。エージェント制御ブラウザで E2E テストまで自動化。Artifacts（計画・差分・スクリーンショット・テスト結果）と自己検証ステップ（Verifications）が特徴</li>
+  <li><strong>モデル</strong>: Gemini 3 Pro が中心。Antigravity 内では Claude 系モデル（Sonnet/Opus）等も使え、エージェントごとに別モデルを割り当て可能。ただし<strong>自前の API キー持ち込み（BYOK）には非対応</strong></li>
+  <li><strong>スキル対応</strong>: <span class="badge-yes">✅</span> Agent Skills（SKILL.md）対応</li>
+  <li><strong>★無料枠（$0 プラン）はあるが大幅縮小された（重要）</strong>:
+    <ul>
+      <li>無料 Individual プラン（$0/月、クレカ不要）は現在も存在。どのティアでも Gemini 3 Pro・無制限タブ補完・Agent Manager・ブラウザ統合などの全機能にアクセス可</li>
+      <li><strong>ローンチ時（2025年11月〜2026年2月）</strong>: 無料枠 1日250リクエスト、5時間ごとにクォータ補充</li>
+      <li><strong>2026年3月の変更後</strong>: 無料枠 <strong>1日20リクエスト（約92%減）</strong>、補充は<strong>週次</strong>（約24倍遅い）。Pro も約100リクエスト/日へ縮小、補充週次化</li>
+    </ul>
+  </li>
+  <li><strong>クレジット制（2026年3月導入）</strong>: クォータ超過分はクレジットで購入。$25 で 2,500クレジット（1クレジット $0.01）、$199 で 20,000クレジット。<strong>1クレジットがトークン/操作量でいくらに相当するかは非公開</strong></li>
+  <li><strong>有料プラン</strong>: AI Pro $20/月、AI Ultra $249.99/月。Pro→Ultra の価格差は12.5倍と極端</li>
+  <li><strong>★注意点</strong>: 段階的な制限削減とクレジット制導入により、日常利用者が数日間（最長168時間＝7日間）ロックアウトされる事例が多発。2026年3月12〜13日に The Register・DevClass 等が価格改定を報道し、大きな開発者の反発を招いた</li>
+  <li><strong>★Antigravity 2.0（2026年5月19日 I/O発表）</strong>: プレビュー版のIDEから、デスクトップアプリ + CLI + SDK を備えたスタンドアロンの「エージェントプラットフォーム」に拡張。Gemini 3.5 Flash 駆動となり、コード脆弱性を自律検出・修正する CodeMender も統合された</li>
+  <li><strong>総評</strong>: 無料で試す価値は高いが「free to start」であって「free forever」ではない</li>
+</ul>
+
+<h3><img class="agent-icon" src="../icons/kiro-dev.png" alt="">Amazon Kiro ── IDE 型</h3>
+<ul>
+  <li><strong>開発元</strong>: Amazon</li>
+  <li><strong>種別</strong>: AI-IDE（スタンドアロン）</li>
+  <li><strong>Windows</strong>: <span class="badge-yes">✅</span> WSL 不要。Windows ネイティブアプリ</li>
+  <li><strong>特徴</strong>: スペック駆動開発。仕様を起点にコードを生成・検証するアプローチで、品質管理に強み</li>
+  <li><strong>スキル対応</strong>: <span class="badge-no">✕</span> SKILL.md（Agent Skills）には非対応。仕様駆動の独自 hooks 機構を持つ（4強の中ではここだけ標準スキル非対応）</li>
+  <li><strong>位置づけ</strong>: 4強の中では最も「品質ゲート」を重視する設計</li>
+</ul>
+
+<hr>
+
+<h2 id="sec3">3. その他のベンダー製エージェント</h2>
+
+<p>4強以外で、各 LLM プロバイダーが自社モデル向けに出している公式エージェント（CLI・デスクトップ環境）。モデルとの統合が深いのが共通点。</p>
+
+<h3><img class="agent-icon" src="../icons/google-gemini.png" alt="">Gemini CLI（Google）</h3>
+<ul>
+  <li><strong>種別</strong>: CLI（OSS）</li>
+  <li><strong>Windows</strong>: <span class="badge-yes">✅</span> WSL 不要。Node.js ベースでネイティブ動作</li>
+  <li><strong>ライセンス</strong>: OSS</li>
+  <li><strong>自律実行</strong>: ReAct ループ、組み込みツール、MCP 対応。ファイル操作・コマンド実行可</li>
+  <li><strong>特徴</strong>: Google アカウントがあれば無料で利用可能。無料枠が主要ツールの中で最も寛容。Gemini Code Assist とクォータ共有</li>
+  <li><strong>弱点</strong>: コーディング用途には若干不向きという評価もある</li>
+  <li><strong>スキル対応</strong>: <span class="badge-yes">✅</span> Agent Skills（SKILL.md）対応</li>
+  <li><strong>価格</strong>: 無料枠あり</li>
+  <li><strong>バージョン目安</strong>: v0.29.0（2026年2月時点）</li>
+  <li><strong>補足</strong>: CLIProxyAPI を使うと Gemini CLI の無料枠を OpenAI 互換 API としてラップでき、Aider や Cline からも無料で叩ける</li>
+</ul>
+
+<h3><img class="agent-icon" src="../icons/qwen.png" alt="">Qwen Code（Alibaba Cloud）</h3>
+<ul>
+  <li><strong>種別</strong>: CLI（OSS、Apache-2.0）。Google Gemini CLI をベースにしている</li>
+  <li><strong>Windows</strong>: <span class="badge-yes">✅</span> WSL 不要。Windows 用 <code>.bat</code> インストーラあり。Node.js 22+ 必須</li>
+  <li><strong>自律実行</strong>: ワークフローツール＋リポジトリ操作。LSP 対応、バッチランナー</li>
+  <li><strong>スキル対応</strong>: <span class="badge-yes">✅</span> Agent Skills（SKILL.md）対応（GA 済み）</li>
+  <li><strong>モデル</strong>: Qwen3-Coder / Qwen3.6-Plus 系</li>
+  <li><strong>性能</strong>: マルチファイル対応、SWE-Bench スコアは有料ツール上位と競合する実力との評価</li>
+  <li><strong>GitHub スター</strong>: 約24.3K</li>
+  <li><strong>★無料枠は廃止された（重要）</strong>:
+    <ul>
+      <li>無料枠はもともと Qwen OAuth 経由で<strong>1日1,000リクエスト</strong>だった</li>
+      <li><strong>2026年4月13日</strong>: 1日1,000 → <strong>100リクエスト</strong>に即時削減</li>
+      <li><strong>2026年4月15日</strong>: Qwen OAuth 無料エントリーポイントを<strong>完全廃止</strong>。キャッシュ済みトークンは一時的に動く場合があるが、新規リクエストは拒否される</li>
+    </ul>
+  </li>
+  <li><strong>現在の認証・利用方法（3択）</strong>:
+    <ol>
+      <li>Qwen OAuth ── qwen.ai アカウントでブラウザログイン。<strong>無料枠は廃止済み</strong></li>
+      <li>Alibaba Cloud Coding Plan ── Alibaba Cloud の API キーによる有料サブスク。モデル選択肢が豊富（Qwen / GLM / Kimi / Minimax 等）で高クォータ。Coding Plan Pro は月額 $50</li>
+      <li>API Key ── 自前の API キーを持ち込み。OpenAI / Anthropic / Gemini など互換エンドポイントに対応</li>
+    </ol>
+  </li>
+  <li><strong>無料の代替</strong>: OpenRouter、Fireworks AI、Alibaba Cloud ModelStudio が公式に案内されている。また Qwen のモデル自体はオープンソースのままなので、ローカル（Ollama 等）で動かす分には引き続き無料（ただし高性能モデルは相応のハードウェアが必要）</li>
+  <li><strong>背景</strong>: Alibaba の Qwen チームが主要人材離脱後にプロプライエタリ開発へ舵を切りつつあるとの報道（FT）。中国系 AI 企業 MiniMax もほぼ同時期にライセンスを変更しており、「中国系 OSS モデルの無料戦略の転換」という文脈で語られている</li>
+</ul>
+
+<h3><img class="agent-icon" src="../icons/kimi-ai.png" alt="">Kimi CLI（Moonshot AI）</h3>
+<ul>
+  <li><strong>種別</strong>: CLI</li>
+  <li><strong>Windows</strong>: 要確認（公式の Windows ネイティブ対応状況は未検証）</li>
+  <li><strong>特徴</strong>: オープンソースモデル Kimi K2.6 系。商用最高峰モデルに追従する OSS モデルとして、機密性の高いコードを社内環境で動かしたい用途で現実的な選択肢になりつつある</li>
+  <li><strong>備考</strong>: SWE-Bench Pro で上位との報道</li>
+</ul>
+
+<h3><img class="agent-icon" src="../icons/grok.png" alt="">Grok Build（xAI）</h3>
+<ul>
+  <li><strong>種別</strong>: CLI（ターミナル型コーディングエージェント）。2026年5月25日に早期ベータ公開</li>
+  <li><strong>Windows</strong>: 要確認（ローカルファースト設計だが公式の Windows ネイティブ対応状況は未検証）</li>
+  <li><strong>自律実行</strong>: 最大8体のエージェントを並列実行し、それぞれが「計画→検索→構築」の3段階ワークフローを回す。複雑なタスクは Plan モードで計画を承認・修正してから実行可能</li>
+  <li><strong>特徴</strong>: <strong>Arena Mode</strong> ── 複数エージェントの競合する出力を自動採点・ランク付けしてから開発者に提示する評価レイヤー。ローカルファースト設計でソースコードを xAI サーバーに送信しない</li>
+  <li><strong>モデル</strong>: grok-code-fast-1（プログラミング特化コーパスでゼロから学習、SWE-Bench Verified 70.8%）</li>
+  <li><strong>価格</strong>: 早期ベータは SuperGrok Heavy（$300/月）限定</li>
+  <li><strong>位置づけ</strong>: 4強に続く5番手としてベンダー製エージェント競争に参戦。価格と対象ユーザーの面でまだ限定的だが、マルチエージェント並列と自動評価という設計は最新トレンドを体現している</li>
+</ul>
+
+<h3><img class="agent-icon" src="../icons/z-ai.png" alt="">ZCode（Z.ai / 旧・智譜AI）</h3>
+<ul>
+  <li><strong>種別</strong>: デスクトップ ADE（Agentic Development Environment）。2026年7月2日リリース</li>
+  <li><strong>Windows</strong>: <span class="badge-yes">✅</span> WSL 不要。macOS / Windows / Linux ネイティブアプリ</li>
+  <li><strong>自律実行</strong>: エージェントファースト設計。結果を伝えると計画→編集→検証→反復を回す長時間タスク前提の構造。SSH リモート同期（v3.2.5〜）でユーザーレベルのスキルを共有可能</li>
+  <li><strong>モデル</strong>: GLM-5.2 の「公式ハーネス」（Claude に対する Claude Code の関係に相当）</li>
+  <li><strong>価格</strong>: アプリ本体は無料。GLM Coding Plan（Lite $16.20 / Pro $64.80 / Max $144 月額）と組み合わせる</li>
+  <li><strong>★注意</strong>: GLM-5.2 への API 呼び出しはすべて中国のデータ法の適用対象となる点が報じられている。業務利用時はデータの取り扱いを要確認</li>
+  <li><strong>位置づけ</strong>: Fable 5 供給停止（6月）の3週間後にリリースされ、ベンダー分散を検討する開発チームの受け皿を狙う。Cursor / Claude Code / GitHub Copilot への直接対抗</li>
+</ul>
+
+<hr>
+
+<h2 id="sec4">4. OSS の CLI / ターミナル常駐エージェント</h2>
+
+<p>特定ベンダーに縛られず、モデルを自由に選べる（BYOM = Bring Your Own Model）のが共通の強み。Ollama 経由でローカルモデルを使えばモデルコストゼロも可能。</p>
+
+<h3><img class="agent-icon" src="../icons/opencode-ai.png" alt="">OpenCode（sst/opencode）</h3>
+<ul>
+  <li><strong>開発元</strong>: SST 社</li>
+  <li><strong>Windows</strong>: <span class="badge-yes">✅</span> WSL 不要。Windows ネイティブバイナリ提供（Go 製）</li>
+  <li><strong>ライセンス</strong>: MIT</li>
+  <li><strong>自律実行</strong>: 完全自律エージェント。計画・シェルコマンド実行・出力読み取り・失敗修正のループ</li>
+  <li><strong>特徴</strong>: <strong>OSS の AI コーディングツールで最多スター（約172K）・月間アクティブ開発者約650万</strong>。Claude Code の直接的な OSS 代替と位置づけられる。75以上のモデルプロバイダー対応（Models.dev 経由）。LSP 統合。マルチセッション対応（同一プロジェクトで複数の並列エージェント）。リンク経由のセッション共有。プライバシー優先設計でコード・コンテキストを保存しない。GitHub Copilot や ChatGPT Plus アカウントでの認証にも対応（※Claude サブスクリプションログインは2026年1月の Anthropic 規約強化で廃止、Claude は API キーで利用可。現在は OpenAI が公式パートナー）</li>
+  <li><strong>アーキテクチャ</strong>: クライアント/サーバー型。PC で実行しながらモバイルから操作可能</li>
+  <li><strong>スキル対応</strong>: <span class="badge-yes">✅</span> Agent Skills（SKILL.md）対応。<code>.opencode/skills/</code> のほか <code>.claude/skills/</code>・<code>.agents/skills/</code> も読み込み、必要時にオンデマンドでロードする</li>
+  <li><strong>価格</strong>: 完全無料・OSS。デスクトップ版ベータあり（Windows 対応）</li>
+  <li><strong>バージョン目安</strong>: v1.2.10（2026年2月時点）</li>
+  <li><strong>位置づけ</strong>: 「汎用の標準的選択肢」。リポジトリ編集が主タスクならまずこれ</li>
+</ul>
+
+<h3><img class="agent-icon" src="../icons/aider-chat.png" alt="">Aider</h3>
+<ul>
+  <li><strong>種別</strong>: OSS の CLI、老舗（2023年7月以前から存在）</li>
+  <li><strong>Windows</strong>: <span class="badge-yes">✅</span> WSL 不要。<code>pip install aider-chat</code>（Python）</li>
+  <li><strong>ライセンス</strong>: OSS</li>
+  <li><strong>自律実行</strong>: 差分/パッチでのファイル編集。git ネイティブでマルチファイルワークフローに強い。コードベースのインデックス作成、ファイル編集時の自動 lint・test 実行</li>
+  <li><strong>特徴</strong>: モデル非依存・BYO API キー。Claude / GPT / Gemini / DeepSeek / Ollama・LM Studio 経由のローカルモデルを指定可能。git 履歴を尊重し、変更ごとにコミット</li>
+  <li><strong>得意</strong>: 「3ファイルにまたがる関数リネーム」のような、構造化された計画が不要で素早く回したいタスク。クリーンな git 履歴を保ちたい用途</li>
+  <li><strong>スキル対応</strong>: <span class="badge-yes">✅</span> Agent Skills（SKILL.md）対応</li>
+  <li><strong>ベンチマーク</strong>: 精度・実行時間・トークン使用量のバランスが最も良いとの評価（ある比較で複合スコア52.7%、257秒、126kトークン）</li>
+  <li><strong>GitHub スター</strong>: 約27〜44K（集計ソースにより幅）</li>
+  <li><strong>バージョン目安</strong>: v0.86.0（2026年2月時点）</li>
+</ul>
+
+<h3><img class="agent-icon" src="../icons/block-github-io.png" alt="">Goose</h3>
+<ul>
+  <li><strong>開発元</strong>: Block 社（旧 Square）→ その後 Linux Foundation（Agentic AI Foundation）に寄贈</li>
+  <li><strong>Windows</strong>: <span class="badge-yes">✅</span> WSL 不要。<strong>Rust 製で Desktop アプリは macOS/Linux/Windows ネイティブ</strong>。CLI も公式が「ネイティブ Windows 実行を推奨」と明記（Git Bash 推奨、または PowerShell）。歴史的には WSL 推奨だったが2026年時点でネイティブ成熟。※ Windows では keyring が不安定なため、API キーは環境変数で設定するのが定石</li>
+  <li><strong>ライセンス</strong>: Apache-2.0</li>
+  <li><strong>種別</strong>: デスクトップアプリ + CLI + API</li>
+  <li><strong>自律実行</strong>: 実行・編集・テストが可能なローカル動作の自律エージェント。MCP ネイティブ統合</li>
+  <li><strong>特徴</strong>: コードだけでなく開発環境全体を横断（Web 閲覧、DB クエリ、テスト実行、ドキュメント読解）。Recipes で再利用可能なマルチステップ・ワークフローを定義。Docker 不要。15以上のプロバイダー対応（Anthropic/OpenAI/Google/Ollama/OpenRouter/Azure/Bedrock 等）。既存の Claude/ChatGPT/Gemini サブスクを ACP 経由で使うことも可能</li>
+  <li><strong>スキル対応</strong>: <span class="badge-yes">✅</span> Agent Skills（SKILL.md）対応（独自の Recipes 機構とは別に、ツール横断の SKILL.md も利用可）</li>
+  <li><strong>弱点</strong>: 汎用フレーミングゆえコーディング機能がコード特化ツールに遅れることがある。学習曲線がやや急。あるベンチマークでは実行・完成度に課題（バックエンド3.1%、フロントエンド10.0%）</li>
+  <li><strong>GitHub スター</strong>: 約43〜45K</li>
+  <li><strong>バージョン目安</strong>: v1.25.0（2026年2月時点）</li>
+</ul>
+
+<h3><img class="agent-icon" src="../icons/cline-bot.png" alt="">Cline CLI</h3>
+<ul>
+  <li><strong>種別</strong>: Cline（VS Code 拡張）の CLI 版</li>
+  <li><strong>Windows</strong>: <span class="badge-yes">✅</span> WSL 不要（Node ベース）</li>
+  <li><strong>自律実行</strong>: モデル非依存の自律エージェント。計画・ファイル編集・コマンド実行・ブラウザ操作</li>
+  <li><strong>スキル対応</strong>: <span class="badge-yes">✅</span> Agent Skills（SKILL.md）対応</li>
+  <li><strong>GitHub スター</strong>: 約61.6K（CLI 含むプロジェクト全体）</li>
+</ul>
+
+<h3><img class="agent-icon" src="../icons/charmbracelet-com.png" alt="">Crush（Charmbracelet）</h3>
+<ul>
+  <li><strong>種別</strong>: Go 製の agentic コーディング TUI</li>
+  <li><strong>Windows</strong>: <span class="badge-yes">✅</span> WSL 不要（Go バイナリ）</li>
+  <li><strong>特徴</strong>: マルチプロバイダー、LSP 対応、リッチなターミナル UI</li>
+  <li><strong>GitHub スター</strong>: 約24.1K</li>
+</ul>
+
+<h3><img class="agent-icon" src="../icons/continue-dev.png" alt="">Continue CLI</h3>
+<ul>
+  <li><strong>種別</strong>: OSS のターミナル拡張</li>
+  <li><strong>Windows</strong>: <span class="badge-yes">✅</span> WSL 不要（Node ベース）</li>
+  <li><strong>特徴</strong>: マルチモデル対応、ローカル/プライバシー重視。VS Code/JetBrains 版の CLI 版にあたる</li>
+  <li><strong>GitHub スター</strong>: 約33.1K</li>
+</ul>
+
+<h3><img class="agent-icon" src="../icons/github-com.png" alt="">Pi（pi-mono toolkit）</h3>
+<ul>
+  <li><strong>種別</strong>: ミニマルで適応性の高いターミナルコーディング・ハーネス</li>
+  <li><strong>Windows</strong>: 要確認（クロスプラットフォーム想定だが未検証）</li>
+  <li><strong>特徴</strong>: 統一 LLM API、TUI、MCP 対応</li>
+  <li><strong>スキル対応</strong>: <span class="badge-yes">✅</span> Skills 対応</li>
+  <li><strong>GitHub スター</strong>: 約47.9K</li>
+</ul>
+
+<h3><img class="agent-icon" src="../icons/github-com.png" alt="">Nanocoder</h3>
+<ul>
+  <li><strong>種別</strong>: 「ローカルファースト」を謳う OSS</li>
+  <li><strong>Windows</strong>: 要確認（Node ベースと思われるが未検証）</li>
+  <li><strong>特徴</strong>: ローカルモデルや OpenRouter などコントロール可能な API で使用。MCP サーバーの Dynamic tool loading 機能</li>
+</ul>
+
+<h3><img class="agent-icon" src="../icons/warp-dev.png" alt="">Warp 2.0</h3>
+<ul>
+  <li><strong>種別</strong>: AI 統合ターミナル。CLI エージェント機能を内蔵</li>
+  <li><strong>Windows</strong>: <span class="badge-yes">✅</span> WSL 不要。Windows ネイティブ版あり（2025年に対応）</li>
+</ul>
+
+<hr>
+
+<h2 id="sec5">5. IDE 統合型エージェント</h2>
+
+<p>エディタ内で動く。視覚的な差分、インライン補完、承認ワークフローを GUI で扱える。<strong>VS Code 拡張・スタンドアロン IDE はいずれも Windows ネイティブで動くため、このカテゴリは原則 WSL 不要</strong>。なお4強のうち IDE 型である Antigravity・Kiro は第2章を参照。</p>
+
+<h3><img class="agent-icon" src="../icons/cline-bot.png" alt="">Cline（VS Code 拡張）</h3>
+<ul>
+  <li><strong>Windows</strong>: <span class="badge-yes">✅</span> WSL 不要（VS Code にインストール）</li>
+  <li><strong>自律実行</strong>: VS Code 内で動く自律コーディングエージェント。マルチステップタスクを段階的な監督つきで実行</li>
+  <li><strong>特徴</strong>: 哲学は「すべて承認（approve everything）」。ファイル変更・ターミナルコマンドのたびに明示的な承認を求める＝最大限の人間コントロール。ブラウザ自動化、ワークスペース・チェックポイント、MCP 対応</li>
+  <li><strong>モデル</strong>: OpenRouter / Anthropic / OpenAI / Gemini / AWS Bedrock / Azure / GCP Vertex / Ollama 経由ローカルモデル</li>
+  <li><strong>価格</strong>: 拡張機能は無料、選んだ API プロバイダーに支払い。エンタープライズ向けセルフホスト版あり</li>
+  <li><strong>GitHub スター</strong>: 約38〜58.8K（集計ソースにより幅）。VS Code インストール 500万以上。Samsung の Device eXperience 部門で全社導入実績</li>
+  <li><strong>バージョン目安</strong>: v3.41（2026年2月時点）</li>
+  <li><strong>スキル対応</strong>: <span class="badge-yes">✅</span> Agent Skills（SKILL.md）対応</li>
+  <li><strong>位置づけ</strong>: OSS の VS Code 向けエージェントで最注目</li>
+</ul>
+
+<h3><img class="agent-icon" src="../icons/roocode-com.png" alt="">Roo Code</h3>
+<ul>
+  <li><strong>種別</strong>: Cline からの fork（VS Code 拡張）</li>
+  <li><strong>Windows</strong>: <span class="badge-yes">✅</span> WSL 不要</li>
+  <li><strong>自律実行</strong>: Code Mode / Architect Mode / Debug Mode / Orchestrator Mode の複数モード。タスクを分解してサブタスクを委任</li>
+  <li><strong>スキル対応</strong>: <span class="badge-yes">✅</span> Agent Skills（SKILL.md）対応</li>
+</ul>
+
+<h3><img class="agent-icon" src="../icons/kilocode-ai.png" alt="">Kilo Code</h3>
+<ul>
+  <li><strong>種別</strong>: エディタネイティブのエージェント（VS Code 拡張）。Cline 系の選択肢</li>
+  <li><strong>Windows</strong>: <span class="badge-yes">✅</span> WSL 不要</li>
+  <li><strong>スキル対応</strong>: <span class="badge-yes">✅</span> Agent Skills（SKILL.md）対応</li>
+</ul>
+
+<h3><img class="agent-icon" src="../icons/continue-dev.png" alt="">Continue（VS Code / JetBrains 拡張）</h3>
+<ul>
+  <li><strong>Windows</strong>: <span class="badge-yes">✅</span> WSL 不要</li>
+  <li><strong>特徴</strong>: Ollama などのローカルモデルとクラウド API を柔軟に切替。JetBrains IDE 利用者、タスクごとに異なるモデルを使い分けたい場合、VS Code + IntelliJ 混在チームの標準化に向く</li>
+</ul>
+
+<h3><img class="agent-icon" src="../icons/cursor-com.png" alt="">Cursor（Anysphere）</h3>
+<ul>
+  <li><strong>種別</strong>: VS Code fork の AI-IDE（Electron）。CLI 版も提供</li>
+  <li><strong>Windows</strong>: <span class="badge-yes">✅</span> WSL 不要。Windows ネイティブアプリ</li>
+  <li><strong>特徴</strong>: バージョン 3.1 でタイル式マルチエージェントレイアウトを採用し、3.4 では並列エージェントのオーケストレーション UI を強化。Composer 2.5 で xAI（Grok 系）のコンピュートを統合との報道。2026年6月には Teams 料金を「Composer/Auto（自社モデル）」と「Third-Party API（Claude / GPT / Gemini）」の2プール制に改定し、Premium シートを新設</li>
+  <li><strong>スキル対応</strong>: <span class="badge-yes">✅</span> Agent Skills（SKILL.md）対応（ネイティブな自動検出は無く、手動配置で利用）</li>
+  <li><strong>価格</strong>: 月額 $20 で最新モデル利用可</li>
+</ul>
+
+<h3><img class="agent-icon" src="../icons/windsurf-com.png" alt="">Devin Desktop（旧 Windsurf ← 旧 Codeium）</h3>
+<ul>
+  <li><strong>種別</strong>: VS Code 互換 IDE（Electron）</li>
+  <li><strong>Windows</strong>: <span class="badge-yes">✅</span> WSL 不要。Windows ネイティブアプリ</li>
+  <li><strong>★改名（2026年6月2日）</strong>: Cognition が Windsurf を <strong>Devin Desktop</strong> にリブランド。OTA アップデートで移行され、既存のプラン・設定・拡張はそのまま維持された</li>
+  <li><strong>特徴</strong>: 「Cascade」というエージェント機能。2025年7月に Cognition（Devin 開発元）に買収され、クラウド自律エージェント Devin との統合が進行</li>
+  <li><strong>スキル対応</strong>: <span class="badge-yes">✅</span> Agent Skills（SKILL.md)対応</li>
+  <li><strong>位置づけ</strong>: Cursor に次ぐシェアの座から、Devin ブランドの「ローカル面」への転換が進む</li>
+</ul>
+
+<h3><img class="agent-icon" src="../icons/zed-dev.png" alt="">Zed AI</h3>
+<ul>
+  <li><strong>種別</strong>: 高速ネイティブ IDE（GPU アクセラレーション）</li>
+  <li><strong>Windows</strong>: <span class="badge-yes">✅</span> WSL 不要。Windows ネイティブアプリ</li>
+  <li><strong>特徴</strong>: AI 機能は発展途上だが活発に開発中。Void が2026年初頭に開発停止したため、OSS の Cursor 代替としての注目度が上昇。GitHub スター約52K</li>
+</ul>
+
+<hr>
+
+<h2 id="sec6">6. 自律 / クラウド型エージェント（「タスクを投げて待つ」型）</h2>
+
+<p>対話型ではなく、タスク投入後に独立して走り、成果物（多くは PR）を返す。</p>
+
+<h3><img class="agent-icon" src="../icons/devin-ai.png" alt="">Devin（Cognition）</h3>
+<ul>
+  <li><strong>種別</strong>: クラウド自律エージェント</li>
+  <li><strong>Windows</strong>: ローカルインストール不要（ブラウザから利用）＝ WSL 論点は無関係</li>
+  <li><strong>特徴</strong>: 「自律エンジニア」を標榜する代表格。タスク投入後、自律的に実行。人間は監督役</li>
+  <li><strong>備考</strong>: Windsurf を買収（2025年7月）し IDE も傘下に</li>
+</ul>
+
+<h3><img class="agent-icon" src="../icons/all-hands-dev.png" alt="">OpenHands</h3>
+<ul>
+  <li><strong>種別</strong>: SDK / CLI / ローカル GUI / クラウドホスト版の複数形態</li>
+  <li><strong>Windows</strong>: <span class="badge-warn">⚠️</span> <strong>ローカル実行は WSL が事実上必要</strong>。公式サポートは WSL2 + Docker。「Windows without WSL」のドキュメントは存在するが公式サポート外・制約多数（ブラウザツール非対応、.NET Core Runtime / PowerShell 7+ / Python 3.12-3.13 必須）。クラウドホスト版ならブラウザから利用可で WSL 不要</li>
+  <li><strong>ライセンス</strong>: MIT</li>
+  <li><strong>自律実行</strong>: フィーチャーやバグ修正を丸ごと委任でき、独立実行して PR を返す</li>
+  <li><strong>得意</strong>: 明確に定義された独立したタスク</li>
+  <li><strong>GitHub スター</strong>: 約65〜72K（非常に人気）</li>
+  <li><strong>関連</strong>: SWE-agent 由来。SWE-agent 自体は現在 mini-swe-agent に開発の主軸が移っている</li>
+</ul>
+
+<h3><img class="agent-icon" src="../icons/factory-ai.png" alt="">Factory（Droids）</h3>
+<ul>
+  <li><strong>種別</strong>: 「Droid」と呼ばれるエージェントを IDE / CLI / Web / Slack / Linear など多様なインターフェースから利用</li>
+  <li><strong>Windows</strong>: Web / Slack 面はブラウザから（WSL 不要）。CLI は Node ベースと思われ Windows ネイティブ動作の見込み</li>
+  <li><strong>特徴</strong>: Claude Code 互換の Hooks 機能を提供</li>
+  <li><strong>資金</strong>: 2026年4月に Khosla リードで $150M シリーズ C（評価額 $1.5B）、Sequoia・Blackstone も参加</li>
+</ul>
+
+<h3><img class="agent-icon" src="../icons/jules-google.png" alt="">Jules（Google）／ Genie ／ Manus</h3>
+<ul>
+  <li><strong>種別</strong>: クラウドプラットフォーム型エージェント</li>
+  <li><strong>Windows</strong>: ローカルインストール不要（ブラウザから利用）＝ WSL 論点は無関係</li>
+</ul>
+
+<hr>
+
+<h2 id="sec7">7. オーケストレーション層（複数エージェントを束ねる）</h2>
+
+<p>2026年に伸びているカテゴリ。エージェントそのものではなく、トリガー・サンドボックス・エージェント起動・PR 作成までの「ループ全体」を所有する層。</p>
+
+<h3><img class="agent-icon" src="../icons/tembo-io.png" alt="">Tembo</h3>
+<ul>
+  <li><strong>特徴</strong>: バックグラウンド実行・マルチリポ・シグナル駆動。Linear / Jira / Slack / Sentry / Datadog / GitHub / GitLab / Bitbucket のシグナルに反応してエージェントを起動。Claude Code / Codex CLI / Cursor / Gemini / OpenCode をタスクごとに切替（エージェント非依存オーケストレーション）。VPC デプロイ・BYOK 対応（エンタープライズ）</li>
+  <li><strong>Windows</strong>: クラウド/SaaS 型のため WSL 論点は基本的に無関係</li>
+  <li><strong>ユースケース例</strong>: 会議中に Sentry の例外を triage → 修正をドラフト → テスト実行 → ドラフト PR 作成</li>
+</ul>
+
+<h3><img class="agent-icon" src="../icons/agi-labo-com.png" alt="">AGI Cockpit（AGIラボ）</h3>
+<ul>
+  <li><strong>種別</strong>: ローカルで動くマルチエージェント管制ツール（デスクトップアプリ）。日本発</li>
+  <li><strong>Windows</strong>: <span class="badge-yes">✅</span> WSL 不要。Windows / macOS（Apple Silicon対応）/ Linux（x64・arm64）</li>
+  <li><strong>特徴</strong>: Claude Code / Codex / Antigravity / Cursor / Grok Build / 独自の Cockpit Agent / ターミナルを横断し、複数タスクをカンバンで統制。Master Agent が複数タスクを自動分担し、進捗をワンスクリーンで監視。決定が必要な時だけ通知する Cockpit Ask、実行内容を読みやすく表示するネイティブチャット、ダッシュボード形式の HTML Mode を備える</li>
+  <li><strong>スキル対応</strong>: Cockpit Skill により Claude Code や Codex 側から子タスクを作成可能</li>
+  <li><strong>価格</strong>: 基本無料。ラボ会員向けに Autorun（スケジュール自動実行）・PWA モバイルアクセスなどの追加機能</li>
+  <li><strong>バージョン目安</strong>: v4.27.0（2026年7月時点）</li>
+  <li><strong>位置づけ</strong>: Tembo がクラウド/SaaS 型のシグナル駆動オーケストレーションなのに対し、AGI Cockpit は手元で複数 CLI エージェントを並走させる「運用管制 UI」に重点を置く</li>
+</ul>
+
+<h3><img class="agent-icon" src="../icons/github-com.png" alt="">その他の OSS オーケストレーター（GitHub で観測される例）</h3>
+<ul>
+  <li><strong>pi-builder</strong>: 任意の CLI エージェント（Claude Code / Aider / OpenCode / Codex / Gemini CLI / Goose 等）を単一インターフェースで束ねる。能力ベースルーティング、フォールバックチェーン</li>
+  <li><strong>Bernstein</strong>: 決定論的 Python オーケストレーター。並列 AI エージェントを起動しテストで検証、自動コミット</li>
+  <li><strong>Aeon</strong>: GitHub Actions 上で無人実行。Claude Code を90以上のスキル（SKILL.md）で cron/リアクティブに起動。<strong>スキル対応</strong>（Agent Skills を中核に据えた設計）</li>
+  <li><strong>OpenCastle</strong>: AI コーディングアシスタントを19の協調する専門エージェントに変換</li>
+  <li><strong>sage</strong>: <span class="badge-warn">⚠️</span> フレームワークゼロの<strong>純 bash</strong> エージェントオーケストレーター。bash 環境必須＝Windows では Git Bash か WSL が前提。Skills システム（SKILL.md 互換）を内蔵し <strong>スキル対応</strong></li>
+  <li><strong>agx</strong>: チェックポイントベースの実行エンジン。Wake→Work→Sleep ループでセッションをまたいで再開</li>
+</ul>
+
+<hr>
+
+<h2 id="sec8">8. Windows 11 ネイティブ（WSL 不要）実行可否による分類</h2>
+
+<p>ここまで紹介してきたツールを、本稿の主軸である <strong>Windows 11（Intel / Arm）で WSL を入れずに運用できるか</strong> という観点で分類し直す。なお第2章の4強は、いずれも下表「8-1」のネイティブ動作グループに含まれる。</p>
+
+<h3>8-1. WSL 不要でネイティブ動作するもの（＝中心。これが現在の主流）</h3>
+
+<table>
+<thead>
+<tr><th>ツール</th><th>種別</th><th>Windows ネイティブ実行方法</th><th>補足</th></tr>
+</thead>
+<tbody>
+<tr><td><strong>Claude Code</strong></td><td>CLI / Desktop</td><td>PowerShell で <code>irm https://claude.ai/install.ps1 | iex</code>、または <code>winget install Anthropic.ClaudeCode</code></td><td>2025年7月（v1.0.51）からネイティブ対応。<strong>Git for Windows 推奨</strong>（Bash ツール用）、無ければ PowerShell にフォールバック。管理者権限・Node.js 別途インストール不要。Desktop アプリも Windows 版あり</td></tr>
+<tr><td><strong>Codex CLI</strong></td><td>CLI</td><td>PowerShell + ネイティブ Windows サンドボックス。winget 利用</td><td>公式に Windows ネイティブ対応。サンドボックスは <code>config.toml</code> で <code>elevated</code>/<code>unelevated</code> の2モード。Codex アプリ（GUI）も Windows ネイティブ</td></tr>
+<tr><td><strong>Gemini CLI</strong></td><td>CLI</td><td>npm / Node.js（クロスプラットフォーム）</td><td>Node.js ベースなので素直に動く</td></tr>
+<tr><td><strong>Qwen Code</strong></td><td>CLI</td><td>Windows 用 <code>.bat</code> インストーラあり。Node.js 22+ 必須</td><td>Gemini CLI ベース。ネイティブ動作</td></tr>
+<tr><td><strong>Aider</strong></td><td>CLI</td><td><code>pip install aider-chat</code>（Python）</td><td>Python ベース。Windows ネイティブ</td></tr>
+<tr><td><strong>OpenCode</strong></td><td>CLI</td><td>Windows ネイティブバイナリ提供（Go 製）</td><td>デスクトップ版ベータも Windows 対応</td></tr>
+<tr><td><strong>Crush</strong></td><td>CLI/TUI</td><td>Go バイナリ。Windows ネイティブ</td><td>Charmbracelet 製</td></tr>
+<tr><td><strong>Continue CLI</strong></td><td>CLI</td><td>Node ベース。Windows ネイティブ</td><td>—</td></tr>
+<tr><td><strong>Cline</strong></td><td>VS Code 拡張</td><td>VS Code（Windows ネイティブ）にインストール</td><td>拡張なので VS Code が動く環境＝Windows ネイティブで動く</td></tr>
+<tr><td><strong>Roo Code</strong></td><td>VS Code 拡張</td><td>同上</td><td>Cline からの fork</td></tr>
+<tr><td><strong>Kilo Code</strong></td><td>VS Code 拡張</td><td>同上</td><td>—</td></tr>
+<tr><td><strong>Continue（拡張）</strong></td><td>VS Code / JetBrains 拡張</td><td>同上</td><td>—</td></tr>
+<tr><td><strong>Cursor</strong></td><td>スタンドアロン IDE</td><td>Windows ネイティブアプリをインストール</td><td>VS Code fork（Electron）</td></tr>
+<tr><td><strong>Windsurf</strong></td><td>スタンドアロン IDE</td><td>同上</td><td>—</td></tr>
+<tr><td><strong>Google Antigravity</strong></td><td>スタンドアロン IDE</td><td>同上</td><td>エージェント管理特化の AI-IDE（4強）</td></tr>
+<tr><td><strong>Amazon Kiro</strong></td><td>スタンドアロン IDE</td><td>同上</td><td>スペック駆動（4強）</td></tr>
+<tr><td><strong>Zed</strong></td><td>スタンドアロン IDE</td><td>Windows ネイティブアプリ</td><td>GPU アクセラレーション</td></tr>
+<tr><td><strong>Goose</strong></td><td>Desktop アプリ / CLI</td><td>Desktop は Windows ネイティブ。CLI は Git Bash（推奨）または PowerShell でネイティブ実行可</td><td>Rust 製。<strong>公式が「CLI もネイティブ Windows 実行を推奨」</strong>と明記。歴史的には WSL 推奨だったが2026年時点でネイティブ成熟。Windows では keyring が不安定なため API キーは環境変数で設定するのが定石</td></tr>
+<tr><td><strong>Warp 2.0</strong></td><td>AI 統合ターミナル</td><td>Windows ネイティブ版あり（2025年に対応）</td><td>CLI エージェント機能内蔵</td></tr>
+</tbody>
+</table>
+
+<p>主要ツールのほぼすべてが、現在は WSL 不要でネイティブ動作する。理由は単純で、(1) Node.js / Python / Go / Rust はいずれも Windows ネイティブで動く、(2) VS Code 拡張は VS Code が動けば動く、(3) スタンドアロン IDE は Electron アプリなので Windows ネイティブ ── という3点に尽きる。Claude Code・Codex のような「もともと Unix 前提だった CLI」も、2025〜2026年にかけて公式にネイティブ Windows 対応を済ませた。</p>
+
+<div class="callout">
+<strong>ネイティブ実行時の注意</strong>:
+<ul>
+  <li>Claude Code・Codex・Goose の CLI は <strong>Git for Windows（Git Bash）を入れておくと Bash ツールが使えて快適</strong>。無くても PowerShell にフォールバックするが、一部のシェルコマンドが Unix 前提で書かれていて失敗することがある。</li>
+  <li>パス区切り（<code>\</code> vs <code>/</code>）、改行コード（CRLF vs LF）、ファイルパーミッション周りで、ネイティブ Windows 特有の摩擦がゼロではない。WSL2 はこれらを回避できるため「ネイティブで動くが、込み入った作業では WSL2 の方が快適」という評価も根強い。</li>
+</ul>
+</div>
+
+<h3>8-2. WSL が必要 / 事実上必要なもの</h3>
+
+<table>
+<thead>
+<tr><th>ツール</th><th>状況</th></tr>
+</thead>
+<tbody>
+<tr><td><strong>OpenHands（ローカル実行）</strong></td><td>公式サポートは <strong>WSL2 + Docker</strong>。「Windows without WSL」のドキュメントページは存在するが、<strong>「公式サポート外・コミュニティ維持・動かない可能性あり」と明記</strong>。しかも no-WSL 構成ではブラウザツール非対応、.NET Core Runtime 必須、PowerShell 7+ 必須、Python 3.12/3.13 限定（3.14 不可）と制約が多い。実用上は WSL 前提と考えるべき</td></tr>
+<tr><td><strong>SWE-agent / mini-swe-agent</strong></td><td>Linux / Docker 志向の研究用ツール。Windows ネイティブ運用は想定外</td></tr>
+<tr><td><strong>sage</strong>（OSS オーケストレーター）</td><td>「純 bash」のオーケストレーター。bash 環境必須。Git Bash で部分的に動く可能性はあるが Linux 志向</td></tr>
+<tr><td><strong>Docker を前提とするツール全般</strong></td><td>後述（8-4）の通り、Docker Desktop for Windows は標準で WSL2 バックエンドを使う。よって「Docker が要る」エージェントは間接的に WSL2 を要求することが多い</td></tr>
+</tbody>
+</table>
+
+<h3>8-3. ローカルインストール不要（クラウド／ブラウザ型）── WSL の論点が無関係</h3>
+
+<p>ローカルに何もインストールしないため、Windows でも Mac でも「ブラウザがあれば使える」。WSL 有無は関係しない。</p>
+
+<ul>
+  <li><strong>Devin（Cognition）</strong> ── クラウド自律エージェント</li>
+  <li><strong>Jules（Google）</strong> ── クラウド自律エージェント</li>
+  <li><strong>Genie / Manus</strong> ── クラウドプラットフォーム型</li>
+  <li><strong>Codex のクラウド版</strong> ── ChatGPT 統合のクラウド実行面（CLI 版は 8-1 に記載）</li>
+  <li><strong>OpenHands のクラウドホスト版</strong> ── ローカル版は 8-2 だが、クラウド版はブラウザから利用可</li>
+  <li><strong>Factory（Droids）の Web / Slack / Linear 面</strong> ── CLI 版もあるため一部ローカル（CLI は Node ベースで Windows ネイティブ動作の見込み）</li>
+</ul>
+
+<h3>8-4. 補足: Docker と WSL の関係</h3>
+
+<p>「Docker が必要」≒「WSL が必要」になりやすい点に注意したい：</p>
+
+<ul>
+  <li><strong>Docker Desktop for Windows は、標準（既定）で WSL2 バックエンドを使う</strong>。Hyper-V バックエンドも選択可能だが、近年は WSL2 が既定かつ推奨。</li>
+  <li>ただし「Docker のために WSL2 機能を有効化する」のと「Ubuntu 等の Linux ディストロを入れて開発環境として常用する」のは別物。前者は Windows の機能としての WSL2 を有効にするだけで、Linux ディストロでの作業を伴わない軽量な使い方。</li>
+  <li>したがって OpenHands のような Docker 前提ツールを Windows で動かす場合、最低限「WSL2 機能の有効化」は避けられないことが多い。</li>
+</ul>
+
+<h3>8-5. 補足: Arm64 Windows での注意</h3>
+
+<p>Arm64（Snapdragon X 等の Copilot+ PC）では、ネイティブバイナリの提供有無がツールにより異なる：</p>
+
+<ul>
+  <li><strong>Node.js / Python / Go / Rust はいずれも Arm64 Windows にネイティブ対応済み</strong>。よってそれらをベースにするツール（Gemini CLI・Qwen Code・Aider・OpenCode・Crush・Goose 等）は概ね Arm 機でも動く。</li>
+  <li><strong>Claude Code</strong> は Arm64 Windows 対応。Electron 系 IDE（Cursor・Windsurf・VS Code・Antigravity・Kiro）も Arm64 Windows ビルドがある。</li>
+  <li>x64 専用バイナリしか配布されていないツールは、Windows on Arm のエミュレーションで動く場合もあるが、性能・互換性は要検証。</li>
+  <li>実例として、Codex の GitHub Issue では Win11 25H2 ARM64 ユーザーが「VS Code 拡張のエージェントモードが WSL 必須」と指摘していた（その後ネイティブ Windows サンドボックスが実装され改善）。<strong>Arm 機ではこの種の「WSL を間接的に要求される」場面が Intel 機より出やすい</strong>ので、導入前にネイティブ対応状況を確認するのが安全だ。</li>
+</ul>
+
+<hr>
+
+<h2 id="sec9">9. 用途別の選び方（Windows・WSL 観点を含む早見）</h2>
+
+<table>
+<thead>
+<tr><th>状況</th><th>推奨</th><th>Windows ネイティブ</th></tr>
+</thead>
+<tbody>
+<tr><td>ターミナルで深いコード理解を重視</td><td>Claude Code</td><td><span class="badge-yes">✅</span> WSL 不要</td></tr>
+<tr><td>クラウド完結・手軽さ重視・GitHub 自動化</td><td>Codex</td><td><span class="badge-yes">✅</span> WSL 不要</td></tr>
+<tr><td>無料で高機能、Google エコシステム内</td><td>Gemini CLI</td><td><span class="badge-yes">✅</span> WSL 不要</td></tr>
+<tr><td>ベンダー非依存・モデル自由・OSS 本命</td><td>OpenCode</td><td><span class="badge-yes">✅</span> WSL 不要</td></tr>
+<tr><td>素早いマルチファイル編集・git 履歴重視</td><td>Aider</td><td><span class="badge-yes">✅</span> WSL 不要</td></tr>
+<tr><td>コード以外の開発作業も横断（Web・DB・調査）</td><td>Goose</td><td><span class="badge-yes">✅</span> WSL 不要</td></tr>
+<tr><td>VS Code 内で段階的承認しながら使う</td><td>Cline</td><td><span class="badge-yes">✅</span> WSL 不要</td></tr>
+<tr><td>GUI の IDE でマルチエージェント並列管理</td><td>Google Antigravity / Cursor</td><td><span class="badge-yes">✅</span> WSL 不要</td></tr>
+<tr><td>スペック駆動で品質管理重視</td><td>Amazon Kiro</td><td><span class="badge-yes">✅</span> WSL 不要</td></tr>
+<tr><td>タスクを丸投げして PR を待つ</td><td>Devin / Factory</td><td>クラウド（WSL 無関係）</td></tr>
+<tr><td>タスクを丸投げ・OSS でセルフホスト</td><td>OpenHands</td><td><span class="badge-warn">⚠️</span> ローカルは WSL 事実上必須</td></tr>
+<tr><td>機密コードを外部送信したくない</td><td>Claude Code（ローカル動作）/ Ollama+OSS ツール</td><td><span class="badge-yes">✅</span> WSL 不要</td></tr>
+<tr><td>複数エージェントをトリガー駆動で束ねたい</td><td>Tembo</td><td>クラウド（WSL 無関係）</td></tr>
+</tbody>
+</table>
+
+<div class="callout">
+<strong>Windows 11 で WSL を入れたくない場合の結論</strong>: ほぼ困らない。Claude Code・Codex CLI・Gemini CLI・OpenCode・Aider・Goose・Cline をはじめ主要ツールはすべてネイティブ動作する。<strong>実質的に WSL（または Docker 経由の WSL2）が要るのは OpenHands のローカル実行と、一部の bash 前提 OSS オーケストレーター（sage 等）くらい</strong>。それらもクラウド版で代替できる場合が多い。
+</div>
+
+<hr>
+
+<h2 id="sec10">10. 注意点・補足</h2>
+
+<ul>
+  <li><strong>「WSL 必須」と書かれた古い情報に注意</strong> ── Claude Code・Codex・Goose については「Windows では WSL が必要」と書かれた記事が今も大量に残っているが、これらは2025年前半までの情報。現在はいずれもネイティブ Windows 対応済み。一次情報（各ツールの公式ドキュメント）で確認するのが安全。</li>
+  <li><strong>ネイティブ動作でも Git for Windows は入れておく</strong> ── Claude Code・Codex・Goose の CLI は Git Bash があると Bash ツールが使えて摩擦が減る。無いと PowerShell フォールバックになり、一部の Unix 前提コマンドが失敗しうる。</li>
+  <li><strong>「ネイティブで動く」と「ネイティブが快適」は別</strong> ── パス区切り・改行コード・ファイルパーミッションの差異で、込み入った作業では WSL2 の方が安定するという評価も根強い。WSL を完全に避けるか、Docker 用に WSL2 機能だけ有効化するかは運用方針次第。</li>
+  <li><strong>ベンチマーク数値は変動が激しい</strong> ── SWE-bench Verified などのスコアはモデルのアップデートで頻繁に変わる。本稿の数値は2026年2〜7月時点の各種比較に基づく目安。</li>
+  <li><strong>GitHub スター数はソースにより差が大きい</strong> ── プロジェクトの数え方（CLI 単体かリポジトリ全体か）で変わる。傾向把握用と考えるのが安全。</li>
+  <li><strong>自律ループの典型的な失敗</strong> ── 「無限リファクタリングループ」（失敗テストを直そうとして新たなバグを生む）。Claude Code・OpenCode の build agent も陥りやすい。反復深度に上限を設け、<code>Ctrl+C</code> → <code>git stash</code> / <code>git reset --hard</code> で巻き戻し、より具体的なプロンプトで再開する運用が定石。</li>
+  <li><strong>コンテキスト肥大</strong> ── monorepo のルートで「ビルドを直して」と指示すると node_modules・ビルド成果物・vendor を読み込んでトークンを浪費する。</li>
+  <li><strong>ローカル運用の選択肢</strong> ── Ollama 経由で Codestral / DeepSeek Coder V2 / Qwen2.5-Coder 32B などを動かせば、Aider・Cline・Continue・OpenCode・Goose 等をモデルコストゼロで運用可能。これらはいずれも Windows ネイティブ動作するため、WSL 無しのローカル完結環境を組める。機密コードを一切外部送信したくない場合は Tabby（セルフホスト型）が選択肢。</li>
+</ul>
+
+<p style="text-align: center;">
+  <a class="back-to-dashboard" href="../coding-agents/">← 自律型コーディングエージェント ダッシュボードへ戻る</a>
+</p>
+
+<footer>
+  <div class="note">
+    情報は2026年7月時点のものです。本稿の数値・評価は時期により変動しうるため、各ツールの一次情報での確認を推奨します。
+  </div>
+  <div style="margin-top: 14px;">(c) WhiteCloud Consulting Inc.</div>
+</footer>
+
+</div>
+</body>
+</html>

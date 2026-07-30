@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>自律型コーディングエージェント ダッシュボード</title>
+<style>
+  :root {
+    --bg: #fffdf7;
+    --text: #222;
+    --muted: #666;
+    --marker: #fff27a;
+    --band: #c8eef0;
+    --band-strong: #2a9d8f;
+    --line: #e4e4dd;
+    --card: #ffffff;
+    --shadow: rgba(60, 50, 30, 0.08);
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    margin: 0;
+    padding: 40px 24px 80px;
+    font-family: "Hiragino Maru Gothic ProN", "Hiragino Sans", "Yu Gothic UI", "Meiryo", system-ui, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.6;
+  }
+
+  .container {
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+
+  header {
+    text-align: center;
+    margin-bottom: 40px;
+  }
+
+  h1 {
+    font-size: 32px;
+    margin: 0 0 12px;
+    display: inline-block;
+    position: relative;
+    padding: 4px 12px;
+  }
+
+  h1::after {
+    content: "";
+    position: absolute;
+    left: 0; right: 0; bottom: 4px;
+    height: 14px;
+    background: var(--marker);
+    z-index: -1;
+    border-radius: 2px;
+  }
+
+  .lead {
+    color: var(--muted);
+    font-size: 15px;
+    margin-top: 8px;
+  }
+
+  .category {
+    margin-bottom: 36px;
+  }
+
+  .category-head {
+    background: var(--band);
+    border-left: 8px solid var(--band-strong);
+    padding: 10px 16px;
+    border-radius: 4px;
+    margin-bottom: 18px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .category-head h2 {
+    margin: 0;
+    font-size: 20px;
+    font-weight: 800;
+    color: #222;
+  }
+
+  .category-head .emoji {
+    font-size: 22px;
+  }
+
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 14px;
+  }
+
+  .card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 10px;
+    padding: 18px 10px 14px;
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    text-decoration: none;
+    color: inherit;
+    transition: transform 0.12s ease, box-shadow 0.12s ease, border-color 0.12s ease;
+    box-shadow: 0 2px 6px var(--shadow);
+    text-align: center;
+  }
+
+  .card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 16px var(--shadow);
+    border-color: var(--band-strong);
+  }
+
+  .icon {
+    width: 56px;
+    height: 56px;
+    border-radius: 12px;
+    background: #f7f4ec;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    flex-shrink: 0;
+  }
+
+  .icon.dark {
+    background: #1f1f1f;
+  }
+
+  .icon img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    padding: 6px;
+  }
+
+  .name {
+    font-size: 14px;
+    font-weight: 700;
+    line-height: 1.3;
+  }
+
+  .desc {
+    font-size: 11px;
+    color: var(--muted);
+    line-height: 1.35;
+  }
+
+  .cn-star {
+    color: #c62828;
+    font-size: 13px;
+  }
+
+  .jp-mark {
+    color: #bc002d;
+    font-size: 13px;
+  }
+
+  .eu-mark {
+    color: #003399;
+    font-size: 13px;
+  }
+
+  footer {
+    text-align: center;
+    margin-top: 48px;
+    font-size: 12px;
+    color: var(--muted);
+  }
+
+  footer .note {
+    display: inline-block;
+    background: #fff;
+    border: 1px dashed var(--line);
+    padding: 10px 16px;
+    border-radius: 8px;
+    text-align: left;
+    max-width: 720px;
+  }
+</style>
+</head>
+<body>
+  <div class="container">
+
+    <header>
+      <h1>自律型コーディングエージェント ダッシュボード</h1>
+      <div class="lead">「ゴールを伝えると計画→ファイル編集→コマンド実行→テスト→自己修正のループを回す」エージェント型ツールの全景です。アイコンをクリックすると公式ページが開きます。（2026年7月時点）</div>
+    </header>
+
+    <!-- 1. ベンダー4強 -->
+    <section class="category">
+      <div class="category-head">
+        <span class="emoji">🏆</span>
+        <h2>ベンダー4強</h2>
+      </div>
+      <div class="grid">
+        <a class="card" href="https://www.claude.com/product/claude-code" target="_blank" rel="noopener">
+          <div class="icon"><img src="../icons/claude-ai.png" alt="Claude Code"></div>
+          <div class="name">Claude Code</div>
+          <div class="desc">Anthropic / CLI型・ターミナル常駐</div>
+        </a>
+        <a class="card" href="https://openai.com/codex/" target="_blank" rel="noopener">
+          <div class="icon"><img src="../icons/codex.png" alt="Codex"></div>
+          <div class="name">Codex / Codex CLI</div>
+          <div class="desc">OpenAI / CLIはcodexのまま・GUIは新ChatGPTへ</div>
+        </a>
+        <a class="card" href="https://antigravity.google/" target="_blank" rel="noopener">
+          <div class="icon"><img src="../icons/antigravity-google.png" alt="Google Antigravity"></div>
+          <div class="name">Google Antigravity</div>
+          <div class="desc">Google / エージェント基盤2.0・CLI/SDK対応</div>
+        </a>
+        <a class="card" href="https://kiro.dev/" target="_blank" rel="noopener">
+          <div class="icon"><img src="../icons/kiro-dev.png" alt="Amazon Kiro"></div>
+          <div class="name">Amazon Kiro</div>
+          <div class="desc">Amazon / スペック駆動・品質ゲート重視</div>
+        </a>
+      </div>
+    </section>
+
+    <!-- 2. その他のベンダー製 CLI -->
+    <section class="category">
+      <div class="category-head">
+        <span class="emoji">🏢</span>
+        <h2>その他のベンダー製エージェント</h2>
+      </div>
+      <div class="grid">
+        <a class="card" href="https://github.com/google-gemini/gemini-cli" target="_blank" rel="noopener">
+          <div class="icon"><img src="../icons/google-gemini.png" alt="Gemini CLI"></div>
+          <div class="name">Gemini CLI</div>
+          <div class="desc">Google / 無料枠が寛容なOSS</div>
+        </a>
+        <a class="card" href="https://github.com/QwenLM/qwen-code" target="_blank" rel="noopener">
+          <div class="icon"><img src="../icons/qwen.png" alt="Qwen Code"></div>
+          <div class="name">Qwen Code <span class="cn-star">★</span></div>
+          <div class="desc">Alibaba / Qwen3-Coder系</div>
+        </a>
+        <a class="card" href="https://www.kimi.com/" target="_blank" rel="noopener">
+          <div class="icon"><img src="../icons/kimi-ai.png" alt="Kimi CLI"></div>
+          <div class="name">Kimi CLI <span class="cn-star">★</span></div>
+          <div class="desc">Moonshot / OSSモデル Kimi K2.6系</div>
+        </a>
+        <a class="card" href="https://x.ai/news/grok-build-cli" target="_blank" rel="noopener">
+          <div class="icon"><img src="../icons/grok.png" alt="Grok Build"></div>
+          <div class="name">Grok Build</div>
+          <div class="desc">xAI / 8並列エージェント・Arena Mode</div>
+        </a>
+        <a class="card" href="https://zcode.z.ai/" target="_blank" rel="noopener">
+          <div class="icon"><img src="../icons/z-ai.png" alt="ZCode"></div>
+          <div class="name">ZCode <span class="cn-star">★</span></div>
+          <div class="desc">Z.ai / GLM-5.2公式ADE・無料</div>
+        </a>
+      </div>
+    </section>
+
+    <!-- 3. OSS CLI / ターミナル常駐 -->
+    <section class="category">
+      <div class="category-head">
+        <span class="emoji">⚡</span>
+        <h2>OSS の CLI / ターミナル常駐エージェント</h2>
+      </div>
+      <div class="grid">
+        <a class="card" href="https://opencode.ai/" target="_blank" rel="noopener">
+          <div class="icon"><img src="../icons/opencode-ai.png" alt="OpenCode"></div>
+          <div class="name">OpenCode</div>
+          <div class="desc">SST / OSS最多スター・75+モデル</div>
+        </a>
+        <a class="card" href="https://aider.chat/" target="_blank" rel="noopener">
+          <div class="icon"><img src="../icons/aider-chat.png" alt="Aider"></div>
+          <div class="name">Aider</div>
+          <div class="desc">老舗 / Git差分でペアプロ</div>
+        </a>
+        <a class="card" href="https://block.github.io/goose/" target="_blank" rel="noopener">
+          <div class="icon"><img src="../icons/block-github-io.png" alt="Goose"></div>
+          <div class="name">Goose</div>
+          <div class="desc">Block→Linux Foundation / MCP統合</div>
+        </a>
+        <a class="card" href="https://cline.bot/" target="_blank" rel="noopener">
+          <div class="icon"><img src="../icons/cline-bot.png" alt="Cline CLI"></div>
+          <div class="name">Cline CLI</div>
+          <div class="desc">Cline拡張のCLI版</div>
+        </a>
+        <a class="card" href="https://github.com/charmbracelet/crush" target="_blank" rel="noopener">
+          <div class="icon"><img src="../icons/charmbracelet-com.png" alt="Crush"></div>
+          <div class="name">Crush</div>
+          <div class="desc">Charmbracelet / Go製TUI</div>
+        </a>
+        <a class="card" href="https://www.continue.dev/" target="_blank" rel="noopener">
+          <div class="icon"><img src="../icons/continue-dev.png" alt="Continue CLI"></div>
+          <div class="name">Continue CLI</div>
+          <div class="desc">マルチモデル・プライバシー重視</div>
+        </a>
+        <a class="card" href="https://github.com/pi-ai/pi" target="_blank" rel="noopener">
+          <div class="icon"><img src="../icons/github-com.png" alt="Pi"></div>
+          <div class="name">Pi</div>
+          <div class="desc">pi-mono / ミニマルTUIハーネス</div>
+        </a>
+        <a class="card" href="https://github.com/Mote-Software/nanocoder" target="_blank" rel="noopener">
+          <div class="icon"><img src="../icons/github-com.png" alt="Nanocoder"></div>
+          <div class="name">Nanocoder</div>
+          <div class="desc">ローカルファースト / MCP動的ロード</div>
+        </a>
+        <a class="card" href="https://www.warp.dev/" target="_blank" rel="noopener">
+          <div class="icon"><img src="../icons/warp-dev.png" alt="Warp 2.0"></div>
+          <div class="name">Warp 2.0</div>
+          <div class="desc">AI統合ターミナル / 2026年OSS化</div>
+        </a>
+      </div>
+    </section>
+
+    <!-- 4. IDE 統合型 -->
+    <section class="category">
+      <div class="category-head">
+        <span class="emoji">💻</span>
+        <h2>IDE 統合型エージェント</h2>
+      </div>
+      <div class="grid">
+        <a class="card" href="https://cline.bot/" target="_blank" rel="noopener">
+          <div class="icon"><img src="../icons/cline-bot.png" alt="Cline"></div>
+          <div class="name">Cline</div>
+          <div class="desc">VSCode拡張 / 全承認・OSS</div>
+        </a>
+        <a class="card" href="https://roocode.com/" target="_blank" rel="noopener">
+          <div class="icon"><img src="../icons/roocode-com.png" alt="Roo Code"></div>
+          <div class="name">Roo Code</div>
+          <div class="desc">Cline派生 / 複数モード</div>
+        </a>
+        <a class="card" href="https://kilocode.ai/" target="_blank" rel="noopener">
+          <div class="icon"><img src="../icons/kilocode-ai.png" alt="Kilo Code"></div>
+          <div class="name">Kilo Code</div>
+          <div class="desc">VSCode拡張 / Cline系</div>
+        </a>
+        <a class="card" href="https://www.continue.dev/" target="_blank" rel="noopener">
+          <div class="icon"><img src="../icons/continue-dev.png" alt="Continue"></div>
+          <div class="name">Continue</div>
+          <div class="desc">VSCode/JetBrains拡張</div>
+        </a>
+        <a class="card" href="https://cursor.com/" target="_blank" rel="noopener">
+          <div class="icon"><img src="../icons/cursor-com.png" alt="Cursor"></div>
+          <div class="name">Cursor</div>
+          <div class="desc">Anysphere / マルチエージェント</div>
+        </a>
+        <a class="card" href="https://windsurf.com/" target="_blank" rel="noopener">
+          <div class="icon"><img src="../icons/windsurf-com.png" alt="Devin Desktop"></div>
+          <div class="name">Devin Desktop</div>
+          <div class="desc">Cognition / 旧Windsurf（6月改名）</div>
+        </a>
+        <a class="card" href="https://zed.dev/" target="_blank" rel="noopener">
+          <div class="icon"><img src="../icons/zed-dev.png" alt="Zed AI"></div>
+          <div class="name">Zed AI</div>
+          <div class="desc">高速ネイティブIDE</div>
+        </a>
+      </div>
+    </section>
+
+    <!-- 5. 自律/クラウド型 -->
+    <section class="category">
+      <div class="category-head">
+        <span class="emoji">☁️</span>
+        <h2>自律 / クラウド型エージェント</h2>
+      </div>
+      <div class="grid">
+        <a class="card" href="https://devin.ai/" target="_blank" rel="noopener">
+          <div class="icon"><img src="../icons/devin-ai.png" alt="Devin"></div>
+          <div class="name">Devin</div>
+          <div class="desc">Cognition / 自律エンジニアの代表</div>
+        </a>
+        <a class="card" href="https://github.com/All-Hands-AI/OpenHands" target="_blank" rel="noopener">
+          <div class="icon"><img src="../icons/all-hands-dev.png" alt="OpenHands"></div>
+          <div class="name">OpenHands</div>
+          <div class="desc">OSS / SWE-agent由来・PR返却</div>
+        </a>
+        <a class="card" href="https://www.factory.ai/" target="_blank" rel="noopener">
+          <div class="icon"><img src="../icons/factory-ai.png" alt="Factory"></div>
+          <div class="name">Factory（Droids）</div>
+          <div class="desc">IDE/CLI/Web/Slack多面展開</div>
+        </a>
+        <a class="card" href="https://jules.google/" target="_blank" rel="noopener">
+          <div class="icon"><img src="../icons/jules-google.png" alt="Jules"></div>
+          <div class="name">Jules</div>
+          <div class="desc">Google / 非同期コーディング</div>
+        </a>
+        <a class="card" href="https://manus.im/" target="_blank" rel="noopener">
+          <div class="icon"><img src="../icons/manus-im.png" alt="Manus"></div>
+          <div class="name">Manus <span class="cn-star">★</span></div>
+          <div class="desc">クラウドプラットフォーム型</div>
+        </a>
+      </div>
+    </section>
+
+    <!-- 6. オーケストレーション層 -->
+    <section class="category">
+      <div class="category-head">
+        <span class="emoji">🔀</span>
+        <h2>オーケストレーション層（複数エージェントを束ねる）</h2>
+      </div>
+      <div class="grid">
+        <a class="card" href="https://www.tembo.io/" target="_blank" rel="noopener">
+          <div class="icon"><img src="../icons/tembo-io.png" alt="Tembo"></div>
+          <div class="name">Tembo</div>
+          <div class="desc">シグナル駆動・マルチリポ</div>
+        </a>
+        <a class="card" href="https://agi-labo.com/tools/cockpit" target="_blank" rel="noopener">
+          <div class="icon"><img src="../icons/agi-labo-com.png" alt="AGI Cockpit"></div>
+          <div class="name">AGI Cockpit <span class="jp-mark">●</span></div>
+          <div class="desc">AGIラボ / マルチエージェント管制UI</div>
+        </a>
+        <a class="card" href="https://github.com/pi-ai/pi-builder" target="_blank" rel="noopener">
+          <div class="icon"><img src="../icons/github-com.png" alt="pi-builder"></div>
+          <div class="name">pi-builder</div>
+          <div class="desc">CLIエージェント統合インターフェース</div>
+        </a>
+        <a class="card" href="https://github.com/bernstein-ai/bernstein" target="_blank" rel="noopener">
+          <div class="icon"><img src="../icons/github-com.png" alt="Bernstein"></div>
+          <div class="name">Bernstein</div>
+          <div class="desc">決定論的Pythonオーケストレーター</div>
+        </a>
+        <a class="card" href="https://github.com/aeon-ai/aeon" target="_blank" rel="noopener">
+          <div class="icon"><img src="../icons/github-com.png" alt="Aeon"></div>
+          <div class="name">Aeon</div>
+          <div class="desc">GitHub Actions上で無人実行</div>
+        </a>
+        <a class="card" href="https://github.com/opencastle-ai/opencastle" target="_blank" rel="noopener">
+          <div class="icon"><img src="../icons/github-com.png" alt="OpenCastle"></div>
+          <div class="name">OpenCastle</div>
+          <div class="desc">19の専門エージェントに変換</div>
+        </a>
+        <a class="card" href="https://github.com/sage-ai/sage" target="_blank" rel="noopener">
+          <div class="icon"><img src="../icons/github-com.png" alt="sage"></div>
+          <div class="name">sage</div>
+          <div class="desc">純bash製・SKILL.md内蔵</div>
+        </a>
+        <a class="card" href="https://github.com/agx-ai/agx" target="_blank" rel="noopener">
+          <div class="icon"><img src="../icons/github-com.png" alt="agx"></div>
+          <div class="name">agx</div>
+          <div class="desc">チェックポイントベース実行エンジン</div>
+        </a>
+      </div>
+    </section>
+
+    <footer>
+      <div class="note">
+        情報は2026年7月時点のものです。アイコンは各サービス公式ロゴを参照しています。<br>
+        ※「自律型」とはチャット補完型ではなく「ゴール→計画→ファイル編集→コマンド実行→テスト→自己修正ループ」を回せるツール群を指します。<br>
+        ※2026年7月時点で主要ツールはほぼ全て Windows 11 ネイティブ動作（WSL不要）。OpenHandsローカル実行と一部bash前提OSSのみWSL2が事実上必要。<br>
+        ※GitHubアイコンが表示されているカードはOSSプロジェクトで、GitHubリポジトリへのリンクです。<br>
+        <span class="cn-star">★</span> は中国企業が開発・提供するサービスです。利用時はデータの取り扱い・利用規約をご確認ください。<br>
+        <span class="jp-mark">●</span> は日本企業、<span class="eu-mark">€</span> は欧州企業が開発・提供するサービスです。
+      </div>
+      <div style="margin-top: 14px;">(c) WhiteCloud Consulting Inc.</div>
+    </footer>
+  </div>
+</body>
+</html>

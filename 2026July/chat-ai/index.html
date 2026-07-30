@@ -1,0 +1,822 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>チャット型AI ダッシュボード</title>
+<style>
+  :root {
+    --bg: #fffdf7;
+    --text: #222;
+    --muted: #666;
+    --marker: #fff27a;
+    --band: #ffd9b8;
+    --band-strong: #ff9f6b;
+    --line: #e4e4dd;
+    --card: #ffffff;
+    --shadow: rgba(60, 50, 30, 0.08);
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    margin: 0;
+    padding: 40px 24px 80px;
+    font-family: "Hiragino Maru Gothic ProN", "Hiragino Sans", "Yu Gothic UI", "Meiryo", system-ui, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.6;
+  }
+
+  .container {
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+
+  header {
+    text-align: center;
+    margin-bottom: 40px;
+  }
+
+  h1 {
+    font-size: 32px;
+    margin: 0 0 12px;
+    display: inline-block;
+    position: relative;
+    padding: 4px 12px;
+  }
+
+  h1::after {
+    content: "";
+    position: absolute;
+    left: 0; right: 0; bottom: 4px;
+    height: 14px;
+    background: var(--marker);
+    z-index: -1;
+    border-radius: 2px;
+  }
+
+  .lead {
+    color: var(--muted);
+    font-size: 15px;
+    margin-top: 8px;
+  }
+
+  .category {
+    margin-bottom: 36px;
+  }
+
+  .category-head {
+    background: var(--band);
+    border-left: 8px solid var(--band-strong);
+    padding: 10px 16px;
+    border-radius: 4px;
+    margin-bottom: 18px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .category-head h2 {
+    margin: 0;
+    font-size: 20px;
+    font-weight: 800;
+    color: #222;
+  }
+
+  .category-head .emoji {
+    font-size: 22px;
+  }
+
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 14px;
+  }
+
+  .card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 10px;
+    padding: 18px 10px 14px;
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    text-decoration: none;
+    color: inherit;
+    transition: transform 0.12s ease, box-shadow 0.12s ease, border-color 0.12s ease;
+    box-shadow: 0 2px 6px var(--shadow);
+    text-align: center;
+  }
+
+  .card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 16px var(--shadow);
+    border-color: var(--band-strong);
+  }
+
+  .icon {
+    width: 56px;
+    height: 56px;
+    border-radius: 12px;
+    background: #f7f4ec;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    flex-shrink: 0;
+  }
+
+  .icon.dark {
+    background: #1f1f1f;
+  }
+
+  .icon img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    padding: 6px;
+  }
+
+  .name {
+    font-size: 14px;
+    font-weight: 700;
+    line-height: 1.3;
+  }
+
+  .desc {
+    font-size: 11px;
+    color: var(--muted);
+    line-height: 1.35;
+  }
+
+  .cn-star {
+    color: #c62828;
+    font-size: 13px;
+  }
+
+  .note-mark {
+    color: #b8860b;
+    font-size: 13px;
+  }
+
+  .api-mark {
+    color: #1565c0;
+    font-size: 13px;
+  }
+
+  .jp-mark {
+    color: #bc002d;
+    font-size: 13px;
+  }
+
+  .eu-mark {
+    color: #003399;
+    font-size: 13px;
+  }
+
+  footer {
+    text-align: center;
+    margin-top: 48px;
+    font-size: 12px;
+    color: var(--muted);
+  }
+
+  footer .note {
+    display: inline-block;
+    background: #fff;
+    border: 1px dashed var(--line);
+    padding: 10px 16px;
+    border-radius: 8px;
+  }
+</style>
+</head>
+<body>
+  <div class="container">
+
+    <header>
+      <h1>チャット型AI ダッシュボード</h1>
+      <div class="lead">ChatGPTモーメント（2022年末）から広まった生成AIサービスの一覧です。アイコンをクリックすると公式ページが開きます。（2026年7月時点）</div>
+    </header>
+
+    <!-- 総合チャット型 -->
+    <section class="category">
+      <div class="category-head">
+        <span class="emoji">💬</span>
+        <h2>総合チャット型（大規模言語モデル）</h2>
+      </div>
+      <div class="grid">
+        <a class="card" href="https://chatgpt.com/" target="_blank" rel="noopener">
+          <div class="icon"><img src="../icons/chatgpt.png" alt="ChatGPT"></div>
+          <div class="name">ChatGPT</div>
+          <div class="desc">OpenAI / Chat・Work・Codex統合</div>
+        </a>
+        <a class="card" href="https://claude.ai/" target="_blank" rel="noopener">
+          <div class="icon"><img src="../icons/claude-ai.png" alt="Claude"></div>
+          <div class="name">Claude</div>
+          <div class="desc">Anthropic / 長文・日本語</div>
+        </a>
+        <a class="card" href="https://gemini.google.com/" target="_blank" rel="noopener">
+          <div class="icon"><img src="../icons/google-gemini.png" alt="Gemini"></div>
+          <div class="name">Gemini</div>
+          <div class="desc">Google / Workspace連携</div>
+        </a>
+        <a class="card" href="https://grok.com/" target="_blank" rel="noopener">
+          <div class="icon"><img src="../icons/grok.png" alt="Grok"></div>
+          <div class="name">Grok</div>
+          <div class="desc">xAI / Xと連携</div>
+        </a>
+        <a class="card" href="https://www.kimi.com/" target="_blank" rel="noopener">
+          <div class="icon"><img src="../icons/kimi-ai.png" alt="Kimi"></div>
+          <div class="name">Kimi <span class="cn-star">★</span></div>
+          <div class="desc">Moonshot / 超長文</div>
+        </a>
+        <a class="card" href="https://www.deepseek.com/" target="_blank" rel="noopener">
+          <div class="icon"><img src="../icons/deepseek.png" alt="DeepSeek"></div>
+          <div class="name">DeepSeek <span class="cn-star">★</span></div>
+          <div class="desc">オープン系高性能LLM</div>
+        </a>
+        <a class="card" href="https://elyza.ai/" target="_blank" rel="noopener">
+          <div class="icon"><img src="../icons/elyza-ai.png" alt="ELYZA"></div>
+          <div class="name">ELYZA <span class="jp-mark">●</span></div>
+          <div class="desc">国産・日本語特化</div>
+        </a>
+        <a class="card" href="https://www.meta.ai/" target="_blank" rel="noopener">
+          <div class="icon"><img src="../icons/meta.png" alt="Meta AI"></div>
+          <div class="name">Meta AI</div>
+          <div class="desc">Facebook / Muse Sparkベース</div>
+        </a>
+        <a class="card" href="https://manus.im/" target="_blank" rel="noopener">
+          <div class="icon"><img src="../icons/manus-im.png" alt="Manus"></div>
+          <div class="name">Manus <span class="cn-star">★</span></div>
+          <div class="desc">中国発 / Meta買収は当局が禁止</div>
+        </a>
+        <a class="card" href="https://chat.mistral.ai/" target="_blank" rel="noopener">
+          <div class="icon"><img src="../icons/mistral-ai.png" alt="Vibe"></div>
+          <div class="name">Vibe（旧Le Chat） <span class="eu-mark">€</span></div>
+          <div class="desc">Mistral（仏）/ 仕事用エージェントに刷新</div>
+        </a>
+        <a class="card" href="https://chat.qwen.ai/" target="_blank" rel="noopener">
+          <div class="icon"><img src="../icons/qwen.png" alt="Qwen"></div>
+          <div class="name">Qwen <span class="cn-star">★</span></div>
+          <div class="desc">Alibaba / オープン系高性能</div>
+        </a>
+        <a class="card" href="https://copilot.microsoft.com/" target="_blank" rel="noopener">
+          <div class="icon"><img src="../icons/microsoft-copilot.png" alt="Copilot"></div>
+          <div class="name">Copilot</div>
+          <div class="desc">Microsoft / Windows標準・無料</div>
+        </a>
+        <a class="card" href="https://corp.rakuten.co.jp/news/press/2026/0105_02.html" target="_blank" rel="noopener">
+          <div class="icon"><img src="../icons/rakuten-co-jp.png" alt="Rakuten AI"></div>
+          <div class="name">Rakuten AI <span class="jp-mark">●</span></div>
+          <div class="desc">楽天市場アプリ・HP製PCに搭載</div>
+        </a>
+        <a class="card" href="https://www.lycorp.co.jp/ja/news/release/020366/" target="_blank" rel="noopener">
+          <div class="icon"><img src="../icons/lycorp-co-jp.png" alt="Agent i"></div>
+          <div class="name">Agent i <span class="jp-mark">●</span></div>
+          <div class="desc">LINEヤフー / 生活7領域のエージェント</div>
+        </a>
+      </div>
+    </section>
+
+    <!-- 検索・リサーチ特化型 -->
+    <section class="category">
+      <div class="category-head">
+        <span class="emoji">🔎</span>
+        <h2>検索・リサーチ特化型</h2>
+      </div>
+      <div class="grid">
+        <a class="card" href="https://www.perplexity.ai/" target="_blank" rel="noopener">
+          <div class="icon"><img src="../icons/perplexity.png" alt="Perplexity"></div>
+          <div class="name">Perplexity</div>
+          <div class="desc">Web検索＋要約</div>
+        </a>
+        <a class="card" href="https://www.genspark.ai/" target="_blank" rel="noopener">
+          <div class="icon"><img src="../icons/genspark-ai.png" alt="Genspark"></div>
+          <div class="name">Genspark</div>
+          <div class="desc">検索＋AIワークスペース</div>
+        </a>
+        <a class="card" href="https://felo.ai/" target="_blank" rel="noopener">
+          <div class="icon"><img src="../icons/felo-ai.png" alt="Felo"></div>
+          <div class="name">Felo <span class="jp-mark">●</span></div>
+          <div class="desc">日本発QA型検索</div>
+        </a>
+        <a class="card" href="https://notebooklm.google.com/" target="_blank" rel="noopener">
+          <div class="icon"><img src="../icons/notebook-lm.png" alt="Gemini Notebook"></div>
+          <div class="name">Gemini Notebook</div>
+          <div class="desc">Google / 旧NotebookLM・資料ベース研究</div>
+        </a>
+        <a class="card" href="https://jina.ai/" target="_blank" rel="noopener">
+          <div class="icon"><img src="../icons/jina-ai.png" alt="Jina AI DeepSearch"></div>
+          <div class="name">Jina AI DeepSearch <span class="eu-mark">€</span></div>
+          <div class="desc">検索＋多段推論 / OpenAI API互換</div>
+        </a>
+        <a class="card" href="https://www.anthropic.com/news/claude-science-ai-workbench" target="_blank" rel="noopener">
+          <div class="icon"><img src="../icons/claude-ai.png" alt="Claude Science"></div>
+          <div class="name">Claude Science</div>
+          <div class="desc">Anthropic / 研究者向けワークベンチ</div>
+        </a>
+      </div>
+    </section>
+
+    <!-- 翻訳・通訳 -->
+    <section class="category">
+      <div class="category-head">
+        <span class="emoji">🌐</span>
+        <h2>翻訳・通訳</h2>
+      </div>
+      <div class="grid">
+        <a class="card" href="https://www.deepl.com/" target="_blank" rel="noopener">
+          <div class="icon"><img src="../icons/deepl-com.png" alt="DeepL"></div>
+          <div class="name">DeepL <span class="eu-mark">€</span></div>
+          <div class="desc">高品質テキスト翻訳の定番</div>
+        </a>
+        <a class="card" href="https://www.deepl.com/en/products/voice" target="_blank" rel="noopener">
+          <div class="icon"><img src="../icons/deepl-com.png" alt="DeepL Voice"></div>
+          <div class="name">DeepL Voice <span class="eu-mark">€</span></div>
+          <div class="desc">40+言語のリアルタイム音声翻訳</div>
+        </a>
+        <a class="card" href="https://translate.google.com/" target="_blank" rel="noopener">
+          <div class="icon"><img src="../icons/translate-google-com.png" alt="Google Translate"></div>
+          <div class="name">Google Translate</div>
+          <div class="desc">音声・カメラ・テキスト翻訳の定番</div>
+        </a>
+        <a class="card" href="https://pocketalk.jp/" target="_blank" rel="noopener">
+          <div class="icon"><img src="../icons/pocketalk-jp.png" alt="ポケトーク"></div>
+          <div class="name">ポケトーク <span class="jp-mark">●</span></div>
+          <div class="desc">Sourcenext / 携帯型AI通訳機</div>
+        </a>
+        <a class="card" href="https://openai.com/index/advancing-voice-intelligence-with-new-models-in-the-api/" target="_blank" rel="noopener">
+          <div class="icon"><img src="../icons/openai.png" alt="GPT-Realtime-Translate"></div>
+          <div class="name">GPT-Realtime-Translate <span class="api-mark">◆</span></div>
+          <div class="desc">OpenAI / 70+言語→13言語の音声翻訳</div>
+        </a>
+        <a class="card" href="https://www.deepl.com/write" target="_blank" rel="noopener">
+          <div class="icon"><img src="../icons/deepl-com.png" alt="DeepL Write"></div>
+          <div class="name">DeepL Write <span class="eu-mark">€</span></div>
+          <div class="desc">文章推敲・トーン調整（日本語非対応）</div>
+        </a>
+      </div>
+    </section>
+
+    <!-- 音声入力・録音・文字起こし -->
+    <section class="category">
+      <div class="category-head">
+        <span class="emoji">🎤</span>
+        <h2>音声入力・録音・文字起こし</h2>
+      </div>
+      <div class="grid">
+        <a class="card" href="https://aquavoice.com/" target="_blank" rel="noopener">
+          <div class="icon"><img src="../icons/aquavoice-com.png" alt="Aqua Voice"></div>
+          <div class="name">Aqua Voice</div>
+          <div class="desc">2026年受賞 / 高速・高精度</div>
+        </a>
+        <a class="card" href="https://typeless.com/" target="_blank" rel="noopener">
+          <div class="icon"><img src="../icons/typeless-com.png" alt="Typeless"></div>
+          <div class="name">Typeless</div>
+          <div class="desc">5プラットフォーム対応</div>
+        </a>
+        <a class="card" href="https://wisprflow.ai/" target="_blank" rel="noopener">
+          <div class="icon"><img src="../icons/wisprflow-ai.png" alt="Wispr Flow"></div>
+          <div class="name">Wispr Flow</div>
+          <div class="desc">定番のAIディクテーション</div>
+        </a>
+        <a class="card" href="https://superwhisper.com/" target="_blank" rel="noopener">
+          <div class="icon"><img src="../icons/superwhisper-com.png" alt="Superwhisper"></div>
+          <div class="name">Superwhisper</div>
+          <div class="desc">オフライン対応・プライバシー</div>
+        </a>
+        <a class="card" href="https://www.macwhisper.com/" target="_blank" rel="noopener">
+          <div class="icon"><img src="../icons/macwhisper-com.png" alt="MacWhisper"></div>
+          <div class="name">MacWhisper <span class="eu-mark">€</span></div>
+          <div class="desc">Mac用 / 音声ファイル文字起こし</div>
+        </a>
+        <a class="card" href="https://www.plaud.ai/" target="_blank" rel="noopener">
+          <div class="icon"><img src="../icons/plaud-ai.png" alt="Plaud"></div>
+          <div class="name">Plaud Note</div>
+          <div class="desc">AIボイスレコーダー（ハード）</div>
+        </a>
+        <a class="card" href="https://speechnotes.co/" target="_blank" rel="noopener">
+          <div class="icon"><img src="../icons/speechnotes-co.png" alt="Speechnotes"></div>
+          <div class="name">Speechnotes</div>
+          <div class="desc">ブラウザで無料音声入力</div>
+        </a>
+        <a class="card" href="https://elevenlabs.io/speech-to-text" target="_blank" rel="noopener">
+          <div class="icon"><img src="../icons/elevenlabs-io.png" alt="ElevenLabs Scribe"></div>
+          <div class="name">ElevenLabs Scribe</div>
+          <div class="desc">99言語STT・API</div>
+        </a>
+        <a class="card" href="https://openai.com/index/advancing-voice-intelligence-with-new-models-in-the-api/" target="_blank" rel="noopener">
+          <div class="icon"><img src="../icons/openai.png" alt="GPT-Realtime-Whisper"></div>
+          <div class="name">GPT-Realtime-Whisper <span class="api-mark">◆</span></div>
+          <div class="desc">OpenAI / ストリーミング音声認識</div>
+        </a>
+        <a class="card" href="https://tactiq.io/" target="_blank" rel="noopener">
+          <div class="icon"><img src="../icons/tactiq-io.png" alt="Tactiq"></div>
+          <div class="name">Tactiq</div>
+          <div class="desc">ボット不要の会議文字起こし・60+言語</div>
+        </a>
+      </div>
+    </section>
+
+    <!-- 画像・3D・デザイン生成 -->
+    <section class="category">
+      <div class="category-head">
+        <span class="emoji">🎨</span>
+        <h2>画像・3D・デザイン生成</h2>
+      </div>
+      <div class="grid">
+        <a class="card" href="https://www.midjourney.com/" target="_blank" rel="noopener">
+          <div class="icon"><img src="../icons/midjourney.png" alt="Midjourney"></div>
+          <div class="name">Midjourney</div>
+          <div class="desc">V8 Alpha / 2K・高速</div>
+        </a>
+        <a class="card" href="https://chatgpt.com/" target="_blank" rel="noopener">
+          <div class="icon"><img src="../icons/chatgpt.png" alt="ChatGPT Images 2.0"></div>
+          <div class="name">ChatGPT Images 2.0</div>
+          <div class="desc">OpenAI / 推論・2K対応</div>
+        </a>
+        <a class="card" href="https://blackforestlabs.ai/" target="_blank" rel="noopener">
+          <div class="icon"><img src="../icons/blackforestlabs-ai.png" alt="Flux"></div>
+          <div class="name">Flux <span class="eu-mark">€</span></div>
+          <div class="desc">Black Forest Labs / 高速編集</div>
+        </a>
+        <a class="card" href="https://ideogram.ai/" target="_blank" rel="noopener">
+          <div class="icon"><img src="../icons/ideogram-ai.png" alt="Ideogram"></div>
+          <div class="name">Ideogram</div>
+          <div class="desc">文字入り画像に強い</div>
+        </a>
+        <a class="card" href="https://reve.art/" target="_blank" rel="noopener">
+          <div class="icon"><img src="../icons/reve-art.png" alt="Reve"></div>
+          <div class="name">Reve</div>
+          <div class="desc">新興 / 高品質</div>
+        </a>
+        <a class="card" href="https://stability.ai/" target="_blank" rel="noopener">
+          <div class="icon"><img src="../icons/stability-ai.png" alt="Stable Diffusion"></div>
+          <div class="name">Stable Diffusion <span class="eu-mark">€</span></div>
+          <div class="desc">オープンソース画像生成</div>
+        </a>
+        <a class="card" href="https://www.adobe.com/products/firefly.html" target="_blank" rel="noopener">
+          <div class="icon"><img src="../icons/adobe.png" alt="Adobe Firefly"></div>
+          <div class="name">Adobe Firefly</div>
+          <div class="desc">商用利用に安心</div>
+        </a>
+        <a class="card" href="https://gemini.google/overview/image-generation/" target="_blank" rel="noopener">
+          <div class="icon"><img src="../icons/google-gemini.png" alt="Nano Banana 2"></div>
+          <div class="name">Nano Banana 2</div>
+          <div class="desc">Google / Gemini標準・3 Pro Imageも</div>
+        </a>
+        <a class="card" href="https://leonardo.ai/" target="_blank" rel="noopener">
+          <div class="icon"><img src="../icons/leonardo-ai.png" alt="Leonardo.ai"></div>
+          <div class="name">Leonardo.ai</div>
+          <div class="desc">クリエイター・ゲーム向け</div>
+        </a>
+        <a class="card" href="https://www.meshy.ai/" target="_blank" rel="noopener">
+          <div class="icon"><img src="../icons/meshy-ai.png" alt="Meshy"></div>
+          <div class="name">Meshy</div>
+          <div class="desc">テキスト→3Dモデル</div>
+        </a>
+        <a class="card" href="https://www.tripo3d.ai/" target="_blank" rel="noopener">
+          <div class="icon"><img src="../icons/tripo3d-ai.png" alt="Tripo3D"></div>
+          <div class="name">Tripo3D</div>
+          <div class="desc">高速3Dモデル生成</div>
+        </a>
+        <a class="card" href="https://lumalabs.ai/genie" target="_blank" rel="noopener">
+          <div class="icon"><img src="../icons/lumalabs-ai.png" alt="Luma Genie"></div>
+          <div class="name">Luma Genie</div>
+          <div class="desc">Luma / 3Dオブジェクト生成</div>
+        </a>
+        <a class="card" href="https://stitch.withgoogle.com/" target="_blank" rel="noopener">
+          <div class="icon"><img src="../icons/stitch-withgoogle-com.png" alt="Google Stitch"></div>
+          <div class="name">Google Stitch</div>
+          <div class="desc">Google Labs / テキスト→UIデザイン</div>
+        </a>
+        <a class="card" href="https://www.anthropic.com/news/claude-design-anthropic-labs" target="_blank" rel="noopener">
+          <div class="icon"><img src="../icons/claude-ai.png" alt="Claude Design"></div>
+          <div class="name">Claude Design</div>
+          <div class="desc">Anthropic Labs / 対話でデザイン制作</div>
+        </a>
+      </div>
+    </section>
+
+    <!-- 動画生成 -->
+    <section class="category">
+      <div class="category-head">
+        <span class="emoji">🎬</span>
+        <h2>動画生成</h2>
+      </div>
+      <div class="grid">
+        <a class="card" href="https://deepmind.google/technologies/veo/" target="_blank" rel="noopener">
+          <div class="icon"><img src="../icons/deepmind-google.png" alt="Veo"></div>
+          <div class="name">Veo 3.1</div>
+          <div class="desc">Google / 4K・音声同時</div>
+        </a>
+        <a class="card" href="https://www.klingai.com/" target="_blank" rel="noopener">
+          <div class="icon"><img src="../icons/klingai-com.png" alt="Kling"></div>
+          <div class="name">Kling 3.0 <span class="cn-star">★</span></div>
+          <div class="desc">最大2分・低価格</div>
+        </a>
+        <a class="card" href="https://runwayml.com/" target="_blank" rel="noopener">
+          <div class="icon"><img src="../icons/runwayml-com.png" alt="Runway"></div>
+          <div class="name">Runway</div>
+          <div class="desc">Gen-4.5 / 映像品質◎</div>
+        </a>
+        <a class="card" href="https://pika.art/" target="_blank" rel="noopener">
+          <div class="icon"><img src="../icons/pika-art.png" alt="Pika"></div>
+          <div class="name">Pika</div>
+          <div class="desc">Pika 2.5 / 短尺・演出豊富</div>
+        </a>
+        <a class="card" href="https://lumalabs.ai/dream-machine" target="_blank" rel="noopener">
+          <div class="icon"><img src="../icons/lumalabs-ai.png" alt="Luma"></div>
+          <div class="name">Luma Dream Machine</div>
+          <div class="desc">画像→動画が直感的</div>
+        </a>
+        <a class="card" href="https://tongyi.aliyun.com/wanxiang/" target="_blank" rel="noopener">
+          <div class="icon"><img src="../icons/aliyun-com.png" alt="Wan"></div>
+          <div class="name">Wan <span class="cn-star">★</span></div>
+          <div class="desc">Alibaba / Wan 2.2・映画的表現</div>
+        </a>
+        <a class="card" href="https://happyhorse.app/" target="_blank" rel="noopener">
+          <div class="icon"><img src="../icons/happyhorse-app.png" alt="HappyHorse 1.0"></div>
+          <div class="name">HappyHorse 1.0 <span class="cn-star">★</span></div>
+          <div class="desc">Alibaba / Video Arena #1</div>
+        </a>
+        <a class="card" href="https://hailuoai.video/" target="_blank" rel="noopener">
+          <div class="icon"><img src="../icons/hailuoai-video.png" alt="Hailuo AI"></div>
+          <div class="name">Hailuo AI <span class="cn-star">★</span></div>
+          <div class="desc">MiniMax / 中国発</div>
+        </a>
+        <a class="card" href="https://seedance.com/" target="_blank" rel="noopener">
+          <div class="icon"><img src="../icons/seedance-com.png" alt="Seedance"></div>
+          <div class="name">Seedance <span class="cn-star">★</span></div>
+          <div class="desc">ByteDance / 新興</div>
+        </a>
+        <a class="card" href="https://labs.google/flow/about" target="_blank" rel="noopener">
+          <div class="icon dark"><img src="../icons/labs-google.png" alt="Google Flow"></div>
+          <div class="name">Google Flow</div>
+          <div class="desc">Google / Veoの制作環境</div>
+        </a>
+        <a class="card" href="https://www.synthesia.io/" target="_blank" rel="noopener">
+          <div class="icon"><img src="../icons/synthesia-io.png" alt="Synthesia"></div>
+          <div class="name">Synthesia <span class="eu-mark">€</span></div>
+          <div class="desc">企業研修向けAIアバター動画</div>
+        </a>
+        <a class="card" href="https://blog.google/innovation-and-ai/models-and-research/gemini-models/gemini-omni/" target="_blank" rel="noopener">
+          <div class="icon"><img src="../icons/google-gemini.png" alt="Gemini Omni"></div>
+          <div class="name">Gemini Omni</div>
+          <div class="desc">Google / any-to-anyワールドモデル</div>
+        </a>
+        <a class="card" href="https://www.flova.ai/" target="_blank" rel="noopener">
+          <div class="icon"><img src="../icons/flova-ai.png" alt="Flova"></div>
+          <div class="name">Flova <span class="note-mark">※</span></div>
+          <div class="desc">マルチモデル統合の映像制作スタジオ</div>
+        </a>
+      </div>
+    </section>
+
+    <!-- 画像・動画認識 -->
+    <section class="category">
+      <div class="category-head">
+        <span class="emoji">🔍</span>
+        <h2>画像・動画認識（Vision AI）</h2>
+      </div>
+      <div class="grid">
+        <a class="card" href="https://www.twelvelabs.io/" target="_blank" rel="noopener">
+          <div class="icon"><img src="../icons/twelvelabs-io.png" alt="TwelveLabs"></div>
+          <div class="name">TwelveLabs</div>
+          <div class="desc">動画理解の代表格 / Pegasus 1.5</div>
+        </a>
+        <a class="card" href="https://lens.google/" target="_blank" rel="noopener">
+          <div class="icon"><img src="../icons/lens-google.png" alt="Google Lens"></div>
+          <div class="name">Google Lens</div>
+          <div class="desc">カメラで画像検索</div>
+        </a>
+        <a class="card" href="https://www.apple.com/apple-intelligence/" target="_blank" rel="noopener">
+          <div class="icon"><img src="../icons/apple-com.png" alt="Apple Visual Intelligence"></div>
+          <div class="name">Visual Intelligence</div>
+          <div class="desc">Apple / iPhone 16以降</div>
+        </a>
+        <a class="card" href="https://github.com/QwenLM/Qwen3-VL" target="_blank" rel="noopener">
+          <div class="icon"><img src="../icons/qwen.png" alt="Qwen3-VL"></div>
+          <div class="name">Qwen3-VL <span class="cn-star">★</span></div>
+          <div class="desc">Alibaba / マルチモーダル開発者向け</div>
+        </a>
+        <a class="card" href="https://mistral.ai/" target="_blank" rel="noopener">
+          <div class="icon"><img src="../icons/mistral-ai.png" alt="Pixtral"></div>
+          <div class="name">Pixtral <span class="eu-mark">€</span></div>
+          <div class="desc">Mistral / 軽量VLM</div>
+        </a>
+        <a class="card" href="https://www.bemyeyes.com/" target="_blank" rel="noopener">
+          <div class="icon"><img src="../icons/bemyeyes-com.png" alt="Be My Eyes"></div>
+          <div class="name">Be My Eyes <span class="eu-mark">€</span></div>
+          <div class="desc">視覚サポート / AI画像説明</div>
+        </a>
+      </div>
+    </section>
+
+    <!-- 音楽・音声生成 -->
+    <section class="category">
+      <div class="category-head">
+        <span class="emoji">🎵</span>
+        <h2>音楽・音声生成</h2>
+      </div>
+      <div class="grid">
+        <a class="card" href="https://suno.com/" target="_blank" rel="noopener">
+          <div class="icon"><img src="../icons/suno-com.png" alt="Suno"></div>
+          <div class="name">Suno</div>
+          <div class="desc">歌入り楽曲を自動生成</div>
+        </a>
+        <a class="card" href="https://www.udio.com/" target="_blank" rel="noopener">
+          <div class="icon"><img src="../icons/udio-com.png" alt="Udio"></div>
+          <div class="name">Udio</div>
+          <div class="desc">UMG提携 / 配信専用・DL不可に</div>
+        </a>
+        <a class="card" href="https://elevenlabs.io/" target="_blank" rel="noopener">
+          <div class="icon dark"><img src="../icons/elevenlabs-io.png" alt="ElevenLabs"></div>
+          <div class="name">ElevenLabs</div>
+          <div class="desc">ナレーション・多言語</div>
+        </a>
+        <a class="card" href="https://ai.google.dev/gemini-api/docs/models/gemini-3.1-flash-tts-preview" target="_blank" rel="noopener">
+          <div class="icon"><img src="../icons/google-gemini.png" alt="Gemini 3.1 Flash TTS"></div>
+          <div class="name">Gemini 3.1 Flash TTS</div>
+          <div class="desc">Google / 開発者向けTTSモデル</div>
+        </a>
+        <a class="card" href="https://stableaudio.com/" target="_blank" rel="noopener">
+          <div class="icon"><img src="../icons/stableaudio-com.png" alt="Stable Audio"></div>
+          <div class="name">Stable Audio <span class="eu-mark">€</span></div>
+          <div class="desc">オープン系BGM生成</div>
+        </a>
+        <a class="card" href="https://www.sesame.com/" target="_blank" rel="noopener">
+          <div class="icon"><img src="../icons/sesame-com.png" alt="Sesame"></div>
+          <div class="name">Sesame / Moshi</div>
+          <div class="desc">リアルタイム会話音声</div>
+        </a>
+        <a class="card" href="https://cartesia.ai/" target="_blank" rel="noopener">
+          <div class="icon"><img src="../icons/cartesia-ai.png" alt="Cartesia Sonic"></div>
+          <div class="name">Cartesia Sonic</div>
+          <div class="desc">低遅延TTSで話題</div>
+        </a>
+        <a class="card" href="https://www.hume.ai/empathic-voice-interface" target="_blank" rel="noopener">
+          <div class="icon"><img src="../icons/hume-ai.png" alt="Hume EVI"></div>
+          <div class="name">Hume EVI</div>
+          <div class="desc">共感型リアルタイム会話AI</div>
+        </a>
+        <a class="card" href="https://openai.com/index/advancing-voice-intelligence-with-new-models-in-the-api/" target="_blank" rel="noopener">
+          <div class="icon"><img src="../icons/openai.png" alt="GPT-Realtime-2"></div>
+          <div class="name">GPT-Realtime-2 <span class="api-mark">◆</span></div>
+          <div class="desc">OpenAI / GPT-5級推論の音声会話</div>
+        </a>
+        <a class="card" href="https://chatgpt.com/" target="_blank" rel="noopener">
+          <div class="icon"><img src="../icons/openai.png" alt="GPT-Live-1"></div>
+          <div class="name">GPT-Live-1</div>
+          <div class="desc">OpenAI / 全二重音声・ChatGPT標準</div>
+        </a>
+      </div>
+    </section>
+
+    <!-- コード生成 -->
+    <section class="category">
+      <div class="category-head">
+        <span class="emoji">💻</span>
+        <h2>コード生成・開発支援</h2>
+      </div>
+      <div class="grid">
+        <a class="card" href="https://www.claude.com/product/claude-code" target="_blank" rel="noopener">
+          <div class="icon"><img src="../icons/claude-ai.png" alt="Claude Code"></div>
+          <div class="name">Claude Code</div>
+          <div class="desc">Anthropic / 大規模変更</div>
+        </a>
+        <a class="card" href="https://cursor.com/" target="_blank" rel="noopener">
+          <div class="icon"><img src="../icons/cursor-com.png" alt="Cursor"></div>
+          <div class="name">Cursor</div>
+          <div class="desc">AI統合IDE</div>
+        </a>
+        <a class="card" href="https://github.com/features/copilot" target="_blank" rel="noopener">
+          <div class="icon"><img src="../icons/github-copilot.png" alt="GitHub Copilot"></div>
+          <div class="name">GitHub Copilot</div>
+          <div class="desc">定番のコード補完</div>
+        </a>
+        <a class="card" href="https://devin.ai/" target="_blank" rel="noopener">
+          <div class="icon"><img src="../icons/devin-ai.png" alt="Devin"></div>
+          <div class="name">Devin</div>
+          <div class="desc">自律型AIエンジニア</div>
+        </a>
+        <a class="card" href="https://cline.bot/" target="_blank" rel="noopener">
+          <div class="icon"><img src="../icons/cline-bot.png" alt="Cline"></div>
+          <div class="name">Cline</div>
+          <div class="desc">VSCode拡張エージェント</div>
+        </a>
+        <a class="card" href="https://v0.dev/" target="_blank" rel="noopener">
+          <div class="icon"><img src="../icons/vercel.png" alt="v0"></div>
+          <div class="name">v0</div>
+          <div class="desc">Vercel / フロントエンド生成</div>
+        </a>
+        <a class="card" href="https://bolt.new/" target="_blank" rel="noopener">
+          <div class="icon"><img src="../icons/boltnew.png" alt="Bolt.new"></div>
+          <div class="name">Bolt.new</div>
+          <div class="desc">フルスタック生成・バイラル</div>
+        </a>
+        <a class="card" href="https://lovable.dev/" target="_blank" rel="noopener">
+          <div class="icon"><img src="../icons/lovable.png" alt="Lovable"></div>
+          <div class="name">Lovable <span class="eu-mark">€</span></div>
+          <div class="desc">ARR $5億・Fortune500の半数が利用</div>
+        </a>
+        <a class="card" href="https://replit.com/" target="_blank" rel="noopener">
+          <div class="icon"><img src="../icons/replit-com.png" alt="Replit Agent"></div>
+          <div class="name">Replit Agent</div>
+          <div class="desc">ブラウザ完結の開発</div>
+        </a>
+        <a class="card" href="https://antigravity.google/" target="_blank" rel="noopener">
+          <div class="icon"><img src="../icons/antigravity-google.png" alt="Antigravity"></div>
+          <div class="name">Antigravity</div>
+          <div class="desc">Google / エージェント型IDE（2.0）</div>
+        </a>
+        <a class="card" href="https://windsurf.com/" target="_blank" rel="noopener">
+          <div class="icon"><img src="../icons/windsurf-com.png" alt="Devin Desktop"></div>
+          <div class="name">Devin Desktop</div>
+          <div class="desc">Cognition / 旧Windsurf（6月改名）</div>
+        </a>
+        <a class="card" href="https://zed.dev/" target="_blank" rel="noopener">
+          <div class="icon"><img src="../icons/zed-dev.png" alt="Zed"></div>
+          <div class="name">Zed</div>
+          <div class="desc">Rustネイティブ爆速IDE</div>
+        </a>
+        <a class="card" href="https://www.warp.dev/" target="_blank" rel="noopener">
+          <div class="icon"><img src="../icons/warp-dev.png" alt="Warp"></div>
+          <div class="name">Warp</div>
+          <div class="desc">AIエージェント対応ターミナル</div>
+        </a>
+        <a class="card" href="https://www.continue.dev/" target="_blank" rel="noopener">
+          <div class="icon"><img src="../icons/continue-dev.png" alt="Continue"></div>
+          <div class="name">Continue</div>
+          <div class="desc">OSS / 有料版80%相当</div>
+        </a>
+        <a class="card" href="https://openai.com/codex/" target="_blank" rel="noopener">
+          <div class="icon"><img src="../icons/codex.png" alt="OpenAI Codex"></div>
+          <div class="name">OpenAI Codex</div>
+          <div class="desc">OpenAI / codex CLI・新ChatGPTアプリ</div>
+        </a>
+        <a class="card" href="https://zcode.z.ai/" target="_blank" rel="noopener">
+          <div class="icon"><img src="../icons/z-ai.png" alt="ZCode"></div>
+          <div class="name">ZCode <span class="cn-star">★</span></div>
+          <div class="desc">Z.ai / GLM-5.2公式ADE・無料</div>
+        </a>
+      </div>
+    </section>
+
+    <!-- 業務効率化 -->
+    <section class="category">
+      <div class="category-head">
+        <span class="emoji">🧰</span>
+        <h2>業務効率化・ビジネス向け</h2>
+      </div>
+      <div class="grid">
+        <a class="card" href="https://m365.cloud.microsoft/" target="_blank" rel="noopener">
+          <div class="icon"><img src="../icons/microsoft-365.png" alt="Microsoft 365 Copilot"></div>
+          <div class="name">Microsoft 365 Copilot</div>
+          <div class="desc">Office統合AI（有料）</div>
+        </a>
+        <a class="card" href="https://www.notion.so/product/ai" target="_blank" rel="noopener">
+          <div class="icon"><img src="../icons/notion.png" alt="Notion AI"></div>
+          <div class="name">Notion AI</div>
+          <div class="desc">ワークスペースAI</div>
+        </a>
+        <a class="card" href="https://gamma.app/" target="_blank" rel="noopener">
+          <div class="icon"><img src="../icons/gamma-app.png" alt="Gamma"></div>
+          <div class="name">Gamma</div>
+          <div class="desc">スライド自動生成</div>
+        </a>
+        <a class="card" href="https://www.canva.com/ai/" target="_blank" rel="noopener">
+          <div class="icon"><img src="../icons/canva-com.png" alt="Canva AI"></div>
+          <div class="name">Canva AI</div>
+          <div class="desc">デザイン・画像・動画</div>
+        </a>
+        <a class="card" href="https://www.jasper.ai/" target="_blank" rel="noopener">
+          <div class="icon"><img src="../icons/jasper-ai.png" alt="Jasper"></div>
+          <div class="name">Jasper</div>
+          <div class="desc">マーケコンテンツ生成</div>
+        </a>
+        <a class="card" href="https://scribe.com/" target="_blank" rel="noopener">
+          <div class="icon"><img src="../icons/scribe-com.png" alt="Scribe"></div>
+          <div class="name">Scribe</div>
+          <div class="desc">操作を記録して手順書を自動作成</div>
+        </a>
+      </div>
+    </section>
+
+    <footer>
+      <div class="note">
+        情報は2026年7月時点のものです。アイコンは各サービス公式ロゴを参照しています。<br>
+        <span class="api-mark">◆</span> マークはAPIサービスです（OpenAI Playgroundから試用可能）。<br>
+        <span class="cn-star">★</span> は中国企業が開発・提供するサービスです。利用時はデータの取り扱い・利用規約をご確認ください。<br>
+        <span class="jp-mark">●</span> は日本企業、<span class="eu-mark">€</span> は欧州企業が開発・提供するサービスです。<br>
+        ※Flova はシンガポール登記（持株会社）ですが、中国本土の起業家グループ（FaceU創業者系）を背景とするとの報道があり、経営幹部に中国本土拠点の人物が確認されています。Kling・Vidu など中国系モデルもAPI統合しています。<br>
+        ※OpenAIの動画生成AI「Sora」は、2026年4月末のWeb / App提供終了に伴いリストから除外しています。
+      </div>
+      <div style="margin-top: 14px;">(c) WhiteCloud Consulting Inc.</div>
+    </footer>
+  </div>
+</body>
+</html>

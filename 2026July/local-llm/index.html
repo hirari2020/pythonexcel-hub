@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ローカルLLM ダッシュボード</title>
+<style>
+  :root {
+    --bg: #fffdf7;
+    --text: #222;
+    --muted: #666;
+    --marker: #fff27a;
+    --band: #ead6f5;
+    --band-strong: #7b1fa2;
+    --line: #e4e4dd;
+    --card: #ffffff;
+    --shadow: rgba(60, 50, 30, 0.08);
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    margin: 0;
+    padding: 40px 24px 80px;
+    font-family: "Hiragino Maru Gothic ProN", "Hiragino Sans", "Yu Gothic UI", "Meiryo", system-ui, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.6;
+  }
+
+  .container {
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+
+  header {
+    text-align: center;
+    margin-bottom: 40px;
+  }
+
+  h1 {
+    font-size: 32px;
+    margin: 0 0 12px;
+    display: inline-block;
+    position: relative;
+    padding: 4px 12px;
+  }
+
+  h1::after {
+    content: "";
+    position: absolute;
+    left: 0; right: 0; bottom: 4px;
+    height: 14px;
+    background: var(--marker);
+    z-index: -1;
+    border-radius: 2px;
+  }
+
+  .lead {
+    color: var(--muted);
+    font-size: 15px;
+    margin-top: 8px;
+  }
+
+  .category {
+    margin-bottom: 36px;
+  }
+
+  .category-head {
+    background: var(--band);
+    border-left: 8px solid var(--band-strong);
+    padding: 10px 16px;
+    border-radius: 4px;
+    margin-bottom: 18px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .category-head h2 {
+    margin: 0;
+    font-size: 20px;
+    font-weight: 800;
+    color: #222;
+  }
+
+  .category-head .emoji {
+    font-size: 22px;
+  }
+
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 14px;
+  }
+
+  .card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 10px;
+    padding: 18px 10px 14px;
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    text-decoration: none;
+    color: inherit;
+    transition: transform 0.12s ease, box-shadow 0.12s ease, border-color 0.12s ease;
+    box-shadow: 0 2px 6px var(--shadow);
+    text-align: center;
+  }
+
+  .card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 16px var(--shadow);
+    border-color: var(--band-strong);
+  }
+
+  .icon {
+    width: 56px;
+    height: 56px;
+    border-radius: 12px;
+    background: #f7f4ec;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    flex-shrink: 0;
+  }
+
+  .icon.dark {
+    background: #1f1f1f;
+  }
+
+  .icon img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    padding: 6px;
+  }
+
+  .name {
+    font-size: 14px;
+    font-weight: 700;
+    line-height: 1.3;
+  }
+
+  .desc {
+    font-size: 11px;
+    color: var(--muted);
+    line-height: 1.35;
+  }
+
+  .cn-star {
+    color: #c62828;
+    font-size: 13px;
+  }
+
+  .spec-table {
+    border-collapse: collapse;
+    width: 100%;
+    max-width: 720px;
+    margin: 0 auto;
+    font-size: 13px;
+    background: var(--card);
+    box-shadow: 0 2px 6px var(--shadow);
+    border-radius: 6px;
+    overflow: hidden;
+  }
+
+  .spec-table th, .spec-table td {
+    border: 1px solid var(--line);
+    padding: 10px 14px;
+    text-align: left;
+  }
+
+  .spec-table th {
+    background: var(--band);
+    font-weight: 700;
+  }
+
+  .jp-mark {
+    color: #bc002d;
+    font-size: 13px;
+  }
+
+  .eu-mark {
+    color: #003399;
+    font-size: 13px;
+  }
+
+  footer {
+    text-align: center;
+    margin-top: 48px;
+    font-size: 12px;
+    color: var(--muted);
+  }
+
+  footer .note {
+    display: inline-block;
+    background: #fff;
+    border: 1px dashed var(--line);
+    padding: 10px 16px;
+    border-radius: 8px;
+    text-align: left;
+    max-width: 720px;
+  }
+</style>
+</head>
+<body>
+  <div class="container">
+
+    <header>
+      <h1>ローカルLLM ダッシュボード</h1>
+      <div class="lead">クラウドではなく手元のパソコンやオンプレ環境で動かせるLLMと実行環境の一覧です。機密データを外部に出さずにAIを利用できます。アイコンをクリックすると公式ページが開きます。（2026年7月時点）</div>
+    </header>
+
+    <!-- 1. 実行環境・アプリ -->
+    <section class="category">
+      <div class="category-head">
+        <span class="emoji">🧰</span>
+        <h2>実行環境・アプリ（まずはここから）</h2>
+      </div>
+      <div class="grid">
+        <a class="card" href="https://ollama.com/" target="_blank" rel="noopener">
+          <div class="icon"><img src="../icons/ollama-com.png" alt="Ollama"></div>
+          <div class="name">Ollama</div>
+          <div class="desc">定番CLI / ワンコマンドで導入</div>
+        </a>
+        <a class="card" href="https://lmstudio.ai/" target="_blank" rel="noopener">
+          <div class="icon"><img src="../icons/lmstudio-ai.png" alt="LM Studio"></div>
+          <div class="name">LM Studio</div>
+          <div class="desc">GUIで手軽に試せる定番</div>
+        </a>
+        <a class="card" href="https://github.com/ggml-org/llama.cpp" target="_blank" rel="noopener">
+          <div class="icon"><img src="../icons/github-com.png" alt="llama.cpp"></div>
+          <div class="name">llama.cpp</div>
+          <div class="desc">量子化実行の中核エンジン</div>
+        </a>
+        <a class="card" href="https://jan.ai/" target="_blank" rel="noopener">
+          <div class="icon"><img src="../icons/jan-ai.png" alt="Jan"></div>
+          <div class="name">Jan</div>
+          <div class="desc">OSSのChatGPT風デスクトップ</div>
+        </a>
+        <a class="card" href="https://gpt4all.io/" target="_blank" rel="noopener">
+          <div class="icon"><img src="../icons/gpt4all-io.png" alt="GPT4All"></div>
+          <div class="name">GPT4All</div>
+          <div class="desc">Nomic / ローカルRAG対応</div>
+        </a>
+        <a class="card" href="https://openwebui.com/" target="_blank" rel="noopener">
+          <div class="icon"><img src="../icons/openwebui-com.png" alt="Open WebUI"></div>
+          <div class="name">Open WebUI</div>
+          <div class="desc">ブラウザUI / Ollama連携</div>
+        </a>
+        <a class="card" href="https://huggingface.co/docs/transformers" target="_blank" rel="noopener">
+          <div class="icon"><img src="../icons/huggingface-co.png" alt="Transformers"></div>
+          <div class="name">Transformers</div>
+          <div class="desc">Hugging Face / 開発者向け</div>
+        </a>
+      </div>
+    </section>
+
+    <!-- 2. 海外オープンモデル -->
+    <section class="category">
+      <div class="category-head">
+        <span class="emoji">🌍</span>
+        <h2>代表的なオープンモデル（海外）</h2>
+      </div>
+      <div class="grid">
+        <a class="card" href="https://www.llama.com/" target="_blank" rel="noopener">
+          <div class="icon"><img src="../icons/llama-com.png" alt="Llama"></div>
+          <div class="name">Llama 4 / 3.1</div>
+          <div class="desc">Meta / ローカルLLMの代表格</div>
+        </a>
+        <a class="card" href="https://chat.qwen.ai/" target="_blank" rel="noopener">
+          <div class="icon"><img src="../icons/qwen.png" alt="Qwen3"></div>
+          <div class="name">Qwen3系 <span class="cn-star">★</span></div>
+          <div class="desc">Alibaba / 日本語◎・MoEで省VRAM</div>
+        </a>
+        <a class="card" href="https://deepmind.google/models/gemma/" target="_blank" rel="noopener">
+          <div class="icon"><img src="../icons/deepmind-google.png" alt="Gemma 4"></div>
+          <div class="name">Gemma 4</div>
+          <div class="desc">Google / マルチモーダル・Apache 2.0</div>
+        </a>
+        <a class="card" href="https://mistral.ai/" target="_blank" rel="noopener">
+          <div class="icon"><img src="../icons/mistral-ai.png" alt="Mistral Small"></div>
+          <div class="name">Mistral Small 4 <span class="eu-mark">€</span></div>
+          <div class="desc">256K・推論/コード統合</div>
+        </a>
+        <a class="card" href="https://huggingface.co/microsoft" target="_blank" rel="noopener">
+          <div class="icon"><img src="../icons/microsoft-com.png" alt="Phi-4"></div>
+          <div class="name">Phi-4</div>
+          <div class="desc">Microsoft / 小型で高性能</div>
+        </a>
+        <a class="card" href="https://huggingface.co/deepseek-ai" target="_blank" rel="noopener">
+          <div class="icon"><img src="../icons/deepseek.png" alt="DeepSeek-R1"></div>
+          <div class="name">DeepSeek-R1 蒸留版 <span class="cn-star">★</span></div>
+          <div class="desc">推論特化 / 軽量版あり</div>
+        </a>
+        <a class="card" href="https://huggingface.co/openai" target="_blank" rel="noopener">
+          <div class="icon"><img src="../icons/openai.png" alt="gpt-oss"></div>
+          <div class="name">gpt-oss</div>
+          <div class="desc">OpenAI / オープンウェイト</div>
+        </a>
+      </div>
+    </section>
+
+    <!-- 3. 日本語特化モデル -->
+    <section class="category">
+      <div class="category-head">
+        <span class="emoji">🇯🇵</span>
+        <h2>日本語特化モデル（国産）</h2>
+      </div>
+      <div class="grid">
+        <a class="card" href="https://huggingface.co/elyza" target="_blank" rel="noopener">
+          <div class="icon"><img src="../icons/elyza-ai.png" alt="ELYZA"></div>
+          <div class="name">ELYZA-jp系 <span class="cn-star">★</span></div>
+          <div class="desc">Llama/Qwenベース・商用可</div>
+        </a>
+        <a class="card" href="https://swallow-llm.github.io/" target="_blank" rel="noopener">
+          <div class="icon"><img src="../icons/swallow-llm.png" alt="Swallow"></div>
+          <div class="name">Llama 3.1 Swallow</div>
+          <div class="desc">東工大・産総研 / 日本語強化</div>
+        </a>
+        <a class="card" href="https://huggingface.co/rinna" target="_blank" rel="noopener">
+          <div class="icon"><img src="../icons/rinna-co-jp.png" alt="rinna qwq-bakeneko"></div>
+          <div class="name">rinna qwq-bakeneko <span class="cn-star">★</span></div>
+          <div class="desc">日本語推論特化 / 32B</div>
+        </a>
+        <a class="card" href="https://www.rd.ntt/research/JN202404_19058.html" target="_blank" rel="noopener">
+          <div class="icon"><img src="../icons/rd-ntt.png" alt="tsuzumi"></div>
+          <div class="name">tsuzumi <span class="jp-mark">●</span></div>
+          <div class="desc">NTT / 軽量・商用ライセンス</div>
+        </a>
+      </div>
+    </section>
+
+    <!-- 4. 軽量SLM -->
+    <section class="category">
+      <div class="category-head">
+        <span class="emoji">🪶</span>
+        <h2>軽量SLM（低スペックPC・エッジ向け）</h2>
+      </div>
+      <div class="grid">
+        <a class="card" href="https://huggingface.co/HuggingFaceTB" target="_blank" rel="noopener">
+          <div class="icon"><img src="../icons/huggingface-co.png" alt="SmolLM"></div>
+          <div class="name">SmolLM3</div>
+          <div class="desc">Hugging Face / 3B以下の実力派</div>
+        </a>
+        <a class="card" href="https://github.com/jzhang38/TinyLlama" target="_blank" rel="noopener">
+          <div class="icon"><img src="../icons/github-com.png" alt="TinyLlama"></div>
+          <div class="name">TinyLlama</div>
+          <div class="desc">1.1B / モバイル・エッジ向け</div>
+        </a>
+        <a class="card" href="https://deepmind.google/models/gemma/" target="_blank" rel="noopener">
+          <div class="icon"><img src="../icons/deepmind-google.png" alt="Gemma 小型版"></div>
+          <div class="name">Gemma 小型版（1B/4B）</div>
+          <div class="desc">8GB未満のRAMでも動作</div>
+        </a>
+        <a class="card" href="https://prismml.com/" target="_blank" rel="noopener">
+          <div class="icon"><img src="../icons/prismml-com.png" alt="PrismML Bonsai"></div>
+          <div class="name">PrismML Bonsai</div>
+          <div class="desc">1-bit量子化 / iPhoneで27Bが動作</div>
+        </a>
+      </div>
+    </section>
+
+    <!-- 5. スペック目安 -->
+    <section class="category">
+      <div class="category-head">
+        <span class="emoji">💡</span>
+        <h2>パソコンのスペック目安</h2>
+      </div>
+      <table class="spec-table">
+        <thead>
+          <tr><th>お使いのPC</th><th>動かせるモデルの目安</th><th>例</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>RAM 8GB / GPUなし</td><td>1〜4Bの量子化モデル</td><td>Gemma 小型版・TinyLlama・SmolLM3</td></tr>
+          <tr><td>RAM 16GB / VRAM 6〜8GB</td><td>7〜9Bクラス</td><td>Llama 8B・Swallow・ELYZA</td></tr>
+          <tr><td>RAM 32GB / VRAM 16GB〜</td><td>30Bクラス・MoEモデル</td><td>Qwen3-30B-A3B・qwq-bakeneko</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <footer>
+      <div class="note">
+        情報は2026年7月時点のものです。アイコンは各サービス公式ロゴを参照しています。<br>
+        ※モデルは量子化（GGUF形式など）を前提とすれば、より少ないメモリでも動作します。OllamaやLM Studioからは量子化済みモデルをそのままダウンロードできます。<br>
+        ※tsuzumi はオープンウェイトではなく、商用ライセンス契約によるオンプレミス導入形式です。<br>
+        ※月間100万トークン以上使う場合は、クラウドAPIよりローカル運用の方がコストを抑えられるケースがあります。<br>
+        <span class="cn-star">★</span> は中国企業（Alibaba・DeepSeek）が開発したモデル、または中国系モデルをベースに追加学習した国産モデルです（ELYZAの主力はQwenベース、qwq-bakeneko は QwQ ベース。Swallow は Llamaベース、tsuzumi は完全国産）。ローカル実行なのでデータが外部送信されることはありませんが、組織のポリシーによっては採用可否をご確認ください。<br>
+        <span class="jp-mark">●</span> は純国産（フルスクラッチ開発）のモデル、<span class="eu-mark">€</span> は欧州企業開発のモデルです。Swallow は日本開発ですが Llama（米Meta）ベースのため ● を付けていません。同様に中国系モデルをベースにした国産モデル（ELYZA・qwq-bakeneko）には ★ を付けています。
+      </div>
+      <div style="margin-top: 14px;">(c) WhiteCloud Consulting Inc.</div>
+    </footer>
+  </div>
+</body>
+</html>
